@@ -23,12 +23,7 @@ const Layout = (props) => (
             }
         `}</style>
 
-
-
-        <Head title="Blueplate" />
-        <Navigation name="navigation"/>
         {props.children}
-        <Footer/>
     </div>
 )
 
