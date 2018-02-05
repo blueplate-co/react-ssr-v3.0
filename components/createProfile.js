@@ -13,7 +13,8 @@ let fieldValues = {
     profileImages: null,
     cacheFile: null,
     dob: null,
-    gender: null
+    gender: null,
+    exp: []
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
@@ -21,13 +22,14 @@ import ProfileStepTwo from '../components/createProfileForm/stepTwo';
 import ProfileStepThree from '../components/createProfileForm/stepThree';
 import ProfileStepFour from '../components/createProfileForm/stepFour';
 import ProfileStepFive from '../components/createProfileForm/stepFive';
+import ProfileStepSix from '../components/createProfileForm/stepSix';
 
 @inject('store') @observer
 export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 5
+            step: 6
         };
     }
 
@@ -75,6 +77,8 @@ export default class CreateProfile extends React.Component {
                         return <ProfileStepFour fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 5:
                         return <ProfileStepFive fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 6:
+                        return <ProfileStepSix fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                 }
             })()}
                 
