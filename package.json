@@ -14,7 +14,8 @@
     "node-sass": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "styled-jsx-plugin-sass": "^0.2.2"
+    "styled-jsx-plugin-sass": "^0.2.2",
+    "validator": "^9.4.0"
   },
   "devDependencies": {}
 }
