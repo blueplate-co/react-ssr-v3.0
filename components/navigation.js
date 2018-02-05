@@ -55,7 +55,7 @@ export default class Navigation extends React.Component {
                 </a>
                 <a className="title">
                     <img src="../static/logo.svg" />
-                    <h1>{this.props.store.todos[0]}</h1>
+                    <h1>{this.props.title}</h1>
                 </a>
     
             </header>

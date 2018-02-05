@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Head from '../components/head';
 import Navigation from '../components/navigation';
 import Footer from '../components/footer';
+import CreateProfile from '../components/createProfile';
 
 import Layout from '../components/layout';
 
@@ -20,8 +21,9 @@ export default class Index extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Blueplate" />
-          <Navigation title="Blueplate"/>
+          <Head title="Create profile" />
+          <Navigation title="blueplate"/>
+          <CreateProfile/>
           <Footer/>
         </Layout>
       </Provider>
