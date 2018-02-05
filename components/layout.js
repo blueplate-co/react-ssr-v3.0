@@ -60,6 +60,28 @@ const Layout = (props) => (
                 font-size: 15px;
                 outline: none;
             }
+            input[type="date"] {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                color: #000;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 15px;
+                outline: none;
+            }
+            select {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                color: #000;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 15px;
+                outline: none;
+                background: none;
+                border-radius: 0px;
+            }
             .btn {
                 background: #56A9CB;
                 border: none;
@@ -69,6 +91,9 @@ const Layout = (props) => (
                 text-transform: uppercase;
                 border-radius: 20px;
                 outline: none;
+                &.inline {
+                    margin: 0px 5px;
+                }
             }
             /* Landscape phones and down */
             @media (max-width: 480px) {

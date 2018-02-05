@@ -11,7 +11,9 @@ let fieldValues = {
     phoneNo: '+xx xxx xxx xxxx',
     services: [],
     profileImages: null,
-    cacheFile: null
+    cacheFile: null,
+    dob: null,
+    gender: null
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
