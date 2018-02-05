@@ -9,19 +9,23 @@ let fieldValues = {
     email: null,
     location: null,
     phoneNo: '+xx xxx xxx xxxx',
-    services: []
+    services: [],
+    profileImages: null,
+    cacheFile: null
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
 import ProfileStepTwo from '../components/createProfileForm/stepTwo';
 import ProfileStepThree from '../components/createProfileForm/stepThree';
+import ProfileStepFour from '../components/createProfileForm/stepFour';
+import ProfileStepFive from '../components/createProfileForm/stepFive';
 
 @inject('store') @observer
 export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 3
+            step: 5
         };
     }
 
@@ -67,6 +71,8 @@ export default class CreateProfile extends React.Component {
                         return <ProfileStepThree fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 4:
                         return <ProfileStepFour fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 5:
+                        return <ProfileStepFive fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                 }
             })()}
                 

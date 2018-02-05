@@ -50,9 +50,9 @@ export default class Navigation extends React.Component {
                     }
                 `}</style>
 
-                <a onClick={this.goBack} className="goback">
+                {/* <a onClick={this.goBack} className="goback">
                     <i className="fas fa-arrow-left"></i>
-                </a>
+                </a> */}
                 <a className="title">
                     <img src="../static/logo.svg" />
                     <h1>{this.props.title}</h1>

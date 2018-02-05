@@ -35,9 +35,6 @@ export default class ProfileStepTwo extends React.Component {
         if (validator.isEmpty(validator.trim(this.refs.phone.value))) {
             error = true;
             alert('Must have a phone number');
-        } else if (!validator.isMobilePhone(validator.trim(this.refs.phone.value)), 'any'){
-            error = true;
-            alert('Must have correct phone number format');
         } else {
             error = false;
         }
