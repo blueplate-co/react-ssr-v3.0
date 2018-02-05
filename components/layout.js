@@ -50,6 +50,16 @@ const Layout = (props) => (
                 font-size: 15px;
                 outline: none;
             }
+            input[type="tel"] {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                color: #000;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 15px;
+                outline: none;
+            }
             .btn {
                 background: #56A9CB;
                 border: none;

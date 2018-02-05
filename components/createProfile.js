@@ -8,18 +8,20 @@ let fieldValues = {
     lastName: null,
     email: null,
     location: null,
-    phoneNo: '+xx xxx xxx xxxx'
+    phoneNo: '+xx xxx xxx xxxx',
+    services: []
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
 import ProfileStepTwo from '../components/createProfileForm/stepTwo';
+import ProfileStepThree from '../components/createProfileForm/stepThree';
 
 @inject('store') @observer
 export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1
+            step: 3
         };
     }
 
@@ -50,7 +52,7 @@ export default class CreateProfile extends React.Component {
         return (
             <div className="create_profile">
                 <style jsx>{`
-                    /* Landscape phones and down */
+                    /* Landscape phones and dowsn */
                     @media (max-width: 480px) {
                     }
                 `}</style>
@@ -62,9 +64,9 @@ export default class CreateProfile extends React.Component {
                     case 2:
                         return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 3:
-                        return <ProfileStepOne fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepThree fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 4:
-                        return <ProfileStepOne fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepFour fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                 }
             })()}
                 

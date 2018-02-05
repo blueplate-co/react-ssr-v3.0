@@ -71,10 +71,11 @@ export default class ProfileStepOne extends React.Component {
                     /* Landscape phones and down */
                     @media (max-width: 480px) {
                         .bottom-confirmation {
-                            position: absolute;
+                            position: fixed;
                             width: 70%;
-                            bottom: 20px;
+                            bottom: 15px;
                             z-index: 5;
+                            left: 15%;
                         }
                     }
                 `}</style>

@@ -32,11 +32,10 @@ export default class ProfileStepTwo extends React.Component {
         }
 
         // phone number must not empty string and correct format
-        debugger 
         if (validator.isEmpty(validator.trim(this.refs.phone.value))) {
             error = true;
             alert('Must have a phone number');
-        } else if (!validator.isMobilePhone(validator.trim(this.refs.email.value)), 'any'){
+        } else if (!validator.isMobilePhone(validator.trim(this.refs.phone.value)), 'any'){
             error = true;
             alert('Must have correct phone number format');
         } else {
@@ -62,10 +61,11 @@ export default class ProfileStepTwo extends React.Component {
                     /* Landscape phones and down */
                     @media (max-width: 480px) {
                         .bottom-confirmation {
-                            position: absolute;
+                            position: fixed;
                             width: 70%;
-                            bottom: 20px;
+                            bottom: 15px;
                             z-index: 5;
+                            left: 15%;
                         }
                     }
                 `}</style>
