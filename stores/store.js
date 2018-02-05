@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 class globalStore {
-    @observable todos = ['buy milk'];
+    @observable todos = ['buy abc'];
     @observable filter = '';
 }
 
