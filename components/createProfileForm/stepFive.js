@@ -15,8 +15,8 @@ export default class ProfileStepFive extends React.Component {
     // action when user click skip button
     skip = (e) => {
         let data = {
-            dob: this.state.imgSrc,
-            gender: this.state.cachefile
+            dob: null,
+            gender: null
         }
         this.props.saveValues(data);
         this.props.nextStep();

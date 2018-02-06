@@ -14,7 +14,13 @@ let fieldValues = {
     cacheFile: null,
     dob: null,
     gender: null,
-    exp: []
+    exp: [],
+    yourself: null,
+    reason: null,
+    inspiration: null,
+    allergies: [],
+    dietary: []
+
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
@@ -23,13 +29,18 @@ import ProfileStepThree from '../components/createProfileForm/stepThree';
 import ProfileStepFour from '../components/createProfileForm/stepFour';
 import ProfileStepFive from '../components/createProfileForm/stepFive';
 import ProfileStepSix from '../components/createProfileForm/stepSix';
+import ProfileStepSeven from '../components/createProfileForm/stepSeven';
+import ProfileStepEight from '../components/createProfileForm/stepEight';
+import ProfileStepNine from '../components/createProfileForm/stepNine';
+import ProfileStepTen from '../components/createProfileForm/stepTen';
+import ProfileStepEleven from '../components/createProfileForm/stepEleven';
 
 @inject('store') @observer
 export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 6
+            step: 1
         };
     }
 
@@ -56,6 +67,13 @@ export default class CreateProfile extends React.Component {
         })
     }
 
+    componentDidUpdate() {
+        if (this.state.step == 12) {
+            console.log(fieldValues);
+            
+        }
+    }
+
     render() {
         return (
             <div className="create_profile">
@@ -79,6 +97,16 @@ export default class CreateProfile extends React.Component {
                         return <ProfileStepFive fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 6:
                         return <ProfileStepSix fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 7:
+                        return <ProfileStepSeven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 8:
+                        return <ProfileStepEight fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 9:
+                        return <ProfileStepNine fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 10:
+                        return <ProfileStepTen fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 11:
+                        return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>    
                 }
             })()}
                 
