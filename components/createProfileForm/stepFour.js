@@ -31,7 +31,6 @@ export default class ProfileStepFour extends React.Component {
                 cachefile: file
             })
         }.bind(this);
-        console.log(this.state.cachefile);
         
     }
 
@@ -44,7 +43,8 @@ export default class ProfileStepFour extends React.Component {
 
         // Get values via this.refs
         let data = {
-            profileImages: null
+            profileImagesSrc: null,
+            cachefile: null
         }
 
         if (!this.state.imgSrc || this.state.imgSrc.length < 0) {
