@@ -41,7 +41,7 @@ export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 12
+            step: 1
         };
     }
 
@@ -66,14 +66,6 @@ export default class CreateProfile extends React.Component {
         this.setState({
             step : this.state.step - 1
         })
-    }
-
-    componentDidUpdate() {
-        if (this.state.step == 12) {
-            debugger
-            console.log(fieldValues);
-            
-        }
     }
 
     render() {

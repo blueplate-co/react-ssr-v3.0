@@ -12,23 +12,7 @@ export default class ProfileStepPreview extends React.Component {
         this.toggleActive = this.toggleActive.bind(this);
 
         this.state = {
-            imgSrc: null,
-            firstName: null,
-            lastName: null,
-            email: null,
-            location: null,
-            phoneNo: '+xx xxx xxx xxxx',
-            services: [],
-            profileImages: null,
-            cacheFile: null,
-            dob: null,
-            gender: null,
-            exp: [],
-            yourself: null,
-            reason: null,
-            inspiration: null,
-            allergies: [],
-            dietary: []
+            imgSrc: null
         }
     }
 
@@ -296,7 +280,15 @@ export default class ProfileStepPreview extends React.Component {
 
                 <div className="container">
                     <div className="circle-file-browse" onClick={this.clickUploadFile}>
-                        <img src={this.state.imgSrc} />
+                        {
+                            this.state.imgSrc ?
+                            (
+                                <img src={this.state.imgSrc} />
+                            ) :
+                            (
+                                <img src={this.props.fieldValues.profileImagesSrc} />
+                            )
+                        }
                         <i className="fas fa-arrow-up"></i>
                         <span>upload image</span>
                         <form>
@@ -310,30 +302,34 @@ export default class ProfileStepPreview extends React.Component {
                         </form>
                     </div>
                     {/* general profile */}
-                    <span className="user-name"><img src="./static/icons/avatar.svg" /> Thomas Lee</span>
-                    <span className="user-email"><img src="./static/icons/email.svg" /> TLee@bnmsgh.com</span>
-                    <span className="user-location"><img src="./static/icons/marker.svg" /> 12 Nathan Road, TST HK</span>
+                    <span className="user-name"><img src="./static/icons/avatar.svg" /> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span>
+                    <span className="user-email"><img src="./static/icons/email.svg" /> {this.props.fieldValues.email}</span>
+                    <span className="user-location"><img src="./static/icons/marker.svg" /> {this.props.fieldValues.location}</span>
 
-                    {/* serving options */}
-                    <div className="option-list">
-                        <div className={(this.state.services.indexOf('dine-in') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('dine-in')} }>
-                            <div className={(this.state.services.indexOf('dine-in') > -1) ? 'option-icon active' : 'option-icon'}>Dine-in</div>
+                    {/* serving options */}   
+                    {this.props.fieldValues.services ? (
+                        <div className="option-list">
+                            <div className={(this.props.fieldValues.services.indexOf('dine-in') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('dine-in')} }>
+                                <div className={(this.props.fieldValues.services.indexOf('dine-in') > -1) ? 'option-icon active' : 'option-icon'}>Dine-in</div>
+                            </div>
+                            <div className={(this.props.fieldValues.services.indexOf('pick up') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('pick up')} }>
+                                <div className={(this.props.fieldValues.services.indexOf('pick up') > -1) ? 'option-icon active' : 'option-icon'}>Pick up</div>
+                            </div>
+                            <div className={(this.props.fieldValues.services.indexOf('delivery') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('delivery')} }>
+                                <div className={(this.props.fieldValues.services.indexOf('delivery') > -1) ? 'option-icon active' : 'option-icon'}>Delivery</div>
+                            </div>
                         </div>
-                        <div className={(this.state.services.indexOf('pick up') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('pick up')} }>
-                            <div className={(this.state.services.indexOf('pick up') > -1) ? 'option-icon active' : 'option-icon'}>Pick up</div>
-                        </div>
-                        <div className={(this.state.services.indexOf('delivery') > -1) ? 'option-item active' : 'option-item'} onClick={() => {this.toggleActive('delivery')} }>
-                            <div className={(this.state.services.indexOf('delivery') > -1) ? 'option-icon active' : 'option-icon'}>Delivery</div>
-                        </div>
-                    </div>
+                    ) : (
+                        <div className="option-list"></div>
+                    )}
 
                     {/* DOB and gender here */}
                     <div className="personal-information">
                         <div className="user-dob">
-                            <span>11 FEB 1980</span>
+                            <span>{this.props.fieldValues.dob}</span>
                         </div>
                         <div className="user-gender">
-                            <span>male</span>
+                            <span>{this.props.fieldValues.gender}</span>
                         </div>
                     </div>
 
@@ -341,38 +337,54 @@ export default class ProfileStepPreview extends React.Component {
                     <div className="cooking-exp">
                         <h4>Cooking experience</h4>
                         <ul className="exp-list">
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</li>
+                            {
+                                this.props.fieldValues.exp.map(function(item, index){
+                                    return <li key={index}>{item}</li>
+                                })
+                            }
                         </ul>
                     </div>
 
                     {/* Why cooking */}
                     <div className="why-cook">
-                        <span className="title">Why cooking <span className="content">- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></span>
+                        {(() => {
+                            if (this.props.fieldValues.reason) {
+                                if (this.props.fieldValues.reason.length > 0) {
+                                    return (
+                                        <span className="title">Why cooking <span className="content">- { this.props.fieldValues.reason }</span></span>
+                                    )
+                                }
+                            }
+                        })()}
                     </div>
 
                     {/* Allergies */}
                     <div className="inspiration">
-                        <span className="title">Inspiration <span className="content">- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></span>
+                        {(() => {
+                            if (this.props.fieldValues.inspiration) {
+                                if (this.props.fieldValues.inspiration.length > 0) {
+                                    return (
+                                        <span className="title">Why cooking <span className="content">- { this.props.fieldValues.inspiration }</span></span>
+                                    )
+                                }
+                            }
+                        })()}
                     </div>
 
                     {/* Allergies */}
                     <div className="allergies">
                         <span className="title">Major food allergies</span>
                         <div className="list">
-                            <div className="list-item">
-                                <span>Milk</span>
-                                <img src="./static/icons/egg.svg"/>
-                            </div>
-                            <div className="list-item">
-                                <span>Milk</span>
-                                <img src="./static/icons/egg.svg"/>
-                            </div>
-                            <div className="list-item">
-                                <span>Milk</span>
-                                <img src="./static/icons/egg.svg"/>
-                            </div>
+                            {
+                                this.props.fieldValues.allergies.map(function(item, index){
+                                    return (
+                                        <div key={index} className="list-item">
+                                            <span>{item.name}</span>
+                                            <img src={'./static/icons/' + item.icon}/>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
 
@@ -380,10 +392,16 @@ export default class ProfileStepPreview extends React.Component {
                     <div className="allergies">
                         <span className="title">Dietary preference</span>
                         <div className="list">
-                            <div className="list-item">
-                                <span>Vegan</span>
-                                <img src="./static/icons/highProtein.svg"/>
-                            </div>
+                            {
+                                this.props.fieldValues.dietary.map(function(item, index){
+                                    return (
+                                        <div key={index} className="list-item">
+                                            <span>{item.name}</span>
+                                            <img src={'./static/icons/' + item.icon}/>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
 

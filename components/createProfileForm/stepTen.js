@@ -59,7 +59,7 @@ export default class ProfileStepTen extends React.Component {
 
         for(let i = 0; i < allergies.length; i++) {
             if (allergies[i].value == true) {
-                result.push(allergies[i].name)
+                result.push(allergies[i])
             }
         }
 

@@ -62,7 +62,7 @@ export default class ProfileStepEleven extends React.Component {
 
         for(let i = 0; i < dietary.length; i++) {
             if (dietary[i].value == true) {
-                result.push(dietary[i].name)
+                result.push(dietary[i])
             }
         }
 
