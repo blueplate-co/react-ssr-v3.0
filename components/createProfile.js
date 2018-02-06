@@ -34,13 +34,14 @@ import ProfileStepEight from '../components/createProfileForm/stepEight';
 import ProfileStepNine from '../components/createProfileForm/stepNine';
 import ProfileStepTen from '../components/createProfileForm/stepTen';
 import ProfileStepEleven from '../components/createProfileForm/stepEleven';
+import ProfileStepPreview from '../components/createProfileForm/stepPreview';
 
 @inject('store') @observer
 export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1
+            step: 12
         };
     }
 
@@ -69,6 +70,7 @@ export default class CreateProfile extends React.Component {
 
     componentDidUpdate() {
         if (this.state.step == 12) {
+            debugger
             console.log(fieldValues);
             
         }
@@ -106,7 +108,9 @@ export default class CreateProfile extends React.Component {
                     case 10:
                         return <ProfileStepTen fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 11:
-                        return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>    
+                        return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 12:
+                        return <ProfileStepPreview fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>    
                 }
             })()}
                 

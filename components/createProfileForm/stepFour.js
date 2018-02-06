@@ -30,8 +30,7 @@ export default class ProfileStepFour extends React.Component {
                 imgSrc: [reader.result],
                 cachefile: file
             })
-        }.bind(this);
-        
+        }.bind(this); 
     }
 
     // action when user click to next button

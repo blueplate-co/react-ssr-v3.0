@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="14px" viewBox="0 0 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>ic/email/grey600</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="ProfilePreview" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-83.000000, -297.000000)">
+        <g id="Email" transform="translate(82.000000, 294.000000)">
+            <g id="ic/email/grey600">
+                <g id="ic_email_24px">
+                    <path d="M16.6666667,3.33333333 L3.33333333,3.33333333 C2.41666667,3.33333333 1.675,4.08333333 1.675,5 L1.66666667,15 C1.66666667,15.9166667 2.41666667,16.6666667 3.33333333,16.6666667 L16.6666667,16.6666667 C17.5833333,16.6666667 18.3333333,15.9166667 18.3333333,15 L18.3333333,5 C18.3333333,4.08333333 17.5833333,3.33333333 16.6666667,3.33333333 Z M16.6666667,6.66666667 L10,10.8333333 L3.33333333,6.66666667 L3.33333333,5 L10,9.16666667 L16.6666667,5 L16.6666667,6.66666667 Z" id="Shape" fill="#757575" fill-rule="nonzero"></path>
+                    <polygon id="Shape" points="0 0 20 0 20 20 0 20"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
