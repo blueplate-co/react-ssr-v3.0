@@ -210,12 +210,14 @@ export default class ProfileStepPreview extends React.Component {
                                 .user-gender {
                                     text-align: right;
                                 }
+                                .user-dob {
+                                    text-align: left;
+                                }
                                 .user-dob, .user-gender {
                                     display: inline-block;
                                     margin: 0xp 3px;
                                     span {
                                         font-size: 14px;
-                                        margin: 2px 0px 5px 5px;
                                         &:before {
                                             content: '';
                                             width: 15px;
