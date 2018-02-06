@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import axios from 'axios';
 
 
 export default class ProfileStepPreview extends React.Component {
@@ -56,6 +57,35 @@ export default class ProfileStepPreview extends React.Component {
                 services: dummyService
             })
         }
+    }
+
+    // send profile to create profile
+    save = () => {
+        // create new form data
+        const data = new FormData();
+        data.append('firstName', this.props.fieldValues.firstName);
+        data.append('lastName', this.props.fieldValues.lastName);
+        data.append('uid', '5a6e8312e35b20787806756a');
+        data.append('address', this.props.fieldValues.location);
+        data.append('phoneNumber', this.props.fieldValues.phoneNo);
+        data.append('serviceOption', this.props.fieldValues.services);
+        data.append('dateOfBirth', this.props.fieldValues.dob);
+        data.append('gender', this.props.fieldValues.gender);
+        data.append('certification', this.props.fieldValues.exp[0]);
+        data.append('school', this.props.fieldValues.exp[1]);
+        data.append('about', this.props.fieldValues.yourself);
+        data.append('inspiration', this.props.fieldValues.inspiration);
+        data.append('chefImageName', 'abc');
+        data.append('chefImage', this.props.fieldValues.cachefile);
+
+        axios.post('http://13.250.107.234/api/chef/create', data)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
     }
 
     render() {
@@ -302,9 +332,9 @@ export default class ProfileStepPreview extends React.Component {
                         </form>
                     </div>
                     {/* general profile */}
-                    <span className="user-name"><img src="./static/icons/avatar.svg" /> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span>
-                    <span className="user-email"><img src="./static/icons/email.svg" /> {this.props.fieldValues.email}</span>
-                    <span className="user-location"><img src="./static/icons/marker.svg" /> {this.props.fieldValues.location}</span>
+                    <span className="user-name" suppressContentEditableWarning="true" contentEditable="true" ><img src="./static/icons/avatar.svg" /> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span>
+                    <span className="user-email" suppressContentEditableWarning="true" contentEditable="true"><img src="./static/icons/email.svg" /> {this.props.fieldValues.email}</span>
+                    <span className="user-location" suppressContentEditableWarning="true" contentEditable="true"><img src="./static/icons/marker.svg" /> {this.props.fieldValues.location}</span>
 
                     {/* serving options */}   
                     {this.props.fieldValues.services ? (
