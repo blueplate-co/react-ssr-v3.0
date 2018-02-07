@@ -94,6 +94,18 @@ const Layout = (props) => (
                 -webkit-appearance: none;
                 outline: none;
             }
+            input[type="number"] {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                color: #000;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 15px;
+                border-radius: 0;
+                -webkit-appearance: none;
+                outline: none;
+            }
             /* Remove default checkbox */
             [type="checkbox"]:not(:checked),
             [type="checkbox"]:checked {
