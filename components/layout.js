@@ -176,6 +176,10 @@ const Layout = (props) => (
                     margin: 0px 5px;
                 }
             }
+            [contenteditable="true"] {
+                outline: none;
+                position: relative;
+            }
             /* Landscape phones and down */
             @media (max-width: 480px) {
                 .layout-wrapper {

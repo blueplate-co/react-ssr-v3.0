@@ -63,8 +63,17 @@ export default class ProfileStepPreview extends React.Component {
     save = () => {
         // create new form data
         const data = new FormData();
-        data.append('firstName', this.props.fieldValues.firstName);
-        data.append('lastName', this.props.fieldValues.lastName);
+
+        // split firtname and lastname
+        let fullname = validator.trim(this.refs.fullname.innerText);
+        let firstname = null;
+        let lastname = null;
+
+        firstname = validator.trim(fullname.split(" ")[0]);
+        lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
+        
+        data.append('firstName', firstname);
+        data.append('lastName', lastname);
         data.append('uid', '5a6e8312e35b20787806756a');
         data.append('address', this.props.fieldValues.location);
         data.append('phoneNumber', this.props.fieldValues.phoneNo);
@@ -75,15 +84,21 @@ export default class ProfileStepPreview extends React.Component {
         data.append('school', this.props.fieldValues.exp[1]);
         data.append('about', this.props.fieldValues.yourself);
         data.append('inspiration', this.props.fieldValues.inspiration);
-        data.append('chefImageName', 'abc');
-        data.append('chefImage', this.props.fieldValues.cachefile);
+        data.append('chefImageName', 'abc.jpg');
+        data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
+        
 
-        axios.post('http://13.250.107.234/api/chef/create', data)
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
-            console.log(response);
+            alert('Create successful ^^');
         })
         .catch(function (error) {
-            console.log(error);
+            alert('Error when create profile. Please try again');
+            
         });
 
     }
@@ -332,9 +347,9 @@ export default class ProfileStepPreview extends React.Component {
                         </form>
                     </div>
                     {/* general profile */}
-                    <span className="user-name" suppressContentEditableWarning="true" contentEditable="true" ><img src="./static/icons/avatar.svg" /> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span>
-                    <span className="user-email" suppressContentEditableWarning="true" contentEditable="true"><img src="./static/icons/email.svg" /> {this.props.fieldValues.email}</span>
-                    <span className="user-location" suppressContentEditableWarning="true" contentEditable="true"><img src="./static/icons/marker.svg" /> {this.props.fieldValues.location}</span>
+                    <span className="user-name"><img src="./static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span></span>
+                    <span className="user-email"><img src="./static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.email}</span></span>
+                    <span className="user-location"><img src="./static/icons/marker.svg" /><span ref="location"> {this.props.fieldValues.location}</span></span>
 
                     {/* serving options */}   
                     {this.props.fieldValues.services ? (
