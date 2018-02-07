@@ -8,9 +8,13 @@ const Layout = (props) => (
     <div className="layout-wrapper">
         {/* internal styles in sass format */}
         <style global jsx>{`
+            * {
+                font-family: '${cnf.font.primaryfont}', san-serif;
+                -webkit-tap-highlight-color: transparent;
+            }
             body {
                 margin: 0px;
-                font-family: ${cnf.font.primaryfont};
+                padding: 0px;
             }
             .container {
                 width: 70%;
@@ -27,6 +31,8 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                border-radius: 0;
+                -webkit-appearance: none;
                 &:focus {
                     border-bottom: 1px solid ${cnf.color.primarycolor};
                 }
@@ -40,6 +46,8 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                border-radius: 0;
+                -webkit-appearance: none;
                 &:focus {
                     border-bottom: 1px solid ${cnf.color.primarycolor};
                 }
@@ -53,6 +61,8 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                border-radius: 0;
+                -webkit-appearance: none;
                 &:focus {
                     border-bottom: 1px solid ${cnf.color.primarycolor};
                 }
@@ -66,6 +76,8 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                border-radius: 0;
+                -webkit-appearance: none;
                 &:focus {
                     border-bottom: 1px solid ${cnf.color.primarycolor};
                 }
@@ -78,6 +90,8 @@ const Layout = (props) => (
                 box-sizing: border-box;
                 padding: 10px;
                 font-size: 15px;
+                border-radius: 0;
+                -webkit-appearance: none;
                 outline: none;
             }
             /* Remove default checkbox */
