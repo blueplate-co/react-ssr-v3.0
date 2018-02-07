@@ -7,18 +7,21 @@ let fieldValues = {
     dishImagesSrc: null,
     cacheFile: null,
     dishName: null,
-    dishDescription: null
+    dishDescription: null,
+    ingredient: []
 }
 
 import DishStepOne from '../components/createDishForm/stepOne';
 import DishStepTwo from '../components/createDishForm/stepTwo';
+import DishStepThree from '../components/createDishForm/stepThree';
+import DishStepFour from '../components/createDishForm/stepFour';
 
 @inject('store') @observer
 export default class CreateDish extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 2
+            step: 4
         };
     }
 
@@ -59,7 +62,11 @@ export default class CreateDish extends React.Component {
                     case 1:
                         return <DishStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 2:
-                        return <DishStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>    
+                        return <DishStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 3:
+                        return <DishStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 4:
+                        return <DishStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>     
                 }
             })()}
                 

@@ -15,6 +15,6 @@ module.exports = {
 
     // config for font
     font: {
-        primaryfont: "'Montserrat', sans-serif"
+        primaryfont: 'Montserrat'
     }
 }

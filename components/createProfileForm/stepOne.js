@@ -68,6 +68,10 @@ export default class ProfileStepOne extends React.Component {
         }
     }
 
+    componentDidMount () {
+        this.refs.firstName.focus();
+    }
+
     render() {
         return (
             <div className="create_profile_step">
