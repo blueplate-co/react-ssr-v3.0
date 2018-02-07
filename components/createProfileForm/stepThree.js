@@ -4,6 +4,8 @@ import React from 'react';
 import validator from 'validator';
 import _ from 'lodash';
 
+import cnf from '../../config';
+
 
 export default class ProfileStepThree extends React.Component {
     constructor(props) {
@@ -88,7 +90,7 @@ export default class ProfileStepThree extends React.Component {
                                     margin: 0px auto;
                                     border-radius: 50%;
                                     &.active {
-                                        background-color: #EFAC1F;
+                                        background-color: ${cnf.color.primarycolor};
                                     }
                                 }
                                 .option-title {
@@ -97,7 +99,7 @@ export default class ProfileStepThree extends React.Component {
                                     margin: 3px 0px;
                                     font-weight: bold;
                                     &.active {
-                                        color: #EFAC1F;
+                                        color: ${cnf.color.primarycolor};
                                     }
                                 }
                                 .option-description {
@@ -107,7 +109,7 @@ export default class ProfileStepThree extends React.Component {
                                     font-size: 10px;
                                     color: #ccc;
                                     &.active {
-                                        color: #EFAC1F;
+                                        color: ${cnf.color.primarycolor};
                                     }
                                 }
                             }

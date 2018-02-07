@@ -2,9 +2,7 @@ import Head from './head';
 import Navigation from './navigation';
 import Footer from './footer';
 
-// global setting for sass
-const mainBackgroundcolor = '#fff';
-const primarycolor = '#eee'
+import cnf from '../config';
 
 const Layout = (props) => (
     <div className="layout-wrapper">
@@ -12,7 +10,7 @@ const Layout = (props) => (
         <style global jsx>{`
             body {
                 margin: 0px;
-                font-family: 'Lato', sans-serif;
+                font-family: ${cnf.font.primaryfont};
             }
             .container {
                 width: 70%;
@@ -29,6 +27,9 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                &:focus {
+                    border-bottom: 1px solid ${cnf.color.primarycolor};
+                }
             }
             input[type="password"] {
                 border: none;
@@ -39,6 +40,9 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                &:focus {
+                    border-bottom: 1px solid ${cnf.color.primarycolor};
+                }
             }
             input[type="email"] {
                 border: none;
@@ -49,6 +53,9 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                &:focus {
+                    border-bottom: 1px solid ${cnf.color.primarycolor};
+                }
             }
             input[type="tel"] {
                 border: none;
@@ -59,6 +66,9 @@ const Layout = (props) => (
                 padding: 10px;
                 font-size: 15px;
                 outline: none;
+                &:focus {
+                    border-bottom: 1px solid ${cnf.color.primarycolor};
+                }
             }
             input[type="date"] {
                 border: none;
@@ -164,7 +174,7 @@ const Layout = (props) => (
                 border-radius: 0px;
             }
             .btn {
-                background: #56A9CB;
+                background: ${cnf.color.primarycolor};
                 border: none;
                 width: 100%;
                 padding: 10px;
@@ -179,6 +189,7 @@ const Layout = (props) => (
             [contenteditable="true"] {
                 outline: none;
                 position: relative;
+                border-bottom: ${cnf.color.primarycolor} 1px solid;
             }
             /* Landscape phones and down */
             @media (max-width: 480px) {
