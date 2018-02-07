@@ -55,16 +55,24 @@ export default class DishStepSix extends React.Component {
     saveAndContinue = (e) => {
         e.preventDefault();
         
+        let resultString = [];
         let result = [];
 
         for(let i = 0; i < allergies.length; i++) {
             if (allergies[i].value == true) {
-                result.push(allergies[i].id);
+                resultString.push(allergies[i].id);
+            }
+        }
+
+        for(let i = 0; i < allergies.length; i++) {
+            if (allergies[i].value == true) {
+                result.push(allergies[i]);
             }
         }
 
         let data = {
-            allergies: result.toString(),
+            allergiesString: resultString.toString(),
+            allergies: result
         }
             
         this.props.saveValues(data);

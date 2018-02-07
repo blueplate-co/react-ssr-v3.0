@@ -44,7 +44,12 @@ export default class DishStepThree extends React.Component {
             try {
                 if (validator.trim(tempName).length > 0 && validator.trim(tempQty).length > 0 && validator.trim(tempUnit).length > 0) { // no store empty string value
                     var tempIngredient = {name: tempName, qty: parseFloat(tempQty), unit: tempUnit}
-                    result.push(tempIngredient);
+                    result.push(tempIngredient);  
+                    let data = {
+                        ingredient: result,
+                    }
+                    this.props.saveValues(data);
+                    this.props.nextStep();
                 } else {
                     alert('Please complete ingredient before you add these');
                     return false;
@@ -54,13 +59,6 @@ export default class DishStepThree extends React.Component {
                 return false;
             }
         });
-        
-        let data = {
-            ingredient: result,
-        }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input

@@ -38,7 +38,10 @@ export default class DishStepFive extends React.Component {
                 totalTime = parseInt(totalTime);
 
                 let data = {
-                    prepareTime: totalTime
+                    prepareTime: totalTime,
+                    days: days,
+                    hours: hours,
+                    mins: mins
                 }
                 console.log(data);
                 this.props.saveValues(data);

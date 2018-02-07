@@ -58,18 +58,25 @@ export default class DishStepSeven extends React.Component {
     saveAndContinue = (e) => {
         e.preventDefault();
         
+        let resultString = [];
         let result = [];
 
         for(let i = 0; i < dietary.length; i++) {
             if (dietary[i].value == true) {
-                result.push(dietary[i].id);
+                resultString.push(dietary[i].id);
+            }
+        }
+
+        for(let i = 0; i < dietary.length; i++) {
+            if (dietary[i].value == true) {
+                result.push(dietary[i]);
             }
         }
 
         let data = {
-            dietary: result.toString(),
+            dietaryString: resultString.toString(),
+            diatary: result
         }
-        console.log(data);
         
         this.props.saveValues(data);
         this.props.nextStep();

@@ -215,7 +215,6 @@ const Layout = (props) => (
             [contenteditable="true"] {
                 outline: none;
                 position: relative;
-                border-bottom: ${cnf.color.primarycolor} 1px solid;
             }
             /* Landscape phones and down */
             @media (max-width: 480px) {

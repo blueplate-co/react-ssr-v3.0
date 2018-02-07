@@ -13,8 +13,15 @@ let fieldValues = {
     suggestedPrice: null,
     customPrice: null,
     prepareTime: null,
-    allergies: null,
-    dietary: null
+    days: null,
+    hours: null,
+    mins: null,
+    allergiesString: [],
+    allergies: [],
+    dietaryString: [],
+    dietary: [],
+    tags: [],
+    minimumOrder: null
 }
 
 import DishStepOne from '../components/createDishForm/stepOne';
@@ -24,13 +31,16 @@ import DishStepFour from '../components/createDishForm/stepFour';
 import DishStepFive from '../components/createDishForm/stepFive';
 import DishStepSix from '../components/createDishForm/stepSix';
 import DishStepSeven from '../components/createDishForm/stepSeven';
+import DishStepEight from '../components/createDishForm/stepEight';
+import DishStepNine from '../components/createDishForm/stepNine';
+import DishStepPreview from '../components/createDishForm/stepPreview';
 
 @inject('store') @observer
 export default class CreateDish extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 7
+            step: 1
         };
     }
 
@@ -57,6 +67,13 @@ export default class CreateDish extends React.Component {
         })
     }
 
+    componentWillUpdate() {
+        if (this.props.state == 10) {
+            console.log(fieldValues);
+        }
+        
+    }
+
     render() {
         return (
             <div className="create_profile">
@@ -81,7 +98,13 @@ export default class CreateDish extends React.Component {
                     case 6:
                         return <DishStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 7:
-                        return <DishStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>   
+                        return <DishStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 8:
+                        return <DishStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 9:
+                        return <DishStepNine fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 10:
+                        return <DishStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>    
                 }
             })()}
                 
