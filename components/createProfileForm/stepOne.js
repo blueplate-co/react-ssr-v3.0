@@ -16,6 +16,8 @@ export default class ProfileStepOne extends React.Component {
 
         //flag variables to check error existed
         let error = false;
+        // error stack for display
+        let errorStack = []
 
         // Get values via this.refs
         let data = {
@@ -27,7 +29,7 @@ export default class ProfileStepOne extends React.Component {
         // first name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.firstName.value))) {
             error = true;
-            alert('Must have first name');
+            errorStack.push('Must have first name');
         } else {
             error = false
         }
@@ -35,7 +37,7 @@ export default class ProfileStepOne extends React.Component {
         // last name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.lastName.value))) {
             error = true;
-            alert('Must have last name');
+            errorStack.push('Must have last name');
         } else {
             error = false
         }
@@ -43,10 +45,10 @@ export default class ProfileStepOne extends React.Component {
         // email must not empty string and correct format
         if (validator.isEmpty(validator.trim(this.refs.email.value))) {
             error = true;
-            alert('Must have email address');
+            errorStack.push('Must have email address');
         } else if (!validator.isEmail(validator.trim(this.refs.email.value))){
             error = true;
-            alert('Must have correct email format');
+            errorStack.push('Must have correct email format');
         } else {
             error = false;
         }
@@ -61,6 +63,8 @@ export default class ProfileStepOne extends React.Component {
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            alert(errorStack.join("\n"));
         }
     }
 
