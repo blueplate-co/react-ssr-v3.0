@@ -5,19 +5,37 @@ import { inject, observer } from 'mobx-react';
 // store all values get from multi-step
 let fieldValues = {
     menuName: null,
-    selectedDish: []
+    menuDescription: null,
+    selectedDish: [],
+    numberOfPeople: null,
+    cost: null,
+    suggestedPrice: null,
+    customPrice: null,
+    prepareTime: null,
+    days: null,
+    hours: null,
+    mins: null,
+    dietaryString: '',
+    diatary: [],
+    tags: []
 }
 
 import MenuStepOne from '../components/createMenuForm/stepOne';
 import MenuStepTwo from '../components/createMenuForm/stepTwo';
 import MenuStepThree from '../components/createMenuForm/stepThree';
+import MenuStepFour from '../components/createMenuForm/stepFour';
+import MenuStepFive from '../components/createMenuForm/stepFive';
+import MenuStepSix from '../components/createMenuForm/stepSix';
+import MenuStepSeven from '../components/createMenuForm/stepSeven';
+import MenuStepEight from '../components/createMenuForm/stepEight';
+import MenuStepPreview from '../components/createMenuForm/stepPreview';
 
 @inject('store') @observer
 export default class CreateMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 3
+            step: 1
         };
     }
 
@@ -45,7 +63,7 @@ export default class CreateMenu extends React.Component {
     }
 
     componentWillUpdate() {
-        if (this.props.state == 10) {
+        if (this.props.state == 8) {
             console.log(fieldValues);
         }
         
@@ -68,6 +86,18 @@ export default class CreateMenu extends React.Component {
                         return <MenuStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 3:
                         return <MenuStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 4:
+                        return <MenuStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 5:
+                        return <MenuStepFive fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 6:
+                        return <MenuStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 7:
+                        return <MenuStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 8:
+                        return <MenuStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                    case 9:
+                        return <MenuStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
                 }
             })()}
                 
