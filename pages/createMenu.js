@@ -4,14 +4,14 @@ import Link from 'next/link';
 import Head from '../components/head';
 import Navigation from '../components/navigation';
 import Footer from '../components/footer';
-import CreateProfile from '../components/createProfile';
+import CreateMenu from '../components/createMenu';
 
 import Layout from '../components/layout';
 
 import store from '../stores/store';
 import { Provider } from 'mobx-react';
 
-export default class CreateProfilePage extends React.Component {
+export default class CreateMenuPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -21,9 +21,9 @@ export default class CreateProfilePage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Create profile" />
+          <Head title="Create dish" />
           <Navigation title="blueplate"/>
-          <CreateProfile/>
+          <CreateMenu/>
           <Footer/>
         </Layout>
       </Provider>

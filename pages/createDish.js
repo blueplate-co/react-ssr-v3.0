@@ -11,7 +11,7 @@ import Layout from '../components/layout';
 import store from '../stores/store';
 import { Provider } from 'mobx-react';
 
-export default class Index extends React.Component {
+export default class CreateDishPage extends React.Component {
 
   constructor(props) {
     super(props);

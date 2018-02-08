@@ -17,7 +17,7 @@ const Layout = (props) => (
                 padding: 0px;
             }
             .container {
-                width: 70%;
+                width: 85%;
                 height: auto;
                 margin: 0px auto;
                 text-align: center;
