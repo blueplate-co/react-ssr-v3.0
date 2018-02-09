@@ -70,7 +70,7 @@ export default class MenuStepEight extends React.Component {
                             right: '8px',
                             top: '7px'
                         }}
-                        src="../../static/icons/close.svg"
+                        src="/static/icons/close.svg"
                         onClick={ () => { this.removeTag(index) } }
                     />
                 </li>

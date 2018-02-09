@@ -38,9 +38,8 @@ export default class Index extends React.Component {
     } else {
       // call axios api at here
 
-      Router.push('/create/profile');
+      Router.push('/become');
     }
-
   }
 
   // handleChange when click term/condition
@@ -55,6 +54,11 @@ export default class Index extends React.Component {
     this.setState({
       stage: 'login'
     })
+  }
+
+  // clear SessionStorage before test again
+  componentDidMount = () => {
+    sessionStorage.setItem('welcomeStage', 0);
   }
 
   render () {

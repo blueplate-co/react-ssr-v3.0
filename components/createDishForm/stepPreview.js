@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import Router from 'next/router';
 
 import validator from 'validator';
 import axios from 'axios';
@@ -41,42 +42,46 @@ export default class DishStepPreview extends React.Component {
         // create new form data
         const data = new FormData();
 
+        alert('Create Dish Successful');
+        sessionStorage.setItem("welcomeStage", 2);
+        Router.push('/become');
+
         // split firtname and lastname
-        let fullname = validator.trim(this.refs.fullname.innerText);
-        let firstname = null;
-        let lastname = null;
+        // let fullname = validator.trim(this.refs.fullname.innerText);
+        // let firstname = null;
+        // let lastname = null;
 
-        firstname = validator.trim(fullname.split(" ")[0]);
-        lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
+        // firstname = validator.trim(fullname.split(" ")[0]);
+        // lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
         
-        data.append('firstName', firstname);
-        data.append('lastName', lastname);
-        data.append('uid', '5a6e8312e35b20787806756a');
-        data.append('address', this.props.fieldValues.location);
-        data.append('phoneNumber', this.props.fieldValues.phoneNo);
-        data.append('serviceOption', this.props.fieldValues.services);
-        data.append('dateOfBirth', this.props.fieldValues.dob);
-        data.append('gender', this.props.fieldValues.gender);
-        data.append('certification', this.props.fieldValues.exp[0]);
-        data.append('school', this.props.fieldValues.exp[1]);
-        data.append('about', this.props.fieldValues.yourself);
-        data.append('inspiration', this.props.fieldValues.inspiration);
-        data.append('chefImageName', 'abc.jpg');
-        data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
+        // data.append('firstName', firstname);
+        // data.append('lastName', lastname);
+        // data.append('uid', '5a6e8312e35b20787806756a');
+        // data.append('address', this.props.fieldValues.location);
+        // data.append('phoneNumber', this.props.fieldValues.phoneNo);
+        // data.append('serviceOption', this.props.fieldValues.services);
+        // data.append('dateOfBirth', this.props.fieldValues.dob);
+        // data.append('gender', this.props.fieldValues.gender);
+        // data.append('certification', this.props.fieldValues.exp[0]);
+        // data.append('school', this.props.fieldValues.exp[1]);
+        // data.append('about', this.props.fieldValues.yourself);
+        // data.append('inspiration', this.props.fieldValues.inspiration);
+        // data.append('chefImageName', 'abc.jpg');
+        // data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
         
 
-        const config = {
-            headers: { 'content-type': 'multipart/form-data' }
-        }
+        // const config = {
+        //     headers: { 'content-type': 'multipart/form-data' }
+        // }
 
-        axios.post('http://13.250.107.234/api/chef/create', data, config)
-        .then(function (response) {
-            alert('Create successful ^^');
-        })
-        .catch(function (error) {
-            alert('Error when create profile. Please try again');
+        // axios.post('http://13.250.107.234/api/chef/create', data, config)
+        // .then(function (response) {
+        //     alert('Create successful ^^');
+        // })
+        // .catch(function (error) {
+        //     alert('Error when create profile. Please try again');
             
-        });
+        // });
 
     }
 
@@ -337,7 +342,7 @@ export default class DishStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -354,7 +359,7 @@ export default class DishStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -385,7 +390,7 @@ export default class DishStepPreview extends React.Component {
                                                     right: '8px',
                                                     top: '9px'
                                                 }}
-                                                src="../../static/icons/close.svg"
+                                                src="/static/icons/close.svg"
                                                 onClick={ () => { this.removeTag(index) } }
                                             />
                                         </li>

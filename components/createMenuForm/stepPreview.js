@@ -5,7 +5,7 @@ import validator from 'validator';
 import cx from 'classnames';
 import axios from 'axios';
 import TouchCarousel, { clamp } from 'react-touch-carousel';
-import touchWithMouseHOC from './../../static/lib/touchWithMouseHOC';
+import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
 
 
 const cardSize = 100
@@ -36,42 +36,45 @@ export default class MenuStepPreview extends React.Component {
         // create new form data
         const data = new FormData();
 
+        sessionStorage.setItem("welcomeStage", 2);
+        alert('Create menu successfull :D');
+
         // split firtname and lastname
-        let fullname = validator.trim(this.refs.fullname.innerText);
-        let firstname = null;
-        let lastname = null;
+        // let fullname = validator.trim(this.refs.fullname.innerText);
+        // let firstname = null;
+        // let lastname = null;
 
-        firstname = validator.trim(fullname.split(" ")[0]);
-        lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
+        // firstname = validator.trim(fullname.split(" ")[0]);
+        // lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
         
-        data.append('firstName', firstname);
-        data.append('lastName', lastname);
-        data.append('uid', '5a6e8312e35b20787806756a');
-        data.append('address', this.props.fieldValues.location);
-        data.append('phoneNumber', this.props.fieldValues.phoneNo);
-        data.append('serviceOption', this.props.fieldValues.services);
-        data.append('dateOfBirth', this.props.fieldValues.dob);
-        data.append('gender', this.props.fieldValues.gender);
-        data.append('certification', this.props.fieldValues.exp[0]);
-        data.append('school', this.props.fieldValues.exp[1]);
-        data.append('about', this.props.fieldValues.yourself);
-        data.append('inspiration', this.props.fieldValues.inspiration);
-        data.append('chefImageName', 'abc.jpg');
-        data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
+        // data.append('firstName', firstname);
+        // data.append('lastName', lastname);
+        // data.append('uid', '5a6e8312e35b20787806756a');
+        // data.append('address', this.props.fieldValues.location);
+        // data.append('phoneNumber', this.props.fieldValues.phoneNo);
+        // data.append('serviceOption', this.props.fieldValues.services);
+        // data.append('dateOfBirth', this.props.fieldValues.dob);
+        // data.append('gender', this.props.fieldValues.gender);
+        // data.append('certification', this.props.fieldValues.exp[0]);
+        // data.append('school', this.props.fieldValues.exp[1]);
+        // data.append('about', this.props.fieldValues.yourself);
+        // data.append('inspiration', this.props.fieldValues.inspiration);
+        // data.append('chefImageName', 'abc.jpg');
+        // data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
         
 
-        const config = {
-            headers: { 'content-type': 'multipart/form-data' }
-        }
+        // const config = {
+        //     headers: { 'content-type': 'multipart/form-data' }
+        // }
 
-        axios.post('http://13.250.107.234/api/chef/create', data, config)
-        .then(function (response) {
-            alert('Create successful ^^');
-        })
-        .catch(function (error) {
-            alert('Error when create profile. Please try again');
+        // axios.post('http://13.250.107.234/api/chef/create', data, config)
+        // .then(function (response) {
+        //     alert('Create successful ^^');
+        // })
+        // .catch(function (error) {
+        //     alert('Error when create profile. Please try again');
             
-        });
+        // });
 
     }
 
@@ -277,7 +280,6 @@ export default class MenuStepPreview extends React.Component {
                         cardCount={4}
                         cardSize={375}
                         renderCard={this.renderCard.bind(this)}
-                        loop
                     />
 
                     <span className="menu-numberOrder" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">Meal for {this.props.fieldValues.numberOfPeople} people</span>
@@ -315,7 +317,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -332,7 +334,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })
