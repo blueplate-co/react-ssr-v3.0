@@ -13,7 +13,6 @@ export default class DishStepFive extends React.Component {
         super(props);
 
         this.saveAndContinue = this.saveAndContinue.bind(this);
-
         this.state = {
         }
     }
@@ -24,9 +23,9 @@ export default class DishStepFive extends React.Component {
 
         // make sure parseInt qty is valid
         try {
-            let days = this.refs.days.value;
-            let hours = this.refs.hours.value;
-            let mins = this.refs.mins.value;
+            let days = this.refs.days.value.split(' ')[0];
+            let hours = this.refs.hours.value.split(' ')[0];
+            let mins = this.refs.mins.value.split(' ')[0];
 
             if (validator.trim(days).length > 0 && validator.trim(hours).length > 0 && validator.trim(mins).length > 0) { // no store empty string value                   
                 days = parseInt(this.refs.days.value);
