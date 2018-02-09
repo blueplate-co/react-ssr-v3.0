@@ -6,12 +6,12 @@ import cnf from '../../config';
 
 // global variable for list check
 let selectedData = [
-    { selected: false, name: 'Dish name 01', cost: 200, selling: 30 },
+    { selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
     { selected: false, name: 'Beer', cost: 200, selling: 30 },
-    { selected: false, name: 'Dish name 03', cost: 100, selling: 300 },
+    { selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
     { selected: false, name: 'Pizza', cost: 200, selling: 30 },
-    { selected: false, name: 'Dish name 05', cost: 570, selling: 730 },
-    { selected: false, name: 'Dish name 06', cost: 200, selling: 30 },
+    { selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
+    { selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
 ]
 
 export default class MenuStepTwo extends React.Component {

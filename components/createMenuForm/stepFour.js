@@ -38,7 +38,6 @@ export default class MenuStepFour extends React.Component {
                     suggestedPrice: suggestedPrice,
                     customPrice: customPrice
                 }
-                console.log(data);
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {

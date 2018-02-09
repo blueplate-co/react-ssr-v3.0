@@ -1,0 +1,77 @@
+.carousel-container {
+    position: relative;
+    height: 100px;
+    max-width: 100%;
+    margin: 20px 0px;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+  
+  .carousel-track {
+    display: flex;
+    height: 100%;
+  }
+  
+  .carousel-card {
+    flex: 0 0 120px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .carousel-card-inner {
+    flex-direction: column;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    background-size: cover;
+    background-position: center center;
+  }
+  
+  .carousel-title {
+    margin-top: 20px;
+    font-size: 1.5em;
+  }
+  
+  .carousel-text {
+    padding: 1em;
+    font-size: 14px;
+    white-space: pre-wrap;
+    text-align: left;
+    font-family: sans-serif;
+  }
+  
+  .carousel-pagination-wrapper {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    display: none;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  .carousel-pagination {
+    list-style: none;
+    display: none;
+    justify-content: space-around;
+    width: 180px;
+    padding: 0;
+  }
+  
+  .carousel-pagination li {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(50, 50, 50, 0.5);
+  }
+  
+  .carousel-pagination .current {
+    border-radius: 0;
+    background: white;
+  }

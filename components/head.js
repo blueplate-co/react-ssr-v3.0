@@ -19,7 +19,8 @@ const Head = (props) => (
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,700,900" rel="stylesheet" />
     {/* custom styles from component */}
     <link href="./static/styles/range-slider.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link href="./static/styles/touch-slider.css" rel="stylesheet" />
     <meta property="og:url" content={props.url || defaultOGURL} />
     <meta property="og:title" content={props.title || ''} />
     <meta property="og:description" content={props.description || defaultDescription} />

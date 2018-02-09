@@ -67,13 +67,6 @@ export default class CreateDish extends React.Component {
         })
     }
 
-    componentWillUpdate() {
-        if (this.props.state == 10) {
-            console.log(fieldValues);
-        }
-        
-    }
-
     render() {
         return (
             <div className="create_profile">

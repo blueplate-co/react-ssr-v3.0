@@ -43,7 +43,6 @@ export default class DishStepFive extends React.Component {
                     hours: hours,
                     mins: mins
                 }
-                console.log(data);
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {

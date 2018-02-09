@@ -2,7 +2,19 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import cx from 'classnames';
 import axios from 'axios';
+import TouchCarousel, { clamp } from 'react-touch-carousel';
+import touchWithMouseHOC from './../../static/lib/touchWithMouseHOC';
+
+
+const cardSize = 100
+const cardPadCount = 4
+const carouselWidth = 100
+
+function log (text) {
+    console.log(text);  
+}
 
 
 export default class MenuStepPreview extends React.Component {
@@ -10,7 +22,12 @@ export default class MenuStepPreview extends React.Component {
         super(props);
 
         this.state = {
-            
+            data: [
+                { title: '', text: '', background: 'https://www.colourbox.com/preview/2226606-salad-with-vegetables-and-greens.jpg' },
+                { title: '', text: '', background: 'http://longwallpapers.com/Desktop-Wallpaper/food-wallpaper-full-hd-For-Desktop-Wallpaper.jpg' },
+                { title: '', text: '', background: 'https://media-cdn.tripadvisor.com/media/photo-s/03/d3/9c/e8/wtf-what-tasty-food.jpg' },
+                { title: '', text: '', background: 'http://www.123inspiration.com/wp-content/uploads/2013/05/creative-food-art-6.jpg' }
+            ]
         }
     }
 
@@ -58,7 +75,66 @@ export default class MenuStepPreview extends React.Component {
 
     }
 
+    renderCard (index, modIndex) {
+        const item = this.state.data[modIndex]
+        return (
+            <div
+                key={index}
+                className='carousel-card'
+                onClick={() => log(`clicked card ${1 + modIndex}`)}
+            >
+                <div
+                    className='carousel-card-inner'
+                    style={{backgroundImage: `url(${item.background})`}}
+                >
+                    <div className='carousel-title'>{item.title}</div>
+                    <div className='carousel-text'>{item.text}</div>
+                </div>
+            </div>
+        )
+    }
+
+    CarouselContainer = (props) => {
+        const {cursor, carouselState: {active, dragging}, ...rest} = props
+        let current = -Math.round(cursor) % this.state.data.length
+        while (current < 0) {
+          current += this.state.data.length
+        }
+        // Put current card at center
+        const translateX = (cursor - cardPadCount) * cardSize + (carouselWidth - cardSize) / 2
+        return (
+          <div
+            className={cx(
+              'carousel-container',
+              {
+                'is-active': active,
+                'is-dragging': dragging
+              }
+            )}
+          >
+            <div
+              className='carousel-track'
+              style={{transform: `translate3d(${translateX}px, 0, 0)`}}
+              {...rest}
+            />
+      
+            <div className='carousel-pagination-wrapper'>
+              <ol className='carousel-pagination'>
+                {this.state.data.map((_, index) => (
+                  <li
+                    key={index}
+                    className={current === index ? 'current' : ''}
+                  />
+                ))}
+              </ol>
+            </div>
+          </div>
+        )
+      }
+
     render() {
+        const Container = touchWithMouseHOC(this.CarouselContainer);
+
         return (
             <div className="create_profile_step">
                 <style jsx>{`
@@ -195,6 +271,14 @@ export default class MenuStepPreview extends React.Component {
                     {/* general information */}
                     <span className="menu-name" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.menuName}</span>
                     <span className="menu-description" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.menuDescription}</span>
+
+                    <TouchCarousel
+                        component={Container.bind(this)}
+                        cardCount={4}
+                        cardSize={375}
+                        renderCard={this.renderCard.bind(this)}
+                        loop
+                    />
 
                     <span className="menu-numberOrder" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">Meal for {this.props.fieldValues.numberOfPeople} people</span>
                     {/* Pricing */}

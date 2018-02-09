@@ -27,7 +27,6 @@ export default class MenuStepThree extends React.Component {
             data = {
                 numberOfPeople: this.state.reverseValue
             }
-            console.log(data);
             
             this.props.saveValues(data);
             this.props.nextStep();

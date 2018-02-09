@@ -62,13 +62,6 @@ export default class CreateMenu extends React.Component {
         })
     }
 
-    componentWillUpdate() {
-        if (this.props.state == 8) {
-            console.log(fieldValues);
-        }
-        
-    }
-
     render() {
         return (
             <div className="create_menu">
