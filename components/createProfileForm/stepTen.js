@@ -80,7 +80,7 @@ export default class ProfileStepTen extends React.Component {
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
                     <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
                     <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
-                    <img style={{ float: `right` }} src={ `./static/icons/` + item.icon }/>
+                    <img style={{ float: `right` }} src={ `/static/icons/` + item.icon }/>
                 </p>
             );
         })

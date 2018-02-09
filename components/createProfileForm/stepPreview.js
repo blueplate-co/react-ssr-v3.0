@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react';
+import Router from 'next/router';
 
 import validator from 'validator';
 import axios from 'axios';
-
 
 export default class ProfileStepPreview extends React.Component {
     constructor(props) {
@@ -95,6 +95,8 @@ export default class ProfileStepPreview extends React.Component {
         axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
             alert('Create successful ^^');
+            sessionStorage.setItem("welcomeStage", 1);
+            Router.push('/become');
         })
         .catch(function (error) {
             alert('Error when create profile. Please try again');
@@ -347,9 +349,9 @@ export default class ProfileStepPreview extends React.Component {
                         </form>
                     </div>
                     {/* general profile */}
-                    <span className="user-name"><img src="./static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span></span>
-                    <span className="user-email"><img src="./static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.email}</span></span>
-                    <span className="user-location"><img src="./static/icons/marker.svg" /><span ref="location"> {this.props.fieldValues.location}</span></span>
+                    <span className="user-name"><img src="/static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span></span>
+                    <span className="user-email"><img src="/static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.email}</span></span>
+                    <span className="user-location"><img src="/static/icons/marker.svg" /><span ref="location"> {this.props.fieldValues.location}</span></span>
 
                     {/* serving options */}   
                     {this.props.fieldValues.services ? (
@@ -425,7 +427,7 @@ export default class ProfileStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -442,7 +444,7 @@ export default class ProfileStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'./static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/' + item.icon}/>
                                         </div>
                                     )
                                 })

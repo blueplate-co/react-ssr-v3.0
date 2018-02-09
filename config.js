@@ -10,7 +10,8 @@ module.exports = {
         greencolor: '#5fc580',
         redcolor: '#e9504c',
         orangecolor: '#ec8b23',
-        graycolor: '#ccc'
+        graycolor: '#ccc',
+        boldgraycolor: '#9B9B9B'
     },
 
     // config for font

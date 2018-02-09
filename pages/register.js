@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Router from 'next/router'
 
 import Head from '../components/head';
 import Navigation from '../components/navigation';
@@ -13,52 +12,50 @@ import { Provider } from 'mobx-react';
 
 import validator from 'validator';
 
-export default class Index extends React.Component {
+export default class Register extends React.Component {
 
   constructor(props) {
     super(props);
-    this.login = this.login.bind(this);
+    this.register = this.register.bind(this);
     this.state = {
       argree: false,
-      stage: 'login'
+      stage: 'register'
     }
   }
 
   // action when user click register
-  login = () => {
+  register = () => {
+    let username = this.refs.username.value;
     let password = this.refs.password.value;
     let email = this.refs.email.value;
 
-    if (validator.trim(password).length < 6) {
+    if (this.state.argree == false) {
+      alert('You must argree terms and conditions / privacy policy before continue');
+      return false;
+    }
+
+    if (validator.trim(username).length == 0) {
+      alert('Must have user name');
+      return false;
+    } else if (validator.trim(password).length < 6) {
       alert('Must have password with length greater than 6 characters');
       return false;
     } else if (!validator.isEmail(validator.trim(email))) {
       alert('Invalid email address');
       return false;
     } else {
-      // call axios api at here
-
-      Router.push('/become');
+      this.setState({
+        stage: 'emailValidation'
+      })
     }
+
   }
 
   // handleChange when click term/condition
-  forgotPassword = () => {
+  handleInputChange = () => {
     this.setState({
-      stage: 'forgotPassword'
+      argree: !this.state.argree
     })
-  }
-
-  // when user click sign in when at email validation screen
-  backSignIn = () => {
-    this.setState({
-      stage: 'login'
-    })
-  }
-
-  // clear SessionStorage before test again
-  componentDidMount = () => {
-    sessionStorage.setItem('welcomeStage', 0);
   }
 
   render () {
@@ -86,27 +83,30 @@ export default class Index extends React.Component {
           <Head title="Blueplate" />
           <Navigation title="Blueplate"/>
           {
-              this.state.stage === 'login' ?
+              this.state.stage === 'register' ?
               (
                   <div className="container">
-                    <h3>Sign In</h3>
-                    <input type="text" required ref="email" placeholder="email address"/>
+                    <h3>Join us</h3>
+                    <input type="text" required ref="username" placeholder="user name"/>
                     <input type="password" required ref="password" placeholder="password"/>
+                    <input type="email" required ref="email" placeholder="email"/>
                     <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
-                        <a onClick={ this.forgotPassword } className="clickable">forgot password</a>
+                        <input type="checkbox" name="term" id="term" onChange={this.handleInputChange}/>
+                        <label htmlFor="term" style={{ float: 'left', height: 'auto', textAlign: 'left', fontSize: '13px' }}>I have read and agreed the terms and conditions / privacy policy</label>
                     </p>
                     <div className="bottom-confirmation">
-                        <button className="btn" onClick={ this.login }>Next</button>
+                        <button className="btn" onClick={ this.register }>Next</button>
                     </div>
                   </div>
               ) :
               (
                   <div className="container">
-                    <h3>Forget password</h3>
-                    <input type="text" required ref="email" placeholder="email"/>
-                    <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
-                        Just member <a onClick={ this.backSignIn } className="clickable">sign in</a>
-                    </p>
+                    <h3>Email Validation</h3>
+                    <p className="description">Thanks for signing up! A verification email has been sent to your email address. Please verify your account by clicking the link in the email.</p>
+                    <p className="">Haven't received our verification email yet? <a className="clickable">Click here to resend.</a></p>
+                    <div className="bottom-confirmation">
+                        <button className="btn" onClick={ this.register }>Next</button>
+                    </div>
                   </div>
               )
           }
