@@ -50,6 +50,51 @@ export default class DishStepFive extends React.Component {
         }
     }
 
+    //- action when user fill cost
+    costFilling = ()=>{
+        //- get value and send data back
+        var current = this.refs.cost.value;
+        var final = '';
+        //- fill to the suggested price
+        console.log(validator.isInt(current));
+        if(current.charAt(0) != '$')
+        {
+            final = '$' + current;
+            this.refs.cost.value = final;
+        }
+        //- suggested price
+        // console.log(Math.round(parseFloat(current.substr(1)) * 2.6));
+        if(current.charAt(0) == '$' && current.length > 1)
+        {
+            this.refs.suggestedPrice.value = '$' + Math.round(parseFloat(current.substr(1)) * 2.6);
+        }else{
+            this.refs.suggestedPrice.value = '';
+        }
+    }
+
+    //- action when user fill cost
+    suggestedFilling = ()=>{
+        //- get value and send data back
+        var current = this.refs.csuggestedPriceost.value;
+        var final = '';
+        //- fill to the suggested price
+        console.log(validator.isInt(current));
+        if(current.charAt(0) != '$')
+        {
+            final = '$' + current;
+            this.refs.cost.value = final;
+        }
+    }
+
+    //- remove $ sign onblur with contain just one $sign and nothing else
+    removeDollarSign = ()=>{
+        var current = this.refs.cost.value;
+        if(current.charAt(0) == '$' && current.length == 1)
+        {
+            this.refs.cost.value = '';
+        }
+    }
+
     render() {
         return (
             <div className="create_profile_step">
@@ -97,8 +142,8 @@ export default class DishStepFive extends React.Component {
                         <div className="custom">Custom</div>
                     </div>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="$0"/>
-                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="$0"/>
+                        <input ref="cost" onBlur={ this.removeDollarSign } onChange={ this.costFilling } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="$0"/>
+                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
                         <input ref="customPrice" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="$0"/>
                     </div>
                 </div>
