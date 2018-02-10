@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
-
+import axios from 'axios';
 
 export default class DishStepTwo extends React.Component {
     constructor(props) {
@@ -69,9 +69,62 @@ export default class DishStepTwo extends React.Component {
                 dishDescription: this.refs.dishDescription.value
             }
             
+            //- create new dish with api
+            this.apiCall();
+            
             this.props.saveValues(data);
             this.props.nextStep();
         }
+    }
+
+    apiCall = () => {
+        var propValues = this.props.fieldValues;
+        var dishImageSrc = this.props.fieldValues.dishImagesSrc;
+        var dishName = this.props.fieldValues.dishName;
+        var dishDecription = this.refs.dishDescription.value;
+        var cacheFile = this.props.fieldValues.cacheFile;
+        var fileName = propValues.cacheFile['name'];
+
+        console.log(propValues);
+
+        const data = new FormData();
+
+        //- create data using for api
+        data.append('chefID', '5a79a1524be30c971138175e');
+        data.append('dName', dishName);
+        data.append('describe', dishDecription);
+        data.append('dishImageName', fileName);
+        data.append('dishImage', cacheFile);
+
+        console.log(data);
+        console.log(typeof(cacheFile));
+        
+        //- set header
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+
+        //- using axios
+        axios
+        .post('http://13.250.107.234/api/dish/create', data)
+        .then(function(res){
+            console.log(res);
+            if(res.status === 200)
+            {
+
+                //- prop ids
+                var dish_id = {};
+                dish_id.create_dish_id = res.data.data.create_dish_id;
+                dish_id.update_dish_id = res.data.data.update_dish_id;
+                console.log(dish_id);
+                //- set to props
+                this.props.saveValues(dish_id);
+                console.log(this.props);
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        });
     }
 
     render() {
