@@ -128,7 +128,7 @@ export default class DishStepOne extends React.Component {
                 <div className="container">
                     <h3>Dish photo</h3>
                     <div className="circle-file-browse" onClick={this.clickUploadFile}>
-                        <img src={this.state.imgSrc} />
+                        <img src={this.state.imgSrc} style={{width: '100%', height:'100%'}}/>
                         <i className="fas fa-arrow-up"></i>
                         <span>upload image</span>
                         <form>
