@@ -4,7 +4,7 @@ import React from 'react';
 import validator from 'validator';
 
 import cnf from '../../config';
-
+import axios from 'axios';
 
 export default class DishStepThree extends React.Component {
     constructor(props) {
@@ -29,6 +29,31 @@ export default class DishStepThree extends React.Component {
         })
     }
 
+    insertMultipleIngredients = (ingredients) => {
+        //- insert multiple ingredients
+        const formData = new FormData();
+        formData.append('data', ingredients);
+        console.log(ingredients);
+        //- create ingredient
+        //- set header
+        const config = {
+            headers: { 'Content-Type': 'application/json' }
+        }
+        axios
+        .post('http://localhost:1337/api/ingredient/create/multiple', {
+            data: ingredients,
+        })
+        .then(function(res){
+            alert('inserted new ingredient to dish');
+            console.log(res);
+            return 1;
+        })
+        .catch(function(err){
+            console.log(err);
+            return 0;
+        });
+    }
+
     // handlechange when user input 
 
     // action when user click to next button
@@ -43,13 +68,14 @@ export default class DishStepThree extends React.Component {
             // make sure parseFloat qty is valid
             try {
                 if (validator.trim(tempName).length > 0 && validator.trim(tempQty).length > 0 && validator.trim(tempUnit).length > 0) { // no store empty string value
-                    var tempIngredient = {name: tempName, qty: parseFloat(tempQty), unit: tempUnit}
+                    var tempIngredient = {iName: tempName, iQuantity: parseFloat(tempQty), iUnit: tempUnit}
                     result.push(tempIngredient);  
                     let data = {
                         ingredient: result,
                     }
-                    this.props.saveValues(data);
-                    this.props.nextStep();
+
+                    // this.props.saveValues(data);
+                    // this.props.nextStep();
                 } else {
                     alert('Please complete ingredient before you add these');
                     return false;
@@ -59,7 +85,20 @@ export default class DishStepThree extends React.Component {
                 return false;
             }
         });
+
+        //- insert multiple ingredients
+        console.log(result);
+        if(this.insertMultipleIngredients(result) === 1)
+        {
+            console.log('insert multiple ingredient success');
+        }else{
+            console.log('cannot insert multiple ingredient');
+        }
+        
+
+
     }
+   
 
     // generate list input
     generateList = () => {

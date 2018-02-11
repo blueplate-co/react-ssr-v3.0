@@ -37,6 +37,28 @@ export default class DishStepPreview extends React.Component {
         this.refs.file.click();
     }
 
+    addIngredient = (create_dish_id) => {
+        //- form data
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.ingredientsID = '';
+        return axios.post('http://13.250.107.234/api/dish/create/ingredients', data);
+    }
+      
+    addAllergy = (create_dish_id) => {
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.allergies = '';
+        return axios.post('http://13.250.107.234/api/dish/create/allergies', data);
+    }
+
+    addDietary = (create_dish_id) => {
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.dietaries = '';
+        return axios.post('http://13.250.107.234/api/dish/create/dietaries', data);
+    }
+
     // send profile to create profile
     save = () => {
         // create new form data
@@ -82,6 +104,72 @@ export default class DishStepPreview extends React.Component {
         //     alert('Error when create profile. Please try again');
             
         // });
+
+        //- update first then create ingredients, food allergy, dietary
+        var propValues = this.props.fieldValues;
+        var dishImageSrc = this.props.fieldValues.dishImagesSrc;
+        var dishName = this.props.fieldValues.dishName;
+        var dishDecription = this.refs.dishDescription.value;
+        var cacheFile = this.props.fieldValues.cacheFile;
+        var fileName = propValues.cacheFile['name'];
+        var ingredients = this.props.fieldValues.ingredients; //- string
+        var allergy = this.props.fieldValues.ingredients; //- string
+        var dietary = this.props.fieldValues.ingredients; //- string
+
+        console.log(propValues);
+
+        //- create data using for api
+        data.append('chefID', '5a79a1524be30c971138175e');
+        data.append('dName', dishName);
+        data.append('describe', dishDecription);
+        data.append('dishImageName', fileName);
+        data.append('dishImage', cacheFile);
+
+        console.log(data);
+        console.log(typeof(cacheFile));
+        
+        //- set header
+        const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }
+
+        //- using axios
+        axios
+        .post('http://13.250.107.234/api/dish/create', data)
+        .then(function(res){
+            console.log(res);
+            if(res.status === 200)
+            {
+                //- prop ids
+                var dish_id = {};
+                dish_id.create_dish_id = res.data.data.create_dish_id;
+                dish_id.update_dish_id = res.data.data.update_dish_id;
+                console.log(dish_id);
+
+                //- using axios all
+                axios.all([
+                    addAllergy(dish_id.create_dish_id), 
+                    addDietary(dish_id.create_dish_id), 
+                    addIngredient(dish_id.create_dish_id)
+                ])
+                .then(function(arr){
+                    console.log(arr[0].data);
+                    console.log(arr[1].data);
+                    console.log(arr[2].data);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+
+
+
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+
+
 
     }
 

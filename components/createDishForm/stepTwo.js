@@ -70,7 +70,7 @@ export default class DishStepTwo extends React.Component {
             }
             
             //- create new dish with api
-            this.apiCall();
+            // this.apiCall();
             
             this.props.saveValues(data);
             this.props.nextStep();
@@ -101,7 +101,7 @@ export default class DishStepTwo extends React.Component {
         
         //- set header
         const config = {
-            headers: { 'content-type': 'multipart/form-data' }
+            headers: { 'Content-Type': 'multipart/form-data' }
         }
 
         //- using axios
@@ -111,7 +111,6 @@ export default class DishStepTwo extends React.Component {
             console.log(res);
             if(res.status === 200)
             {
-
                 //- prop ids
                 var dish_id = {};
                 dish_id.create_dish_id = res.data.data.create_dish_id;
