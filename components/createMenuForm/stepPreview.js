@@ -38,21 +38,21 @@ export default class MenuStepPreview extends React.Component {
      * Created at: 12:21PM, 12-02-2018
      */
     addDish = (create_menu_id) => {
-        return axios.post('http://localhost:1337/api/menu/add/dish', {
+        return axios.post('http://13.250.107.234/api/menu/add/dish', {
             create_menu_id: create_menu_id,
             dishes: this.props.fieldValues.selectedDish2
         });
     }
       
     addAllergy = (create_menu_id) => {
-        return axios.post('http://localhost:1337/api/menu/create/allergies', {
+        return axios.post('http://13.250.107.234/api/menu/create/allergies', {
             create_menu_id: create_menu_id,
             allergies: this.props.fieldValues.allergies2
         });
     }
 
     addDietary = (create_menu_id) => {
-        return axios.post('http://localhost:1337/api/menu/create/dietaries', {
+        return axios.post('http://13.250.107.234/api/menu/create/dietaries', {
             create_menu_id: create_menu_id,
             dietaries: this.props.fieldValues.dietaries
         });
@@ -84,7 +84,7 @@ export default class MenuStepPreview extends React.Component {
         //- create data using for api
         //- local chef id: 5a7431f357076fd017913c9f
         //- server chef id: 5a79a1524be30c971138175e
-        data.append('chefID', '5a7431f357076fd017913c9f');
+        data.append('chefID', '5a79a1524be30c971138175e');
         data.append('name', name);
         data.append('describe', describe);
         data.append('numberOfPeople', numberOfPeople);
@@ -109,7 +109,7 @@ export default class MenuStepPreview extends React.Component {
 
         //- using axios
         axios
-        .post('http://localhost:1337/api/menu/create', data)
+        .post('http://13.250.107.234/api/menu/create', data)
         .then(function(res){
             console.log(res);
             if(res.status === 201)

@@ -42,7 +42,7 @@ export default class DishStepThree extends React.Component {
         }
 
         axios
-        .post('http://localhost:1337/api/ingredient/create/multiple', {
+        .post('http://13.250.107.234/api/ingredient/create/multiple', {
             data: ingredients,
         })
         .then(function(res){

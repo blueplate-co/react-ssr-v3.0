@@ -49,7 +49,7 @@ export default class DishStepPreview extends React.Component {
         var data = new FormData();
         data.create_dish_id = create_dish_id;
         data.ingredientsID = this.props.fieldValues.iid;
-        return axios.post('http://localhost:1337/api/dish/create/ingredients', {
+        return axios.post('http://13.250.107.234/api/dish/create/ingredients', {
             create_dish_id: create_dish_id,
             ingredientsID: this.props.fieldValues.iid
         });
@@ -59,7 +59,7 @@ export default class DishStepPreview extends React.Component {
         var data = new FormData();
         data.create_dish_id = create_dish_id;
         data.allergies = this.props.fieldValues.allergiesString;
-        return axios.post('http://localhost:1337/api/dish/create/allergies', {
+        return axios.post('http://13.250.107.234/api/dish/create/allergies', {
             create_dish_id: create_dish_id,
             allergies: this.props.fieldValues.allergies2
         });
@@ -69,7 +69,7 @@ export default class DishStepPreview extends React.Component {
         var data = new FormData();
         data.create_dish_id = create_dish_id;
         data.dietaries = this.props.fieldValues.dietaryString;
-        return axios.post('http://localhost:1337/api/dish/create/dietaries', {
+        return axios.post('http://13.250.107.234/api/dish/create/dietaries', {
             create_dish_id: create_dish_id,
             dietaries: this.props.fieldValues.dietaries
         });
@@ -105,7 +105,7 @@ export default class DishStepPreview extends React.Component {
         //- create data using for api
         //- local chef id: 5a7431f357076fd017913c9f
         //- server chef id: 5a79a1524be30c971138175e
-        data.append('chefID', '5a7431f357076fd017913c9f');
+        data.append('chefID', '5a79a1524be30c971138175e');
         data.append('name', dishName);
         data.append('describe', dishDescription);
 
@@ -135,7 +135,7 @@ export default class DishStepPreview extends React.Component {
 
         //- using axios
         axios
-        .post('http://localhost:1337/api/dish/create', data)
+        .post('http://13.250.107.234/api/dish/create', data)
         .then(function(res){
             console.log(res);
             if(res.status === 200)
