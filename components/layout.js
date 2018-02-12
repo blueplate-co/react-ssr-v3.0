@@ -26,9 +26,14 @@ const Layout = (props) => (
                     margin: 0px auto;
                     text-align: center;
                 }
+                input {
+                    &.dirty {
+                        color: #3aaacc!important;
+                    }
+                }
                 input[type="text"] {
                     border: none;
-                    border-bottom: 1px solid #ccc;
+                    // border-bottom: 1px solid #ccc;
                     color: #000;
                     width: 100%;
                     box-sizing: border-box;
@@ -43,7 +48,7 @@ const Layout = (props) => (
                 }
                 input[type="password"] {
                     border: none;
-                    border-bottom: 1px solid #ccc;
+                    // border-bottom: 1px solid #ccc;
                     color: #000;
                     width: 100%;
                     box-sizing: border-box;
@@ -58,7 +63,7 @@ const Layout = (props) => (
                 }
                 input[type="email"] {
                     border: none;
-                    border-bottom: 1px solid #ccc;
+                    // border-bottom: 1px solid #ccc;
                     color: #000;
                     width: 100%;
                     box-sizing: border-box;

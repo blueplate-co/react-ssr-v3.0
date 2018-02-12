@@ -2,22 +2,24 @@ import Link from 'next/link';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+import ProgressBar from '../components/progessBar';
+
 // store all values get from multi-step
 let fieldValues = {
-    firstName: null,
-    lastName: null,
-    email: null,
-    location: null,
+    firstName: '',
+    lastName: '',
+    email: '',
+    location: '',
     phoneNo: '+xx xxx xxx xxxx',
     services: [],
-    profileImages: null,
-    cacheFile: null,
-    dob: null,
-    gender: null,
+    profileImages: '',
+    cacheFile: '',
+    dob: '',
+    gender: '',
     exp: [],
-    yourself: null,
-    reason: null,
-    inspiration: null,
+    yourself: '',
+    reason: '',
+    inspiration: '',
     allergies: [],
     dietary: []
 
@@ -41,7 +43,8 @@ export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1
+            step: 1,
+            progress: 5
         };
     }
 
@@ -68,9 +71,31 @@ export default class CreateProfile extends React.Component {
         })
     }
 
+    // set progress for progressbar
+    setProgress = (number) => {
+        this.setState({
+            progress: number
+        });
+    }
+
+    // increase progress number for progressbar
+    increaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress + number
+        });
+    }
+
+    // increase progress number for progressbar
+    decreaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress - number
+        });
+    }
+
     render() {
         return (
             <div className="create_profile">
+            <ProgressBar progress={this.state.progress  } />
                 <style jsx>{`
                     /* Landscape phones and dowsn */
                     @media (max-width: 480px) {
@@ -80,7 +105,7 @@ export default class CreateProfile extends React.Component {
             {(() => {
                 switch (this.state.step) {
                     case 1:
-                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} increaseProgress={this.increaseProgress}/>
                     case 2:
                         return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 3:
