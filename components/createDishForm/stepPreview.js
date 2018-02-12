@@ -15,6 +15,7 @@ export default class DishStepPreview extends React.Component {
         this.state = {
             imgSrc: null
         }
+        console.log(this.props.fieldValues);
     }
 
     // action when update avatar
@@ -82,21 +83,45 @@ export default class DishStepPreview extends React.Component {
         var propValues = this.props.fieldValues;
         var dishImageSrc = this.props.fieldValues.dishImagesSrc;
         var dishName = this.props.fieldValues.dishName;
-        var dishDecription = this.refs.dishDescription;
+        var dishDescription = this.props.fieldValues.dishDescription;
         var cacheFile = this.props.fieldValues.cacheFile;
         var fileName = propValues.cacheFile['name'];
-        var ingredients = this.props.fieldValues.ingredients; //- string
-        var allergy = this.props.fieldValues.ingredients; //- string
-        var dietary = this.props.fieldValues.ingredients; //- string
-
         console.log(propValues);
+
+        //- cost
+        var cost = self.props.fieldValues.cost;
+        var customPrice = self.props.fieldValues.customPrice;
+        var suggestedPrice = self.props.fieldValues.suggestedPrice;
+
+        //- preparation time
+        var prepareTime = self.props.fieldValues.prepareTime; //- in minutes
+
+        //- tags
+        var tags = self.props.fieldValues.tags; //- array
+
+        //- minimum order
+        var minimumOrder = self.props.fieldValues.minimumOrder;
 
         //- create data using for api
         //- local chef id: 5a7431f357076fd017913c9f
         //- server chef id: 5a79a1524be30c971138175e
         data.append('chefID', '5a7431f357076fd017913c9f');
-        data.append('dName', dishName);
-        data.append('describe', dishDecription);
+        data.append('name', dishName);
+        data.append('describe', dishDescription);
+
+        //- cost
+        console.log(typeof(cost));
+        data.append('cost', cost);
+        data.append('suggestedPrice', suggestedPrice);
+        data.append('customPrice', customPrice);
+        //- preparation time
+        data.append('prepareTime', prepareTime);
+        //- tags
+        data.append('tags', tags);
+        //- minimum order
+        data.append('minOrder', minimumOrder);
+
+        //- dish image
         data.append('dishImageName', fileName);
         data.append('dishImage', cacheFile);
 
@@ -120,7 +145,6 @@ export default class DishStepPreview extends React.Component {
                 dish_id.create_dish_id = res.data.data.create_dish_id;
                 dish_id.update_dish_id = res.data.data.update_dish_id;
                 console.log(dish_id);
-
                 //- using axios all
                 self.addMore(dish_id);
             }

@@ -72,7 +72,8 @@ export default class MenuStepSix extends React.Component {
 
         let data = {
             allergiesString: resultString.toString(),
-            allergies: result
+            allergies: result,
+            allergies2: result.map(a=>a.id)
         }
             
         this.props.saveValues(data);

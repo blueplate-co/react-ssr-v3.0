@@ -12,6 +12,7 @@ export default class MenuStepThree extends React.Component {
             reverseValue: 5
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        console.log(this.props.fieldValues);
     }
 
     // action when user click to next button

@@ -31,6 +31,45 @@ export default class MenuStepPreview extends React.Component {
         }
     }
 
+    /**
+     * Author: baots
+     * Created at: 12:21PM, 12-02-2018
+     */
+    addDish = (create_dish_id) => {
+        //- form data
+        console.log(this.props.fieldValues.iid);
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.ingredientsID = this.props.fieldValues.iid;
+        return axios.post('http://localhost:1337/api/menu/add/dish', {
+            create_dish_id: create_dish_id,
+            ingredientsID: this.props.fieldValues.selectedDish2
+        });
+    }
+      
+    addAllergy = (create_dish_id) => {
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.allergies = this.props.fieldValues.allergiesString;
+        return axios.post('http://localhost:1337/api/menu/create/allergies', {
+            create_dish_id: create_dish_id,
+            allergies: this.props.fieldValues.allergies2
+        });
+    }
+
+    addDietary = (create_dish_id) => {
+        var data = new FormData();
+        data.create_dish_id = create_dish_id;
+        data.dietaries = this.props.fieldValues.dietaryString;
+        return axios.post('http://localhost:1337/api/menu/create/dietaries', {
+            create_dish_id: create_dish_id,
+            dietaries: this.props.fieldValues.dietaries
+        });
+    }
+
+    
+    //------------------------------------
+
     // send profile to create profile
     save = () => {
         // create new form data

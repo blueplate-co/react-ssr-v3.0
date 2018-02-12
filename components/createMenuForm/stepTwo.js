@@ -6,12 +6,12 @@ import cnf from '../../config';
 
 // global variable for list check
 let selectedData = [
-    { selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
-    { selected: false, name: 'Beer', cost: 200, selling: 30 },
-    { selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
-    { selected: false, name: 'Pizza', cost: 200, selling: 30 },
-    { selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
-    { selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
+    { id: 1, selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
+    { id: 2, selected: false, name: 'Beer', cost: 200, selling: 30 },
+    { id: 3, selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
+    { id: 4, selected: false, name: 'Pizza', cost: 200, selling: 30 },
+    { id: 5, selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
+    { id: 6, selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
 ]
 
 export default class MenuStepTwo extends React.Component {
@@ -20,6 +20,7 @@ export default class MenuStepTwo extends React.Component {
         this.state = {
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        console.log(this.props.fieldValues);
     }
 
     // action when user click to next button
@@ -42,8 +43,9 @@ export default class MenuStepTwo extends React.Component {
 
         let data = {
             selectedDish: result,
+            selectedDish2: result.map(a=>a.id),
         }
-        
+
         this.props.saveValues(data);
         this.props.nextStep();
 
