@@ -75,7 +75,8 @@ export default class DishStepSeven extends React.Component {
 
         let data = {
             dietaryString: resultString.toString(),
-            diatary: result
+            diatary: result,
+            dietaries: result.map(a => a.id)
         }
         
         this.props.saveValues(data);

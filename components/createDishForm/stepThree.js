@@ -29,28 +29,38 @@ export default class DishStepThree extends React.Component {
         })
     }
 
-    insertMultipleIngredients = (ingredients) => {
+    insertMultipleIngredients = (self, ingredients) => {
+
         //- insert multiple ingredients
         const formData = new FormData();
         formData.append('data', ingredients);
-        console.log(ingredients);
+
         //- create ingredient
         //- set header
         const config = {
             headers: { 'Content-Type': 'application/json' }
         }
+
         axios
         .post('http://localhost:1337/api/ingredient/create/multiple', {
             data: ingredients,
         })
         .then(function(res){
-            alert('inserted new ingredient to dish');
-            console.log(res);
-            return 1;
+            if(res.status === 200)
+            {
+                // var iid = res.data.data.map(a => a.id).toString();
+                var iid = res.data.data.map(a => a.id);
+                console.log(iid);
+                //- set to props
+                self.props.fieldValues.iid = iid; //- array
+
+                //- next
+                self.props.nextStep();
+            }
         })
         .catch(function(err){
             console.log(err);
-            return 0;
+            return false;
         });
     }
 
@@ -86,17 +96,9 @@ export default class DishStepThree extends React.Component {
             }
         });
 
-        //- insert multiple ingredients
-        console.log(result);
-        if(this.insertMultipleIngredients(result) === 1)
-        {
-            console.log('insert multiple ingredient success');
-        }else{
-            console.log('cannot insert multiple ingredient');
-        }
-        
 
-
+        //- insert multiple incredients and next
+        this.insertMultipleIngredients(this, result);
     }
    
 
