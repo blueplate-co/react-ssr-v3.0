@@ -5,7 +5,7 @@ import Head from '../../components/head';
 import Navigation from '../../components/navigation';
 import Footer from '../../components/footer';
 import CreateProfile from '../../components/createProfile';
-
+import Notification from './../../components/notification';
 import Layout from '../../components/layout';
 
 import store from '../../stores/store';
@@ -21,9 +21,11 @@ export default class CreateProfilePage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Create profile" />
-          <Navigation title="blueplate"/>
-          <CreateProfile/>
+          <Notification>
+            <Head title="Create profile" />
+            <Navigation title="blueplate"/>
+            <CreateProfile/>
+          </Notification>
           <Footer/>
         </Layout>
       </Provider>

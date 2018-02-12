@@ -225,6 +225,11 @@ const Layout = (props) => (
                     outline: none;
                     position: relative;
                 }
+                p.item-message {
+                    margin: 5px 0px;
+                    display: block;
+                    width: 100%;
+                }
                 /* Landscape phones and down */
                 @media (max-width: 480px) {
                     .layout-wrapper {

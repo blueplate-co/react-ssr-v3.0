@@ -21,6 +21,10 @@ const Head = (props) => (
     <link rel="icon" href="/static/favicon.ico" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,700,900" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+      integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw"
+      crossorigin="anonymous"
+    />
     {/* custom styles from component */}
     <link href="/static/styles/range-slider.css" rel="stylesheet" />
     <link href="/static/styles/touch-slider.css" rel="stylesheet" />
