@@ -3,11 +3,49 @@ import React from 'react';
 
 import validator from 'validator';
 
-
 export default class ProfileStepOne extends React.Component {
     constructor(props) {
         super(props);
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
+        this.state = {
+            dirtyFirstName: false,
+            dirtyLastName: false,
+            dirtyEmail: false
+        }
+    }
+
+    // handle action when user press Enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) { // only excute when press Enter key
+            // trigger run saveAndContinue function
+            this.saveAndContinue(e);
+        }
+    }
+
+    // handler key change when press key
+    handleKeyChange = (inputName) => {
+        
+        switch (inputName) {
+            case 'firstName':
+                if (this.refs.firstName.value !== this.props.fieldValues.firstName)
+                    this.setState({
+                        dirtyFirstName: true
+                    })
+                    break;
+            case 'lastName':
+                if (this.refs.lastName.value !== this.props.fieldValues.lastName)
+                    this.setState({
+                        dirtyLastName: true
+                    })
+                    break;
+            case 'email':
+                if (this.refs.email.value !== this.props.fieldValues.email)
+                    this.setState({
+                        dirtyEmail: true
+                    })
+                    break;
+        }
     }
 
     // action when user click to next button
@@ -55,14 +93,16 @@ export default class ProfileStepOne extends React.Component {
 
         // no error found
         if (!error) {
+            // make sure check HTML entities before apply value to data variables
             data = {
-                firstName: this.refs.firstName.value,
-                lastName: this.refs.lastName.value,
-                email: this.refs.email.value,
+                firstName: validator.escape(this.refs.firstName.value),
+                lastName: validator.escape(this.refs.lastName.value),
+                email: validator.escape(this.refs.email.value),
             }
             
             this.props.saveValues(data);
             this.props.nextStep();
+            this.props.increaseProgress(10);
         } else {
             alert(errorStack.join("\n"));
         }
@@ -87,11 +127,11 @@ export default class ProfileStepOne extends React.Component {
                         }
                     }
                 `}</style>
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Profile</h3>
-                    <input type="text" required ref="firstName" placeholder="first name" defaultValue={ this.props.fieldValues.firstName }/>
-                    <input type="text" required ref="lastName" placeholder="last name" defaultValue={ this.props.fieldValues.lastName }/>
-                    <input type="email" required ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email }/>
+                    <input className={ this.state.dirtyFirstName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('firstName') } onBlur={ () => { this.setState({ dirtyFirstName: false }) } } ref="firstName" placeholder="first name" defaultValue={ this.props.fieldValues.firstName }/>
+                    <input className={ this.state.dirtyLastName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('lastName') } onBlur={ () => { this.setState({ dirtyLastName: false }) } } ref="lastName" placeholder="last name" defaultValue={ this.props.fieldValues.lastName }/>
+                    <input className={ this.state.dirtyEmail ? 'dirty' : '' } type="email" onChange={ () => this.handleKeyChange('email') } onBlur={ () => { this.setState({ dirtyEmail: false }) } } ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email }/>
                     <div className="bottom-confirmation">
                         <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                     </div>
