@@ -37,6 +37,11 @@ export default class DishStepPreview extends React.Component {
         this.refs.file.click();
     }
 
+
+    /**
+     * Author: baots
+     * Created at: 12:21PM, 12-02-2018
+     */
     addIngredient = (create_dish_id) => {
         //- form data
         console.log(this.props.fieldValues.iid);
@@ -138,7 +143,7 @@ export default class DishStepPreview extends React.Component {
             console.log(arr[0].data);
             console.log(arr[1].data);
             console.log(arr[2].data);
-            
+
             //- go back to /become with stage 2
             alert('Create Dish Successful');
             sessionStorage.setItem("welcomeStage", 2);
@@ -148,6 +153,8 @@ export default class DishStepPreview extends React.Component {
             console.log(err);
         });
     }
+    //------------------------------------
+    
 
     // send profile to create profile
     save = () => {
