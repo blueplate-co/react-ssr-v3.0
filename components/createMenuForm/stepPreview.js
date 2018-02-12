@@ -29,54 +29,138 @@ export default class MenuStepPreview extends React.Component {
                 { title: '', text: '', background: 'http://www.123inspiration.com/wp-content/uploads/2013/05/creative-food-art-6.jpg' }
             ]
         }
+
+        console.log(this.props.fieldValues);
     }
 
     /**
      * Author: baots
      * Created at: 12:21PM, 12-02-2018
      */
-    addDish = (create_dish_id) => {
-        //- form data
-        console.log(this.props.fieldValues.iid);
-        var data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.ingredientsID = this.props.fieldValues.iid;
+    addDish = (create_menu_id) => {
         return axios.post('http://localhost:1337/api/menu/add/dish', {
-            create_dish_id: create_dish_id,
-            ingredientsID: this.props.fieldValues.selectedDish2
+            create_menu_id: create_menu_id,
+            dishes: this.props.fieldValues.selectedDish2
         });
     }
       
-    addAllergy = (create_dish_id) => {
-        var data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.allergies = this.props.fieldValues.allergiesString;
+    addAllergy = (create_menu_id) => {
         return axios.post('http://localhost:1337/api/menu/create/allergies', {
-            create_dish_id: create_dish_id,
+            create_menu_id: create_menu_id,
             allergies: this.props.fieldValues.allergies2
         });
     }
 
-    addDietary = (create_dish_id) => {
-        var data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.dietaries = this.props.fieldValues.dietaryString;
+    addDietary = (create_menu_id) => {
         return axios.post('http://localhost:1337/api/menu/create/dietaries', {
-            create_dish_id: create_dish_id,
+            create_menu_id: create_menu_id,
             dietaries: this.props.fieldValues.dietaries
         });
     }
 
+    sendRequest = (self) => {
+        //- create form data
+        const data = new FormData();
+
+        //- update first then create ingredients, food allergy, dietary
+        var propValues = this.props.fieldValues;
+        var name = propValues.menuName;
+        var describe = propValues.menuDescription;
+        var numberOfPeople = propValues.numberOfPeople;
+
+        //- cost
+        var cost = propValues.cost;
+        var suggestedPrice = propValues.suggestedPrice;
+        var customPrice = propValues.customPrice;
+
+        //- prepare time
+        var prepareTime = propValues.prepareTime;
+
+        //- tags
+        var tags = propValues.tags;
+        
+        console.log(propValues);
+
+        //- create data using for api
+        //- local chef id: 5a7431f357076fd017913c9f
+        //- server chef id: 5a79a1524be30c971138175e
+        data.append('chefID', '5a7431f357076fd017913c9f');
+        data.append('name', name);
+        data.append('describe', describe);
+        data.append('numberOfPeople', numberOfPeople);
+
+        //- cost
+        data.append('cost', cost);
+        data.append('suggestedPrice', suggestedPrice);
+        data.append('customPrice', customPrice);
+        
+        //- preparation time
+        data.append('prepareTime', prepareTime);
+
+        //- tags
+        data.append('tags', tags);
+
+        console.log(data);
+        
+        //- set header
+        const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        }
+
+        //- using axios
+        axios
+        .post('http://localhost:1337/api/menu/create', data)
+        .then(function(res){
+            console.log(res);
+            if(res.status === 201)
+            {
+                //- prop ids
+                var menu_id = {};
+                menu_id.create_menu_id = res.data.data.create_menu_id;
+                menu_id.update_menu_id = res.data.data.update_menu_id;
+                console.log(menu_id);
+                //- using axios all
+                self.addMore(menu_id);
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+
+    }
+
+    //- insert allergy, dietary and ingredients
+    addMore = (menu_id)=> {
+        console.log(this.props.fieldValues);
+        axios.all([
+            this.addDish(menu_id.create_menu_id),
+            this.addAllergy(menu_id.create_menu_id), 
+            this.addDietary(menu_id.create_menu_id), 
+        ])
+        .then(function(arr){
+            console.log(arr[0].data);
+            console.log(arr[1].data);
+            console.log(arr[2].data);
+
+            //- go back to /become with stage 2
+            alert('Create menu successful');
+            // sessionStorage.setItem("welcomeStage", 2);
+            // Router.push('/become');
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }
     
     //------------------------------------
 
     // send profile to create profile
     save = () => {
         // create new form data
-        const data = new FormData();
+        // const data = new FormData();
 
-        sessionStorage.setItem("welcomeStage", 2);
-        alert('Create menu successfull :D');
+        // sessionStorage.setItem("welcomeStage", 2);
+        // alert('Create menu successfull :D');
 
         // split firtname and lastname
         // let fullname = validator.trim(this.refs.fullname.innerText);
@@ -114,6 +198,8 @@ export default class MenuStepPreview extends React.Component {
         //     alert('Error when create profile. Please try again');
             
         // });
+        //- save data
+        this.sendRequest(this);
 
     }
 

@@ -21,7 +21,7 @@ export default class CreateMenuPage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Create dish" />
+          <Head title="Create menu" />
           <Navigation title="blueplate"/>
           <CreateMenu/>
           <Footer/>
