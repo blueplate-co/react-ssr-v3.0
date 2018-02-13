@@ -15,6 +15,7 @@ export default class ProfileStepPreview extends React.Component {
         this.state = {
             imgSrc: null
         }
+        console.log(this.props.fieldValues);
     }
 
     // action when update avatar
@@ -84,15 +85,23 @@ export default class ProfileStepPreview extends React.Component {
         data.append('school', this.props.fieldValues.exp[1]);
         data.append('about', this.props.fieldValues.yourself);
         data.append('inspiration', this.props.fieldValues.inspiration);
-        data.append('chefImageName', 'abc.jpg');
-        data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
+
+        //- allergy and dietary
+        data.append('foodallergies', this.props.fieldValues.allergies.map(a=>a.name));
+        data.append('dietaries', this.props.fieldValues.dietary.map(a=>a.name));
+        data.append('experiences', this.props.fieldValues.exp);
+        
+        //-images
+        data.append('chefImageName', this.props.fieldValues.cacheFile['name']);
+        data.append('chefImage', this.props.fieldValues.cacheFile);
+  
         
 
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
 
-        axios.post('http://13.250.107.234/api/chef/create', data, config)
+        axios.post('http://localhost:1337/api/chef/create', data, config)
         .then(function (response) {
             alert('Create successful ^^');
             sessionStorage.setItem("welcomeStage", 1);
