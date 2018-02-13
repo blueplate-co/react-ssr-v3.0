@@ -11,6 +11,7 @@ import store from '../stores/store';
 import { Provider } from 'mobx-react';
 
 import validator from 'validator';
+import axios from 'axios';
 
 export default class Register extends React.Component {
 
@@ -35,21 +36,72 @@ export default class Register extends React.Component {
     }
 
     if (validator.trim(username).length == 0) {
-      alert('Must have user name');
+      alert('Username need to be provided');
       return false;
     } else if (validator.trim(password).length < 6) {
-      alert('Must have password with length greater than 6 characters');
+      alert('Your password length must be greater than 6 characters');
       return false;
     } else if (!validator.isEmail(validator.trim(email))) {
-      alert('Invalid email address');
+      alert('Your current email input is in wrong format. Please check again');
       return false;
     } else {
-      this.setState({
-        stage: 'emailValidation'
-      })
+      console.log('all are ok');
+      //- insert data
+      this.registerData(this);
     }
 
   }
+
+  /**
+   * Author: baots
+   * Created at: 8:00 AM
+   * Modified at: 3:23 PM
+   */
+  registerData = (self) => {
+    //- some variables
+    let username = self.refs.username.value;
+    let password = self.refs.password.value;
+    let email    = self.refs.email.value;
+    
+    //- encrypt password
+    //- add to form data
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('password', password);
+
+    //- register with the information
+    axios
+    .post('http://localhost:1337/api/register', formData)
+    .then(function(res){  
+      if(res.status === 201)
+      {
+        console.log(res);
+        console.log('Register success...');
+        //- display email validation notification
+        self.setState({
+          stage: 'emailValidation'
+        })
+
+      }
+      
+    })
+    .catch(error => {
+      //- if exist error.response
+      if(error.response)
+      {
+        //- catch error message
+        if(error.response.status === 500 && error.response.data.error === true)
+        {
+          var errorData = error.response.data;
+          alert(errorData.message);
+        }
+      }
+      
+    });
+      
+  }
+  //-----------------------------
 
   // handleChange when click term/condition
   handleInputChange = () => {
@@ -87,9 +139,9 @@ export default class Register extends React.Component {
               (
                   <div className="container">
                     <h3>Join us</h3>
-                    <input type="email" required ref="email" placeholder="email"/>
-                    <input type="text" required ref="username" placeholder="username"/>
-                    <input type="password" required ref="password" placeholder="password"/>
+                    <input type="email" required ref="email" placeholder="Email"/>
+                    <input type="text" required ref="username" placeholder="Username"/>
+                    <input type="password" required ref="password" placeholder="Password"/>
                     <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
                         <input type="checkbox" name="term" id="term" onChange={this.handleInputChange}/>
                         <label htmlFor="term" style={{ float: 'left', height: 'auto', textAlign: 'left', fontSize: '13px' }}>I have read and agreed the terms and conditions / privacy policy</label>
