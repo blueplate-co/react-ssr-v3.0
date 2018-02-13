@@ -101,7 +101,7 @@ export default class ProfileStepPreview extends React.Component {
             headers: { 'content-type': 'multipart/form-data' }
         }
 
-        axios.post('http://localhost:1337/api/chef/create', data, config)
+        axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
             if(response.status === 200)
             {
