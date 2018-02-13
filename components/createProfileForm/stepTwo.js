@@ -26,7 +26,7 @@ export default class ProfileStepTwo extends React.Component {
         // location must not empty string
         if (validator.isEmpty(validator.trim(this.refs.location.value))) {
             error = true;
-            alert('Must have location');
+            alert('Please provide your location');
         } else {
             error = false
         }
@@ -34,7 +34,7 @@ export default class ProfileStepTwo extends React.Component {
         // phone number must not empty string and correct format
         if (validator.isEmpty(validator.trim(this.refs.phone.value))) {
             error = true;
-            alert('Must have a phone number');
+            alert('Phone number is needed for us to contact to you.');
         } else {
             error = false;
         }

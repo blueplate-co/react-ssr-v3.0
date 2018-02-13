@@ -87,9 +87,9 @@ export default class Register extends React.Component {
               (
                   <div className="container">
                     <h3>Join us</h3>
-                    <input type="text" required ref="username" placeholder="user name"/>
-                    <input type="password" required ref="password" placeholder="password"/>
                     <input type="email" required ref="email" placeholder="email"/>
+                    <input type="text" required ref="username" placeholder="username"/>
+                    <input type="password" required ref="password" placeholder="password"/>
                     <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
                         <input type="checkbox" name="term" id="term" onChange={this.handleInputChange}/>
                         <label htmlFor="term" style={{ float: 'left', height: 'auto', textAlign: 'left', fontSize: '13px' }}>I have read and agreed the terms and conditions / privacy policy</label>

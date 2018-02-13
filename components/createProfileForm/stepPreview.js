@@ -15,7 +15,6 @@ export default class ProfileStepPreview extends React.Component {
         this.state = {
             imgSrc: null
         }
-        console.log(this.props.fieldValues);
     }
 
     // action when update avatar
