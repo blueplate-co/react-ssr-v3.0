@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 
 import validator from 'validator';
 
+@inject('store') @observer
 export default class ProfileStepOne extends React.Component {
     constructor(props) {
         super(props);
@@ -50,10 +52,9 @@ export default class ProfileStepOne extends React.Component {
 
     // action when user click to next button
     saveAndContinue = (e) => {
+
         e.preventDefault();
 
-        //flag variables to check error existed
-        let error = false;
         // error stack for display
         let errorStack = []
 
@@ -66,33 +67,23 @@ export default class ProfileStepOne extends React.Component {
 
         // first name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.firstName.value))) {
-            error = true;
-            errorStack.push('Must have first name');
-        } else {
-            error = false
+            errorStack.push('Must have first name. ');
         }
 
         // last name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.lastName.value))) {
-            error = true;
-            errorStack.push('Must have last name');
-        } else {
-            error = false
+            errorStack.push('Must have last name. ');
         }
 
         // email must not empty string and correct format
         if (validator.isEmpty(validator.trim(this.refs.email.value))) {
-            error = true;
-            errorStack.push('Must have email address');
+            errorStack.push('Must have email address. ');
         } else if (!validator.isEmail(validator.trim(this.refs.email.value))){
-            error = true;
-            errorStack.push('Must have correct email format');
-        } else {
-            error = false;
+            errorStack.push('Must have correct email format. ');
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             // make sure check HTML entities before apply value to data variables
             data = {
                 firstName: validator.escape(this.refs.firstName.value),
@@ -104,12 +95,22 @@ export default class ProfileStepOne extends React.Component {
             this.props.nextStep();
             this.props.increaseProgress(10);
         } else {
-            alert(errorStack.join("\n"));
+            var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+
+            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
+            if (this.props.store.notification.length > 0) {
+                if (this.props.store.notification[0].content !== notification.content) {
+                    this.props.store.addNotification(notification);
+                }
+            } else {
+                this.props.store.addNotification(notification);
+            }
         }
     }
 
     componentDidMount () {
         this.refs.firstName.focus();
+        this.props.store.setBackFunction(null);  
     }
 
     render() {

@@ -43,7 +43,6 @@ export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1,
             progress: 5
         };
     }
@@ -59,16 +58,12 @@ export default class CreateProfile extends React.Component {
     
     // increase step
     nextStep = () => {
-        this.setState({
-            step : this.state.step + 1
-        })
+        this.props.store.nextStep();
     }
       
     // Same as nextStep, but decrementing
     previousStep = () => {
-        this.setState({
-            step : this.state.step - 1
-        })
+        this.props.store.previousStep();
     }
 
     // set progress for progressbar
@@ -103,7 +98,7 @@ export default class CreateProfile extends React.Component {
                 `}</style>
 
             {(() => {
-                switch (this.state.step) {
+                switch (this.props.store.globalStep) {
                     case 1:
                         return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} increaseProgress={this.increaseProgress}/>
                     case 2:

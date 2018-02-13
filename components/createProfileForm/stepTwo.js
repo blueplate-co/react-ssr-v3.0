@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class ProfileStepTwo extends React.Component {
     constructor(props) {
         super(props);
@@ -49,6 +50,16 @@ export default class ProfileStepTwo extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        // focus to location input
+        this.refs.location.focus();
     }
 
     render() {

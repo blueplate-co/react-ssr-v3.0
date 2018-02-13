@@ -49,10 +49,15 @@ export default class Navigation extends React.Component {
                         }
                     }
                 `}</style>
+                {
 
-                {/* <a onClick={this.goBack} className="goback">
-                    <i className="fas fa-arrow-left"></i>
-                </a> */}
+                    typeof this.props.store.backFunction == 'function' ?
+                        <a onClick={ this.props.store.backFunction } className="goback">
+                            <i className="fas fa-arrow-left"></i>
+                        </a>
+                    :
+                    ''
+                }
                 <a className="title">
                     <img src="/static/logo.svg" />
                     <h1>{this.props.title}</h1>
