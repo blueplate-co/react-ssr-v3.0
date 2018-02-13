@@ -103,9 +103,17 @@ export default class ProfileStepPreview extends React.Component {
 
         axios.post('http://localhost:1337/api/chef/create', data, config)
         .then(function (response) {
-            alert('Create successful ^^');
-            sessionStorage.setItem("welcomeStage", 1);
-            Router.push('/become');
+            if(response.status === 200)
+            {
+                console.log(response);
+                alert('Create profile of chef successfully...');
+                //- redirect
+                sessionStorage.setItem("welcomeStage", 1);
+                Router.push('/become');
+            }else{
+                alert('Cannot create chef profile');
+            }
+            
         })
         .catch(function (error) {
             alert('Error when create profile. Please try again');
