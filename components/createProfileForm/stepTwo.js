@@ -9,6 +9,10 @@ export default class ProfileStepTwo extends React.Component {
     constructor(props) {
         super(props);
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.state = {
+            lat: null,
+            lng: null
+        }
     }
 
     // action when user click to next button
@@ -60,6 +64,21 @@ export default class ProfileStepTwo extends React.Component {
 
         // focus to location input
         this.refs.location.focus();
+
+        // init for google places autocomplete
+        let that = this;
+        let inputPlaces = document.getElementById('location');
+        let autocomplete = new google.maps.places.Autocomplete(inputPlaces, {
+            types: ["geocode"]
+        });
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            let place = autocomplete.getPlace();
+            that.setState({
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            });
+        });
     }
 
     render() {
@@ -79,7 +98,7 @@ export default class ProfileStepTwo extends React.Component {
                 `}</style>
                 <div className="container">
                     <h3>Where</h3>
-                    <input type="text" required ref="location" placeholder="location" defaultValue={ this.props.fieldValues.location }/>
+                    <input type="text" required ref="location" id="location" placeholder="location" defaultValue={ this.props.fieldValues.location }/>
                     <input type="tel" required ref="phone" placeholder="phone no." defaultValue={ this.props.fieldValues.phoneNo }/>
                     <div className="bottom-confirmation">
                         <button className="btn" onClick={ this.saveAndContinue }>Next</button>

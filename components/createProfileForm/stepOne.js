@@ -111,6 +111,7 @@ export default class ProfileStepOne extends React.Component {
     componentDidMount () {
         this.refs.firstName.focus();
         this.props.store.setBackFunction(null);  
+        this.props.setProgress(10);
     }
 
     render() {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import cnf from '../config';
 
