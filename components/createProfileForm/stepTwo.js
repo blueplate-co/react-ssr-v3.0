@@ -3,6 +3,7 @@ import React from 'react';
 
 import validator from 'validator';
 import { inject, observer } from 'mobx-react';
+import Phone, { formatPhoneNumber, parsePhoneNumber, isValidPhoneNumber } from 'react-phone-number-input';
 
 @inject('store') @observer
 export default class ProfileStepTwo extends React.Component {
@@ -11,7 +12,8 @@ export default class ProfileStepTwo extends React.Component {
         this.saveAndContinue = this.saveAndContinue.bind(this);
         this.state = {
             lat: null,
-            lng: null
+            lng: null,
+            phone: ''
         }
     }
 
@@ -20,39 +22,78 @@ export default class ProfileStepTwo extends React.Component {
         e.preventDefault();
 
         //flag variables to check error existed
-        let error = false;
+        let errorStack = [];
 
         // Get values via this.refs
         let data = {
+            lat: null,
+            lng: null,
             location: null,
             phoneNo: null
         }
 
-        // location must not empty string
+        // location must not empty string and with valid format
         if (validator.isEmpty(validator.trim(this.refs.location.value))) {
-            error = true;
-            alert('Must have location');
+            errorStack.push('Must have location address.');
         } else {
-            error = false
+            var addr = document.getElementById("location");
+            // Get geocoder instance
+            var geocoder = new google.maps.Geocoder();
+
+            // Geocode the address
+            geocoder.geocode({
+                'address': addr.value
+            }, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+                    // set it to the correct, formatted address if it's valid
+                    addr.value = results[0].formatted_address;
+                }
+                else{
+                    errorStack.push("Invalid address.");
+                }
+            });
         }
 
         // phone number must not empty string and correct format
-        if (validator.isEmpty(validator.trim(this.refs.phone.value))) {
-            error = true;
-            alert('Must have a phone number');
+        if (validator.isEmpty(validator.trim(this.state.phone))) {
+            errorStack.push('Must have a phone number.');
         } else {
-            error = false;
+            if(!isValidPhoneNumber(this.state.phone)) {
+                errorStack.push('Invalid phone format.');
+            }
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
+            // make sure check HTML entities before apply value to data variables
             data = {
-                location: this.refs.location.value,
-                phoneNo: this.refs.phone.value
+                lat: this.state.lat,
+                lng: this.state.lng,
+                location: validator.escape(this.refs.location.value),
+                phoneNo: this.state.phone
             }
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+
+            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
+            if (this.props.store.notification.length > 0) {
+                if (this.props.store.notification[0].content !== notification.content) {
+                    this.props.store.addNotification(notification);
+                }
+            } else {
+                this.props.store.addNotification(notification);
+            }
+        }
+    }
+
+    // handle action when user press Enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) { // only excute when press Enter key
+            // trigger run saveAndContinue function
+            this.saveAndContinue(e);
         }
     }
 
@@ -61,6 +102,8 @@ export default class ProfileStepTwo extends React.Component {
         this.props.store.setBackFunction(()=>{
             this.props.store.globalStep--;
         });
+
+        this.props.setProgress(20);
 
         // focus to location input
         this.refs.location.focus();
@@ -79,6 +122,11 @@ export default class ProfileStepTwo extends React.Component {
                 lng: place.geometry.location.lng()
             });
         });
+
+        // set default value for phone number
+        this.setState({
+            phone: this.props.fieldValues.phoneNo
+        })
     }
 
     render() {
@@ -96,10 +144,18 @@ export default class ProfileStepTwo extends React.Component {
                         }
                     }
                 `}</style>
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Where</h3>
                     <input type="text" required ref="location" id="location" placeholder="location" defaultValue={ this.props.fieldValues.location }/>
-                    <input type="tel" required ref="phone" placeholder="phone no." defaultValue={ this.props.fieldValues.phoneNo }/>
+                    <Phone
+                        country="HK"
+                        placeholder="Enter phone number"
+                        value={ this.state.phone }
+                        convertToNational
+                        onChange={
+                            phone => this.setState({ phone })
+                        }
+                    />
                     <div className="bottom-confirmation">
                         <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                     </div>

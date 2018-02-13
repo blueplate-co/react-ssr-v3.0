@@ -102,9 +102,9 @@ export default class CreateProfile extends React.Component {
             {(() => {
                 switch (this.props.store.globalStep) {
                     case 1:
-                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} increaseProgress={this.increaseProgress} setProgress={this.setProgress}/>
+                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 2:
-                        return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 3:
                         return <ProfileStepThree fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
                     case 4:

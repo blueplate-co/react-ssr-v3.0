@@ -93,7 +93,6 @@ export default class ProfileStepOne extends React.Component {
             
             this.props.saveValues(data);
             this.props.nextStep();
-            this.props.increaseProgress(10);
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
 
