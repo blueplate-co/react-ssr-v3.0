@@ -3,10 +3,11 @@ import React from 'react';
 
 import validator from 'validator';
 import _ from 'lodash';
+import { inject, observer } from 'mobx-react';
 
 import cnf from '../../config';
 
-
+@inject('store') @observer
 export default class ProfileStepThree extends React.Component {
     constructor(props) {
         super(props);
@@ -22,21 +23,33 @@ export default class ProfileStepThree extends React.Component {
         e.preventDefault();
 
         //flag variables to check error existed
-        let error = false;
+        let errorStack = [];
 
+        // must choose atleast one option
         if (this.state.services.length == 0) {
-            alert('Must choose at least one option');
-            error = true;
+            errorStack.push('Must choose at least one option');
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             let data = {
                 services: this.state.services
             }
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            // have error
+            var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+
+            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
+            if (this.props.store.notification.length > 0) {
+                if (this.props.store.notification[0].content !== notification.content) {
+                    this.props.store.addNotification(notification);
+                }
+            } else {
+                this.props.store.addNotification(notification);
+            }
         }
     }
 
@@ -62,9 +75,27 @@ export default class ProfileStepThree extends React.Component {
         }
     }
 
+    // handle action when user press Enter
+    handleEnter = (e) => {
+        debugger
+        if (e.keyCode == 13) { // only excute when press Enter key
+            // trigger run saveAndContinue function
+            this.saveAndContinue(e);
+        }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(35);
+    }
+
     render() {
         return (
-            <div className="create_profile_step">
+            <div className="create_profile_step" onKeyDown={ this.handleEnter }>
                 <style jsx>{`
                     /* Landscape phones and down */
                     @media (max-width: 480px) {

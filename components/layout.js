@@ -26,10 +26,8 @@ const Layout = (props) => (
                     margin: 0px auto;
                     text-align: center;
                 }
-                input {
-                    &.dirty {
-                        color: #3aaacc!important;
-                    }
+                .dirty {
+                    color: #3aaacc!important;
                 }
                 input[type="text"] {
                     border: none;
@@ -224,6 +222,11 @@ const Layout = (props) => (
                 [contenteditable="true"] {
                     outline: none;
                     position: relative;
+                }
+                [contenteditable="true"]:focus {
+                    outline: none;
+                    position: relative;
+                    border-bottom: 1px solid ${cnf.color.primarycolor};
                 }
                 p.item-message {
                     margin: 5px 0px;

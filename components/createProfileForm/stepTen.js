@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 var allergies = [
     {name: 'Egg', icon: 'egg.svg', value: false},
@@ -15,6 +16,7 @@ var allergies = [
 
 ];
 
+@inject('store') @observer
 export default class ProfileStepTen extends React.Component {
     constructor(props) {
         super(props);
@@ -56,6 +58,7 @@ export default class ProfileStepTen extends React.Component {
         e.preventDefault();
         
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < allergies.length; i++) {
             if (allergies[i].value == true) {
@@ -63,12 +66,39 @@ export default class ProfileStepTen extends React.Component {
             }
         }
 
-        let data = {
-            allergies: result,
+        if (result.length == 0) {
+            errorStack.push('Must choose at least option.');
+            // have error
+            var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+
+            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
+            if (this.props.store.notification.length > 0) {
+                if (this.props.store.notification[0].content !== notification.content) {
+                    this.props.store.addNotification(notification);
+                }
+            } else {
+                this.props.store.addNotification(notification);
+            }
+
+        } else {
+            let data = {
+                allergies: result,
+            }
+                 
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-             
-        this.props.saveValues(data);
-        this.props.nextStep();
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        document.getElementsByTagName('input')[document.getElementsByTagName("input").length - 1].focus();
+
+        this.props.setProgress(85);
     }
 
     // generate list input
@@ -120,7 +150,7 @@ export default class ProfileStepTen extends React.Component {
                     <form>
                         { this.generateList() }
                     </form>
-                    <input type="text" placeholder="Others"/>
+                    <input type="text" placeholder="Others" style={{ marginBottom: '100px' }}/>
                 </div>
                 <div className="container bottom-confirmation">
                     <button className="btn inline" onClick={ this.skip }>Skip</button>

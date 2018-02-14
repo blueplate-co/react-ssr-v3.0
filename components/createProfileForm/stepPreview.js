@@ -4,7 +4,11 @@ import Router from 'next/router';
 
 import validator from 'validator';
 import axios from 'axios';
+import { inject, observer } from 'mobx-react';
 
+import cnf from '../../config';
+
+@inject('store') @observer
 export default class ProfileStepPreview extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +16,9 @@ export default class ProfileStepPreview extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
 
-        this.state = {
+        this.state = { 
+            firstname: null,
+            lastname: null,
             imgSrc: null
         }
     }
@@ -64,6 +70,8 @@ export default class ProfileStepPreview extends React.Component {
         // create new form data
         const data = new FormData();
 
+        debugger
+
         // split firtname and lastname
         let fullname = validator.trim(this.refs.fullname.innerText);
         let firstname = null;
@@ -102,7 +110,17 @@ export default class ProfileStepPreview extends React.Component {
             alert('Error when create profile. Please try again');
             
         });
+    }
 
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        document.querySelectorAll('[contenteditable="true"]')[0].focus();
+
+        this.props.setProgress(100);
     }
 
     render() {
@@ -202,7 +220,7 @@ export default class ProfileStepPreview extends React.Component {
                                     border-radius: 50%;
                                     border: 1px solid #ccc;
                                     &.active {
-                                        background-color: #EFAC1F;
+                                        background-color: ${cnf.color.primarycolor};
                                         color: #fff;
                                     }
                                     .option-icon {
@@ -349,8 +367,8 @@ export default class ProfileStepPreview extends React.Component {
                         </form>
                     </div>
                     {/* general profile */}
-                    <span className="user-name"><img src="/static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span></span>
-                    <span className="user-email"><img src="/static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.email}</span></span>
+                    <span><img src="/static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.firstName} {this.props.fieldValues.lastName}</span></span>
+                    <span><img src="/static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.props.fieldValues.email}</span></span>
                     <span className="user-location"><img src="/static/icons/marker.svg" /><span ref="location"> {this.props.fieldValues.location}</span></span>
 
                     {/* serving options */}   
@@ -383,7 +401,7 @@ export default class ProfileStepPreview extends React.Component {
                     {/* Cooking exp */}
                     <div className="cooking-exp">
                         <h4>Cooking experience</h4>
-                        <ul className="exp-list">
+                        <ul className="exp-list" suppressContentEditableWarning="true" contentEditable="true">
                             {
                                 this.props.fieldValues.exp.map(function(item, index){
                                     return <li key={index}>{item}</li>
@@ -393,7 +411,7 @@ export default class ProfileStepPreview extends React.Component {
                     </div>
 
                     {/* Why cooking */}
-                    <div className="why-cook">
+                    <div className="why-cook" suppressContentEditableWarning="true" contentEditable="true">
                         {(() => {
                             if (this.props.fieldValues.reason) {
                                 if (this.props.fieldValues.reason.length > 0) {
@@ -406,12 +424,12 @@ export default class ProfileStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="inspiration">
+                    <div className="inspiration" suppressContentEditableWarning="true" contentEditable="true">
                         {(() => {
                             if (this.props.fieldValues.inspiration) {
                                 if (this.props.fieldValues.inspiration.length > 0) {
                                     return (
-                                        <span className="title">Why cooking <span className="content">- { this.props.fieldValues.inspiration }</span></span>
+                                        <span className="title">Inspiration <span className="content">- { this.props.fieldValues.inspiration }</span></span>
                                     )
                                 }
                             }
