@@ -12,6 +12,7 @@ import store from '../stores/store';
 import { Provider } from 'mobx-react';
 
 import validator from 'validator';
+import axios from 'axios';
 
 export default class Index extends React.Component {
 
@@ -37,9 +38,37 @@ export default class Index extends React.Component {
       return false;
     } else {
       // call axios api at here
-
-      Router.push('/become');
+      this.loginData(this);
+      
     }
+  }
+
+  loginData = (self) => {
+
+    let password = self.refs.password.value;
+    let email = self.refs.email.value;
+
+    axios
+    .post('http://localhost:1337/api/login', {
+      email: email,
+      password: password,
+    })
+    .then(function(res){
+      
+      if(res.status === 200)
+      {
+        console.log(res);
+        alert('login success');
+        Router.push('/become');
+      }
+    }).catch(error =>{
+      if(error.response)
+      {
+        alert(error.response.data.msg);
+      }
+    });
+
+
   }
 
   // handleChange when click term/condition
@@ -90,7 +119,7 @@ export default class Index extends React.Component {
               (
                   <div className="container">
                     <h3>Sign In</h3>
-                    <input type="text" required ref="email" placeholder="email address"/>
+                    <input type="text" required ref="email" placeholder="Email"/>
                     <input type="password" required ref="password" placeholder="password"/>
                     <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
                         <a onClick={ this.forgotPassword } className="clickable">forgot password</a>

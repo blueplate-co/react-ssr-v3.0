@@ -64,6 +64,7 @@ export default class Register extends React.Component {
     let email    = self.refs.email.value;
     
     //- encrypt password
+    
     //- add to form data
     const formData = new FormData();
     formData.append('email', email);
@@ -71,6 +72,7 @@ export default class Register extends React.Component {
     formData.append('password', password);
 
     //- register with the information
+    //- server: 13.250.107.234
     axios
     .post('http://localhost:1337/api/register', formData)
     .then(function(res){  
