@@ -89,6 +89,13 @@ export default class ProfileStepSix extends React.Component {
         })
     }
 
+    // handle key when press enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) {
+            this.saveAndContinue(e);
+        }
+    }
+
     componentDidMount = () => {
         // set function to back button
         this.props.store.setBackFunction(()=>{
@@ -123,7 +130,7 @@ export default class ProfileStepSix extends React.Component {
                     }
                 `}</style>
 
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Cooking Experience</h3>
                     { this.generateList() }
                     <i className="fas fa-plus" onClick={this.addExp}></i>

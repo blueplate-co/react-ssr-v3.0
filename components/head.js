@@ -23,6 +23,7 @@ const Head = (props) => (
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,700,900" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
     <link rel="stylesheet" href="/static/styles/rrui.css"/>
+    <link rel="stylesheet" href="/static/styles/react-datepicker.css"/>
     <link rel="stylesheet" href="/static/styles/phone-input.css"/>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsk4kS2PWLNQKcjOWZT28UJ4izWcUUgOQ&libraries=places"></script>
     {/* custom styles from component */}

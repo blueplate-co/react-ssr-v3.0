@@ -3,6 +3,9 @@ import React from 'react';
 
 import validator from 'validator';
 import { inject, observer } from 'mobx-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+
 
 @inject('store') @observer
 export default class ProfileStepFive extends React.Component {
@@ -10,7 +13,12 @@ export default class ProfileStepFive extends React.Component {
         super(props);
 
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.skip = this.skip.bind(this);
+
+        this.state = {
+            dob: moment()
+        }
     }
 
     // action when user click skip button
@@ -41,14 +49,14 @@ export default class ProfileStepFive extends React.Component {
             errorStack.push('Invalid value from gender. Please try again');
         }
 
-        if (this.refs.dob.value.length == 0) {
+        if (this.state.dob.length == 0) {
             errorStack.push('Must choose your date of birth');
         }
 
         // no error found
         if (errorStack.length == 0) {
             data = {
-                dob: this.refs.dob.value,
+                dob: this.state.dob,
                 gender: this.refs.gender.value
             }
             
@@ -69,9 +77,15 @@ export default class ProfileStepFive extends React.Component {
         }
     }
 
+    // handle change when datetime picker change value
+    handleChange = (date) => {
+        this.setState({
+            dob: date
+        });
+    }
+
     // handle action when user press Enter
     handleEnter = (e) => {
-        debugger
         if (e.keyCode == 13) { // only excute when press Enter key
             // trigger run saveAndContinue function
             this.saveAndContinue(e);
@@ -108,7 +122,12 @@ export default class ProfileStepFive extends React.Component {
 
                 <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
-                    <input type="date" required ref="dob" placeholder="date of birth" />
+                    <DatePicker
+                        selected={this.state.dob}
+                        onChange={this.handleChange}
+                        placeholderText="date of birth"
+                        autoFocus={true}
+                    />
                     <select ref="gender">
                         <option value="male">male</option>
                         <option value="female">female</option>
