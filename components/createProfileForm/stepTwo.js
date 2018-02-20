@@ -36,9 +36,9 @@ export default class ProfileStepTwo extends React.Component {
         if (validator.isEmpty(validator.trim(this.refs.location.value))) {
             errorStack.push('Must have location address.');
         } else {
-            var addr = document.getElementById("location");
+            let addr = document.getElementById("location");
             // Get geocoder instance
-            var geocoder = new google.maps.Geocoder();
+            let geocoder = new google.maps.Geocoder();
 
             // Geocode the address
             geocoder.geocode({
@@ -77,15 +77,8 @@ export default class ProfileStepTwo extends React.Component {
             this.props.nextStep();
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-
-            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
-            if (this.props.store.notification.length > 0) {
-                if (this.props.store.notification[0].content !== notification.content) {
-                    this.props.store.addNotification(notification);
-                }
-            } else {
-                this.props.store.addNotification(notification);
-            }
+            
+            this.props.store.addNotification(notification);
         }
     }
 

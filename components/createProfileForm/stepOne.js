@@ -3,6 +3,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import validator from 'validator';
+import BPInput from '../../components/BPInput';
 
 @inject('store') @observer
 export default class ProfileStepOne extends React.Component {
@@ -95,15 +96,7 @@ export default class ProfileStepOne extends React.Component {
             this.props.nextStep();
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-
-            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
-            if (this.props.store.notification.length > 0) {
-                if (this.props.store.notification[0].content !== notification.content) {
-                    this.props.store.addNotification(notification);
-                }
-            } else {
-                this.props.store.addNotification(notification);
-            }
+            this.props.store.addNotification(notification);
         }
     }
 
@@ -130,9 +123,9 @@ export default class ProfileStepOne extends React.Component {
                 `}</style>
                 <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Profile</h3>
-                    <input className={ this.state.dirtyFirstName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('firstName') } onBlur={ () => { this.setState({ dirtyFirstName: false }) } } ref="firstName" placeholder="first name" defaultValue={ this.props.fieldValues.firstName }/>
-                    <input className={ this.state.dirtyLastName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('lastName') } onBlur={ () => { this.setState({ dirtyLastName: false }) } } ref="lastName" placeholder="last name" defaultValue={ this.props.fieldValues.lastName }/>
-                    <input className={ this.state.dirtyEmail ? 'dirty' : '' } type="email" onChange={ () => this.handleKeyChange('email') } onBlur={ () => { this.setState({ dirtyEmail: false }) } } ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email }/>
+                    <input className={ this.state.dirtyFirstName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('firstName') } ref="firstName" placeholder="first name" defaultValue={ this.props.fieldValues.firstName }/>
+                    <input className={ this.state.dirtyLastName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('lastName') } ref="lastName" placeholder="last name" defaultValue={ this.props.fieldValues.lastName }/>
+                    <input className={ this.state.dirtyEmail ? 'dirty' : '' } type="email" onChange={ () => this.handleKeyChange('email') } ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email }/>
                     <div className="bottom-confirmation">
                         <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                     </div>

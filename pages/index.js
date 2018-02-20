@@ -90,8 +90,8 @@ export default class Index extends React.Component {
               (
                   <div className="container">
                     <h3>Sign In</h3>
-                    <input type="text" required ref="email" placeholder="email address"/>
-                    <input type="password" required ref="password" placeholder="password"/>
+                    <input type="text" required ref="email" placeholder="email address" autoComplete="off"/>
+                    <input type="password" required ref="password" placeholder="password" autoComplete="off"/>
                     <p style={{ margin: `25px 0px`, display: `inline-block`, width: `100%` }}>
                         <a onClick={ this.forgotPassword } className="clickable">forgot password</a>
                     </p>

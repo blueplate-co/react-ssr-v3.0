@@ -185,7 +185,7 @@ export default class ProfileStepPreview extends React.Component {
             firstName: this.props.fieldValues.firstName,
             lastName: this.props.fieldValues.lastName,
             email: this.props.fieldValues.email,
-            location: this.props.fieldValues.location,
+            location: validator.unescape(this.props.fieldValues.location),
             lat: this.props.fieldValues.lat,
             lng: this.props.fieldValues.lng,
             phoneNo: this.props.fieldValues.phoneNo,
@@ -193,7 +193,7 @@ export default class ProfileStepPreview extends React.Component {
             profileImages: this.props.fieldValues.profileImages,
             cacheFile: this.props.fieldValues.cacheFile,
             dob: this.props.fieldValues.dob,
-            gender: 'male',
+            gender: this.props.fieldValues.gender,
             exp: this.props.fieldValues.exp,
             yourself: this.props.fieldValues.firstName,
             reason: this.props.fieldValues.reason,
@@ -215,10 +215,9 @@ export default class ProfileStepPreview extends React.Component {
                     @media (max-width: 480px) {
                         .container {
                             margin-top: 20px;
-                            .bottom-confirmation {
-                                position: fixed;
+                            &.bottom-confirmation {
                                 width: 70%;
-                                bottom: 15px;
+                                margin-bottom: 15px;
                                 z-index: 5;
                                 left: 15%;
                             }
@@ -426,7 +425,6 @@ export default class ProfileStepPreview extends React.Component {
                         }
                     }
                 `}</style>
-
                 <div className="container">
                     <div className="circle-file-browse" onClick={this.clickUploadFile}>
                         {

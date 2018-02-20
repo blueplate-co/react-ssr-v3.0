@@ -3,6 +3,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import ProgressBar from '../components/progessBar';
+import MapMarker from '../components/mapMarker';
 
 // store all values get from multi-step
 let fieldValues = {
@@ -89,15 +90,25 @@ export default class CreateProfile extends React.Component {
         });
     }
 
+    // condition render map marker
+    generateMap = () => {
+        if (this.props.store.showMap) {
+            return <MapMarker />;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
             <div className="create_profile">
             <ProgressBar progress={this.state.progress  } />
-                <style jsx>{`
-                    /* Landscape phones and dowsn */
-                    @media (max-width: 480px) {
-                    }
-                `}</style>
+            { this.generateMap() }
+            <style jsx>{`
+                /* Landscape phones and dowsn */
+                @media (max-width: 480px) {
+                }
+            `}</style>
 
             {(() => {
                 switch (this.props.store.globalStep) {

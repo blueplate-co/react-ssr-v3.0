@@ -31,16 +31,8 @@ export default class ProfileStepEight extends React.Component {
         if (validator.trim(this.refs.content.value).length == 0) {
             errorStack.push('Must have content');
             // have error
-            var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-
-            // handle to avoid spam notification. If that notification is in notification array. Dont add into array
-            if (this.props.store.notification.length > 0) {
-                if (this.props.store.notification[0].content !== notification.content) {
-                    this.props.store.addNotification(notification);
-                }
-            } else {
-                this.props.store.addNotification(notification);
-            }
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         } else {
             let data = {
                 reason: validator.escape(this.refs.content.value)
