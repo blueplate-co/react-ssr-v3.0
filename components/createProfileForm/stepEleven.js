@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 var dietary = [
     {name: 'Diabary', icon: 'highProtein.svg', value: false},
@@ -18,6 +19,7 @@ var dietary = [
 
 ];
 
+@inject('store') @observer
 export default class ProfileStepEleven extends React.Component {
     constructor(props) {
         super(props);
@@ -59,6 +61,7 @@ export default class ProfileStepEleven extends React.Component {
         e.preventDefault();
         
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < dietary.length; i++) {
             if (dietary[i].value == true) {
@@ -66,12 +69,19 @@ export default class ProfileStepEleven extends React.Component {
             }
         }
 
-        let data = {
-            dietary: result,
+        if (result.length == 0) {
+            errorStack.push('Must choose at least option.');
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else {
+            let data = {
+                dietary: result,
+            }
+            
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input
@@ -87,6 +97,17 @@ export default class ProfileStepEleven extends React.Component {
                 </p>
             );
         })
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        document.getElementsByTagName('input')[document.getElementsByTagName("input").length - 1].focus();
+
+        this.props.setProgress(95);
     }
 
     render() {
@@ -126,7 +147,7 @@ export default class ProfileStepEleven extends React.Component {
                     <form>
                         { this.generateList() }
                     </form>
-                    <input type="text" placeholder="Others"/>
+                    <input type="text" placeholder="Others" style={{ marginBottom: '100px' }}/>
                 </div>
                 <div className="container bottom-confirmation">
                     <button className="btn inline" onClick={ this.skip }>Skip</button>

@@ -2,8 +2,10 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 
+@inject('store') @observer
 export default class ProfileStepSix extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +43,12 @@ export default class ProfileStepSix extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
+
+        // array element store result value
         let result = [];
+
+        // error store stack
+        let errorStack = [];
 
         this.state.exp.map((item, index) => {
             let tempValue = document.getElementsByTagName('input')[index].value;
@@ -49,13 +56,20 @@ export default class ProfileStepSix extends React.Component {
                 result.push(tempValue);
             }
         });
-        
-        let data = {
-            exp: result,
+
+        if (result.length == 0) {
+            errorStack.push('Must have at least one experience');
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else { // no error
+            let data = {
+                exp: result,
+            }
+            
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input
@@ -65,6 +79,24 @@ export default class ProfileStepSix extends React.Component {
         return this.state.exp.map((item, index) => {
             return <input ref={'input' + index} key={index} type="text" placeholder={item.name}/>;
         })
+    }
+
+    // handle key when press enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) {
+            this.saveAndContinue(e);
+        }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        document.getElementsByTagName('input')[0].focus();
+
+        this.props.setProgress(65);
     }
 
     render() {
@@ -90,7 +122,7 @@ export default class ProfileStepSix extends React.Component {
                     }
                 `}</style>
 
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Cooking Experience</h3>
                     { this.generateList() }
                     <i className="fas fa-plus" onClick={this.addExp}></i>

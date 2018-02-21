@@ -3,6 +3,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 import ProgressBar from '../components/progessBar';
+import MapMarker from '../components/mapMarker';
 
 // store all values get from multi-step
 let fieldValues = {
@@ -10,7 +11,9 @@ let fieldValues = {
     lastName: '',
     email: '',
     location: '',
-    phoneNo: '+xx xxx xxx xxxx',
+    lat: null,
+    lng: null,
+    phoneNo: '',
     services: [],
     profileImages: '',
     cacheFile: '',
@@ -43,7 +46,7 @@ export default class CreateProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            progress: 5
+            progress: 0
         };
     }
 
@@ -87,42 +90,52 @@ export default class CreateProfile extends React.Component {
         });
     }
 
+    // condition render map marker
+    generateMap = () => {
+        if (this.props.store.showMap) {
+            return <MapMarker />;
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
             <div className="create_profile">
             <ProgressBar progress={this.state.progress  } />
-                <style jsx>{`
-                    /* Landscape phones and dowsn */
-                    @media (max-width: 480px) {
-                    }
-                `}</style>
+            { this.generateMap() }
+            <style jsx>{`
+                /* Landscape phones and dowsn */
+                @media (max-width: 480px) {
+                }
+            `}</style>
 
             {(() => {
                 switch (this.props.store.globalStep) {
                     case 1:
-                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} increaseProgress={this.increaseProgress}/>
+                        return <ProfileStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 2:
-                        return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepTwo fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 3:
-                        return <ProfileStepThree fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepThree fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 4:
-                        return <ProfileStepFour fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepFour fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 5:
-                        return <ProfileStepFive fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepFive fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 6:
-                        return <ProfileStepSix fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepSix fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 7:
-                        return <ProfileStepSeven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepSeven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 8:
-                        return <ProfileStepEight fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepEight fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 9:
-                        return <ProfileStepNine fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepNine fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 10:
-                        return <ProfileStepTen fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepTen fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 11:
-                        return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 12:
-                        return <ProfileStepPreview fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues}/>    
+                        return <ProfileStepPreview fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>    
                 }
             })()}
                 

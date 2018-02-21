@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class ProfileStepSeven extends React.Component {
     constructor(props) {
         super(props);
@@ -24,13 +25,33 @@ export default class ProfileStepSeven extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
-        
-        let data = {
-            yourself: this.refs.content.value
+
+        let errorStack = [];
+
+        if (validator.trim(this.refs.content.value).length == 0) {
+            errorStack.push('Must have content');
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else { // no error
+            let data = {
+                yourself: validator.escape(this.refs.content.value)
+            }
+            
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.refs.content.focus();
+
+        this.props.setProgress(70);
     }
 
     render() {
@@ -67,7 +88,7 @@ export default class ProfileStepSeven extends React.Component {
                 <div className="container">
                     <h3>Yourself</h3>
                     <span className="title-description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit</span>
-                    <textarea ref="content" rows="25" cols="50"></textarea>
+                    <textarea ref="content" rows="20" cols="50"></textarea>
                 </div>
                 <div className="container bottom-confirmation">
                     <button className="btn inline" onClick={ this.skip }>Skip</button>

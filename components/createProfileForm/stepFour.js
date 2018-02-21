@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class ProfileStepFour extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +14,7 @@ export default class ProfileStepFour extends React.Component {
         }
         this.onChange = this.onChange.bind(this);
         this.clickUploadFile = this.clickUploadFile.bind(this);
+        this.saveAndContinue = this.saveAndContinue.bind(this);
     }
 
     clickUploadFile = (e) => {
@@ -38,7 +40,7 @@ export default class ProfileStepFour extends React.Component {
         e.preventDefault();
 
         //flag variables to check error existed
-        let error = false;
+        let errorStack = [];
 
         // Get values via this.refs
         let data = {
@@ -47,12 +49,11 @@ export default class ProfileStepFour extends React.Component {
         }
 
         if (!this.state.imgSrc || this.state.imgSrc.length < 0) {
-            error = true;
-            alert('Must set avatar');
+            errorStack.push('Must set avatar');
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             data = {
                 profileImagesSrc: this.state.imgSrc,
                 cacheFile: this.state.cachefile
@@ -60,7 +61,30 @@ export default class ProfileStepFour extends React.Component {
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
+    }
+
+    // handle action when user press Enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) { // only excute when press Enter key
+            // trigger run saveAndContinue function
+            this.saveAndContinue(e);
+        }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        document.getElementsByClassName('create_profile_step')[0].focus();
+
+        this.props.setProgress(45);
     }
 
     render() {
@@ -109,7 +133,7 @@ export default class ProfileStepFour extends React.Component {
                     }
                 `}</style>
 
-                <div className="container">
+                <div className="container" onKeyDown={this.handleEnter}>
                     <h3>Profile images</h3>
                     <div className="circle-file-browse" onClick={this.clickUploadFile}>
                         <img src={this.state.imgSrc} />

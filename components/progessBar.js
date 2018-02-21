@@ -1,10 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 
 import cnf from '../config';
 
-@inject('store') @observer
 export default class ProgressBar extends React.Component {
     constructor(props) {
         super(props);

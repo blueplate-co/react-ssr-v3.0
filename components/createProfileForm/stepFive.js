@@ -2,21 +2,30 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 
+@inject('store') @observer
 export default class ProfileStepFive extends React.Component {
     constructor(props) {
         super(props);
 
         this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.skip = this.skip.bind(this);
+
+        this.state = {
+            dob: moment()
+        }
     }
 
     // action when user click skip button
     skip = (e) => {
         let data = {
-            dob: null,
-            gender: null
+            dob: '',
+            gender: ''
         }
         this.props.saveValues(data);
         this.props.nextStep();
@@ -27,7 +36,7 @@ export default class ProfileStepFive extends React.Component {
         e.preventDefault();
 
         //flag variables to check error existed
-        let error = false;
+        let errorStack = [];
 
         // Get values via this.refs
         let data = {
@@ -37,20 +46,51 @@ export default class ProfileStepFive extends React.Component {
 
         // no need to validate date type input, bacause it can't be overwrite value from that form input
         if (_.indexOf(['male', 'female', 'other'], this.refs.gender.value) == -1) {
-            alert('Invalid value from gender. Please try again');
-            error = true;
+            errorStack.push('Invalid value from gender. Please try again');
+        }
+
+        if (this.state.dob.length == 0) {
+            errorStack.push('Must choose your date of birth');
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             data = {
-                dob: this.refs.dob.value,
+                dob: this.state.dob,
                 gender: this.refs.gender.value
             }
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
+    }
+
+    // handle change when datetime picker change value
+    handleChange = (date) => {
+        this.setState({
+            dob: date
+        });
+    }
+
+    // handle action when user press Enter
+    handleEnter = (e) => {
+        if (e.keyCode == 13) { // only excute when press Enter key
+            // trigger run saveAndContinue function
+            this.saveAndContinue(e);
+        }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(55);
     }
 
     render() {
@@ -72,9 +112,14 @@ export default class ProfileStepFive extends React.Component {
                     }
                 `}</style>
 
-                <div className="container">
+                <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
-                    <input type="date" required ref="dob" placeholder="date of birth" />
+                    <DatePicker
+                        selected={this.state.dob}
+                        onChange={this.handleChange}
+                        placeholderText="date of birth"
+                        autoFocus={true}
+                    />
                     <select ref="gender">
                         <option value="male">male</option>
                         <option value="female">female</option>

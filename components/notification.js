@@ -1,6 +1,5 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import cnf from '../config';
 
@@ -43,7 +42,7 @@ export default class Notification extends React.Component {
                             height: 100vh;
                             .notification {
                                 animation-duration: 0.15s;
-                                position: absolute;
+                                position: fixed;
                                 margin-top: 20px;
                                 left: 5%;
                                 width: 90%;
@@ -51,6 +50,7 @@ export default class Notification extends React.Component {
                                 border-radius: 10px;
                                 padding: 20px;
                                 box-sizing: border-box;
+                                z-index: 100;
                                 &.error {
                                     background-color: ${cnf.color.redcolor};
                                 }
