@@ -100,10 +100,32 @@ export default class ProfileStepOne extends React.Component {
         }
     }
 
+
     componentDidMount () {
         this.refs.firstName.focus();
         this.props.store.setBackFunction(null);  
         this.props.setProgress(10);
+
+        //- created by Tran Sy Bao
+        //- created at 21-02-2018
+        //- checking token on localStorage and check if token is expired or not
+        if(localStorage.getItem('userToken') !== null)
+        {
+            var token = localStorage.getItem('userToken');
+            axios.post('http://localhost:1337/api/check/token', {
+                userToken: token
+            })
+            .catch(error=>{
+            var data = error.response.data;
+            if(data === 'expired')
+            {
+                console.log('token hết hạn');
+                Router.push('/');
+            }
+
+            });
+        }
+
     }
 
     render() {

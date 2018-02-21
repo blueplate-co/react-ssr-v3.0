@@ -39,7 +39,6 @@ export default class Index extends React.Component {
       alert('Invalid email address');
       return false;
     } else {
-      console.log('here');
       // call axios api at here
       this.loginData(this);
       
@@ -50,7 +49,7 @@ export default class Index extends React.Component {
 
     let password = md5(self.refs.password.value);
     let email = self.refs.email.value;
-    console.log('login data');
+
     axios
     .post('http://localhost:1337/api/login', {
       email: email,
@@ -100,11 +99,32 @@ export default class Index extends React.Component {
     })
   }
 
-  //- using shouldComponentUpdate lifecycle
-  shouldComponentUpdate = () => {
-    //- checking token on localStorage and check if token is expired or not
-    return true;
-  }
+  // componentDidMount = () => {
+  //   //- checking token on localStorage and check if token is expired or not
+  //   if(localStorage.getItem('userToken') !== null)
+  //   {
+  //     var token = localStorage.getItem('userToken');
+  //     console.log(token);
+  //     axios.post('http://localhost:1337/api/check/token', {
+  //       userToken: token
+  //     })
+  //     .then(function(res){
+  //       console.log(res);
+  //     })
+  //     .catch(error=>{
+  //       var data = error.response.data;
+  //       if(data === 'expired')
+  //       {
+  //         console.log('token hết hạn');
+  //         Router.push('/register');
+  //       }
+        
+  //     });
+  //   }
+
+  // }
+
+
 
   // clear SessionStorage before test again
   componentDidMount = () => {
