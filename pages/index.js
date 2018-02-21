@@ -24,6 +24,7 @@ export default class Index extends React.Component {
       argree: false,
       stage: 'login'
     }
+
   }
 
   // action when user click register
@@ -63,9 +64,15 @@ export default class Index extends React.Component {
         var token = res.data.token;
         var email = res.data.email;
         var userID = res.data.userID;
-        console.log(token);
-        console.log(email);
-        console.log(userID);
+
+        //- check localStorage
+        // if(localStorage.getItem('userToken') !== null)
+        // {
+        //   alert(localStorage.getItem('userToken'));
+        // }
+
+        //- save token to localstorage
+        localStorage.setItem('userToken', token);
         alert('Login success. Welcome to Blue-Plate !');
         Router.push('/become');
       }
@@ -91,6 +98,12 @@ export default class Index extends React.Component {
     this.setState({
       stage: 'login'
     })
+  }
+
+  //- using shouldComponentUpdate lifecycle
+  shouldComponentUpdate = () => {
+    //- checking token on localStorage and check if token is expired or not
+    return true;
   }
 
   // clear SessionStorage before test again
