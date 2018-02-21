@@ -13,6 +13,7 @@ import { Provider } from 'mobx-react';
 
 import validator from 'validator';
 import axios from 'axios';
+import md5 from 'md5';
 
 export default class Index extends React.Component {
 
@@ -37,6 +38,7 @@ export default class Index extends React.Component {
       alert('Invalid email address');
       return false;
     } else {
+      console.log('here');
       // call axios api at here
       this.loginData(this);
       
@@ -45,9 +47,9 @@ export default class Index extends React.Component {
 
   loginData = (self) => {
 
-    let password = self.refs.password.value;
+    let password = md5(self.refs.password.value);
     let email = self.refs.email.value;
-
+    console.log('login data');
     axios
     .post('http://localhost:1337/api/login', {
       email: email,
@@ -58,7 +60,13 @@ export default class Index extends React.Component {
       if(res.status === 200)
       {
         console.log(res);
-        alert('login success');
+        var token = res.data.token;
+        var email = res.data.email;
+        var userID = res.data.userID;
+        console.log(token);
+        console.log(email);
+        console.log(userID);
+        alert('Login success. Welcome to Blue-Plate !');
         Router.push('/become');
       }
     }).catch(error =>{

@@ -12,6 +12,7 @@ import { Provider } from 'mobx-react';
 
 import validator from 'validator';
 import axios from 'axios';
+import md5 from 'md5';
 
 export default class Register extends React.Component {
 
@@ -60,10 +61,8 @@ export default class Register extends React.Component {
   registerData = (self) => {
     //- some variables
     let username = self.refs.username.value;
-    let password = self.refs.password.value;
+    let password = md5(self.refs.password.value);
     let email    = self.refs.email.value;
-    
-    //- encrypt password
     
     //- add to form data
     const formData = new FormData();
