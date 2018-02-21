@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import Router from 'next/router';
+import axios from 'axios';
 
 
 export default class MenuStepOne extends React.Component {
@@ -62,7 +64,7 @@ export default class MenuStepOne extends React.Component {
         if(localStorage.getItem('userToken') !== null)
         {
             var token = localStorage.getItem('userToken');
-            axios.post('http://localhost:1337/api/check/token', {
+            axios.post('http://13.250.107.234/api/check/token', {
                 userToken: token
             })
             .catch(error=>{

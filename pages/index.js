@@ -51,7 +51,7 @@ export default class Index extends React.Component {
     let email = self.refs.email.value;
 
     axios
-    .post('http://localhost:1337/api/login', {
+    .post('http://13.250.107.234/api/login', {
       email: email,
       password: password,
     })
@@ -105,7 +105,7 @@ export default class Index extends React.Component {
   //   {
   //     var token = localStorage.getItem('userToken');
   //     console.log(token);
-  //     axios.post('http://localhost:1337/api/check/token', {
+  //     axios.post('http://13.250.107.234/api/check/token', {
   //       userToken: token
   //     })
   //     .then(function(res){
@@ -129,6 +129,31 @@ export default class Index extends React.Component {
   // clear SessionStorage before test again
   componentDidMount = () => {
     sessionStorage.setItem('welcomeStage', 0);
+
+    //- checking token on localStorage and check if token is expired or not
+    if(localStorage.getItem('userToken') !== null)
+    {
+      var token = localStorage.getItem('userToken');
+      console.log(token);
+      axios.post('http://13.250.107.234/api/check/token', {
+        userToken: token
+      })
+      .then(function(res){
+        console.log(res);
+      })
+      .catch(error=>{
+        console.log(error.response);
+        var data = error.response.data;
+        if(data === 'expired')
+        {
+          console.log('token hết hạn');
+          Router.push('/register');
+        }
+        
+      });
+    }
+
+
   }
 
   render () {

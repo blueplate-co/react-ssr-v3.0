@@ -73,7 +73,7 @@ export default class Register extends React.Component {
     //- register with the information
     //- server: 13.250.107.234
     axios
-    .post('http://localhost:1337/api/register', formData)
+    .post('http://13.250.107.234/api/register', formData)
     .then(function(res){  
       if(res.status === 201)
       {
