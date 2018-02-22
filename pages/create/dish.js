@@ -5,6 +5,7 @@ import Head from '../../components/head';
 import Navigation from '../../components/navigation';
 import Footer from '../../components/footer';
 import CreateDish from '../../components/createDish';
+import Notification from './../../components/notification';
 
 import Layout from '../../components/layout';
 
@@ -21,10 +22,12 @@ export default class CreateDishPage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Create dish" />
-          <Navigation title="blueplate"/>
-          <CreateDish/>
-          <Footer/>
+          <Notification>
+            <Head title="Create dish" />
+            <Navigation title="blueplate"/>
+            <CreateDish/>
+            <Footer/>
+          </Notification>
         </Layout>
       </Provider>
     )

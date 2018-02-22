@@ -100,10 +100,12 @@ const Layout = (props) => (
                     border-radius: 0;
                     -webkit-appearance: none;
                     outline: none;
+                    &:focus {
+                        border-bottom: 1px solid ${cnf.color.primarycolor};
+                    }
                 }
                 input[type="number"] {
                     border: none;
-                    border-bottom: 1px solid #ccc;
                     color: #000;
                     width: 100%;
                     box-sizing: border-box;
@@ -112,6 +114,9 @@ const Layout = (props) => (
                     border-radius: 0;
                     -webkit-appearance: none;
                     outline: none;
+                    &:focus {
+                        border-bottom: 1px solid ${cnf.color.primarycolor};
+                    }
                 }
                 /* Remove default checkbox */
                 [type="checkbox"]:not(:checked),

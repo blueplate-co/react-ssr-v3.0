@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 var dietary = [
     {name: 'Diabary', id: '1', icon: 'highProtein.svg', value: false},
@@ -18,6 +19,7 @@ var dietary = [
 
 ];
 
+@inject('store') @observer
 export default class DishStepSeven extends React.Component {
     constructor(props) {
         super(props);
@@ -60,6 +62,7 @@ export default class DishStepSeven extends React.Component {
         
         let resultString = [];
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < dietary.length; i++) {
             if (dietary[i].value == true) {
@@ -73,13 +76,20 @@ export default class DishStepSeven extends React.Component {
             }
         }
 
-        let data = {
-            dietaryString: resultString.toString(),
-            diatary: result
+        if (result.length == 0) {
+            errorStack.push('Must choose at least option.');
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else {
+            let data = {
+                dietaryString: resultString.toString(),
+                diatary: result
+            }
+            
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input
@@ -95,6 +105,17 @@ export default class DishStepSeven extends React.Component {
                 </p>
             );
         })
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(70);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

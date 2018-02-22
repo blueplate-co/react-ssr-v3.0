@@ -4,8 +4,9 @@ import Router from 'next/router';
 
 import validator from 'validator';
 import axios from 'axios';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class DishStepPreview extends React.Component {
     constructor(props) {
         super(props);
@@ -83,6 +84,17 @@ export default class DishStepPreview extends React.Component {
             
         // });
 
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(100);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {
@@ -355,14 +367,18 @@ export default class DishStepPreview extends React.Component {
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {
-                                this.props.fieldValues.diatary.map(function(item, index){
-                                    return (
-                                        <div key={index} className="list-item">
-                                            <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
-                                        </div>
-                                    )
-                                })
+                                this.props.fieldValues.dietary ? 
+                                    this.props.fieldValues.dietary.map(function(item, index){
+                                        return (
+                                            <div key={index} className="list-item">
+                                                <span>{item.name}</span>
+                                                <img src={'/static/icons/' + item.icon}/>
+                                            </div>
+                                        )
+                                    })
+                                : (
+                                    <div className="list-item"></div>
+                                )
                             }
                         </div>
                     </div>

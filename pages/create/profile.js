@@ -21,11 +21,9 @@ export default class CreateProfilePage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Notification>
             <Head title="Create profile" />
             <Navigation title="blueplate"/>
             <CreateProfile/>
-          </Notification>
           <Footer/>
         </Layout>
       </Provider>

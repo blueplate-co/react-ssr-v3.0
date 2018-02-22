@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class DishStepOne extends React.Component {
     constructor(props) {
         super(props);
@@ -51,7 +52,7 @@ export default class DishStepOne extends React.Component {
         e.preventDefault();
 
         //flag variables to check error existed
-        let error = false;
+        let errorStack = [];
 
         // Get values via this.refs
         let data = {
@@ -60,12 +61,14 @@ export default class DishStepOne extends React.Component {
         }
 
         if (!this.state.imgSrc || this.state.imgSrc.length < 0) {
-            error = true;
-            alert('Must set avatar');
+            errorStack.push('Must set avatar');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return false;
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             data = {
                 dishImagesSrc: this.state.imgSrc,
                 cacheFile: this.state.cachefile
@@ -74,6 +77,11 @@ export default class DishStepOne extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         }
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(null);
+        this.props.setProgress(10);
     }
 
     render() {
@@ -143,7 +151,7 @@ export default class DishStepOne extends React.Component {
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn" onClick={ this.saveAndContinue }>Skip</button>
+                    <button className="btn" onClick={ this.skip }>Skip</button>
                     <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

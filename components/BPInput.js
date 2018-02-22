@@ -5,7 +5,7 @@ export default class BPInput extends React.Component {
     constructor(props) {
         super(props);
         this.state =  {
-            placeholder: 'fdsfs'
+            placeholder: 'Dummy placeholder'
         }
     }
 

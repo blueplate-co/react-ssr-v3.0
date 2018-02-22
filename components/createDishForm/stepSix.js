@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 var allergies = [
     {name: 'Egg', id: "1", icon: 'egg.svg', value: false},
@@ -15,6 +16,7 @@ var allergies = [
 
 ];
 
+@inject('store') @observer
 export default class DishStepSix extends React.Component {
     constructor(props) {
         super(props);
@@ -57,6 +59,7 @@ export default class DishStepSix extends React.Component {
         
         let resultString = [];
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < allergies.length; i++) {
             if (allergies[i].value == true) {
@@ -70,13 +73,20 @@ export default class DishStepSix extends React.Component {
             }
         }
 
-        let data = {
-            allergiesString: resultString.toString(),
-            allergies: result
+        if (result.length == 0) {
+            errorStack.push('Must choose at least option.');
+            // have error
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else {
+            let data = {
+                allergiesString: resultString.toString(),
+                allergies: result
+            }
+                
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-            
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input
@@ -92,6 +102,11 @@ export default class DishStepSix extends React.Component {
                 </p>
             );
         })
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(null);
+        this.props.setProgress(60);
     }
 
     render() {
