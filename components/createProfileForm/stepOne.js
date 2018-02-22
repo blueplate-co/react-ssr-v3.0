@@ -16,8 +16,10 @@ export default class ProfileStepOne extends React.Component {
         this.state = {
             dirtyFirstName: false,
             dirtyLastName: false,
-            dirtyEmail: false
+            dirtyEmail: false,
+            email: this.props.fieldValues.email,
         }
+
     }
 
     // handle action when user press Enter
@@ -95,14 +97,6 @@ export default class ProfileStepOne extends React.Component {
             }
             
             this.props.saveValues(data);
-            //- create a fake request
-            axios.get('http://localhost:1337/api/test')
-            .then(function(res){
-                console.log(res);
-            })
-            .catch(function(err){
-                console.log(err);
-            });
             this.props.nextStep();
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
@@ -116,7 +110,8 @@ export default class ProfileStepOne extends React.Component {
         this.props.store.setBackFunction(null);  
         this.props.setProgress(10);
 
-
+        //- set email when load is done
+        this.refs.email.value = localStorage.getItem('userEmail');
 
         //- created by Tran Sy Bao
         //- created at 21-02-2018
@@ -124,6 +119,9 @@ export default class ProfileStepOne extends React.Component {
         if(localStorage.getItem('userToken') !== null)
         {
             var token = localStorage.getItem('userToken');
+            // var email = localStorage.getItem('userEmail');
+            // this.state.dirtyEmail = true;
+            // this.state.userEmail = email;
             axios.post('http://13.250.107.234/api/check/token', {
                 userToken: token
             })
@@ -137,6 +135,12 @@ export default class ProfileStepOne extends React.Component {
 
             });
         }
+
+        //- fill email state if has email localStorage
+        // if()
+        // {
+
+        // }
 
     }
 
@@ -159,7 +163,7 @@ export default class ProfileStepOne extends React.Component {
                     <h3>Profile</h3>
                     <input className={ this.state.dirtyFirstName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('firstName') } ref="firstName" placeholder="first name" defaultValue={ this.props.fieldValues.firstName }/>
                     <input className={ this.state.dirtyLastName ? 'dirty' : '' } type="text" onChange={ () => this.handleKeyChange('lastName') } ref="lastName" placeholder="last name" defaultValue={ this.props.fieldValues.lastName }/>
-                    <input className={ this.state.dirtyEmail ? 'dirty' : '' } type="email" onChange={ () => this.handleKeyChange('email') } ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email }/>
+                    <input className={ this.state.dirtyEmail ? 'dirty' : '' } type="email" onChange={ () => this.handleKeyChange('email') } ref="email" placeholder="email" defaultValue={ this.props.fieldValues.email } />
                     <div className="bottom-confirmation">
                         <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                     </div>
