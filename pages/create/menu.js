@@ -7,6 +7,7 @@ import Footer from '../../components/footer';
 import CreateMenu from '../../components/createMenu';
 
 import Layout from '../../components/layout';
+import Notification from '../../components/notification';
 
 import store from '../../stores/store';
 import { Provider } from 'mobx-react';
@@ -21,10 +22,12 @@ export default class CreateMenuPage extends React.Component {
     return (
       <Provider store={store}>
         <Layout>
-          <Head title="Create dish" />
-          <Navigation title="blueplate"/>
-          <CreateMenu/>
-          <Footer/>
+          <Notification>
+            <Head title="Create dish" />
+            <Navigation title="blueplate"/>
+            <CreateMenu/>
+            <Footer/>
+          </Notification>
         </Layout>
       </Provider>
     )

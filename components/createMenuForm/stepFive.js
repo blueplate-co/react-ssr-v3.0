@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import React from 'react';
 
@@ -6,8 +5,9 @@ import validator from 'validator';
 
 import cnf from '../../config';
 import layout from '../layout';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class MenuStepFive extends React.Component {
     constructor(props) {
         super(props);
@@ -21,6 +21,7 @@ export default class MenuStepFive extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
+        let errorStack = [];
 
         // make sure parseInt qty is valid
         try {
@@ -46,13 +47,25 @@ export default class MenuStepFive extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                alert('Please complete dish cost before you continue');
+                errorStack.push('Please complete preparation time before continue');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
         } catch (error) {
-            alert(error);
+            errorStack.push(error);
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(50);
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

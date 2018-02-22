@@ -18,6 +18,9 @@ var dietary = [
 
 ];
 
+import { inject, observer } from 'mobx-react';
+
+@inject('store') @observer
 export default class MenuStepSeven extends React.Component {
     constructor(props) {
         super(props);
@@ -60,6 +63,7 @@ export default class MenuStepSeven extends React.Component {
         
         let resultString = [];
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < dietary.length; i++) {
             if (dietary[i].value == true) {
@@ -73,13 +77,19 @@ export default class MenuStepSeven extends React.Component {
             }
         }
 
-        let data = {
-            dietaryString: resultString.toString(),
-            dietary: result
+        if(result.length == 0) {
+            errorStack.push('Please complete dietary before you add these');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+        } else {
+            let data = {
+                dietaryString: resultString.toString(),
+                dietary: result
+            }
+            
+            this.props.saveValues(data);
+            this.props.nextStep();
         }
-        
-        this.props.saveValues(data);
-        this.props.nextStep();
     }
 
     // generate list input
@@ -95,6 +105,14 @@ export default class MenuStepSeven extends React.Component {
                 </p>
             );
         })
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(70);
+        document.getElementsByTagName('input')[document.getElementsByTagName("input").length - 1].focus();
     }
 
     render() {

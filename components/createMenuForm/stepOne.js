@@ -2,8 +2,9 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class MenuStepOne extends React.Component {
     constructor(props) {
         super(props);
@@ -21,7 +22,10 @@ export default class MenuStepOne extends React.Component {
         let stringLength = this.refs.menuDescription.value.length;
 
         if (stringLength > 250) {
-            alert('Length of description not greater than 250 charaters');
+            let errorStack = [];
+            errorStack.push('Max length has 250 characters');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         } else {
             this.setState({
                 descriptionContent: this.refs.menuDescription.value,
@@ -36,8 +40,12 @@ export default class MenuStepOne extends React.Component {
 
         // Get values via this.refs
         let data = {
-            menuName: null
+            menuName: null,
+            menuDescription: null
         }
+
+        // error stack store error
+        let errorStack = [];
         
         if (this.refs.menuName.value && this.refs.menuName.value.length > 0) {
             data = {
@@ -47,9 +55,16 @@ export default class MenuStepOne extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         } else {
-            alert('Please enter your menu name.')
+            errorStack.push('Please enter your menu name and description.');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
+    }
 
+    componentDidMount = () => {
+        this.props.setProgress(10);
+        this.props.store.setBackFunction(null);
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

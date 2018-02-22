@@ -4,6 +4,8 @@ import React from 'react';
 import validator from 'validator';
 import cnf from '../../config';
 
+import { inject, observer } from 'mobx-react';
+
 // global variable for list check
 let selectedData = [
     { selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
@@ -14,6 +16,7 @@ let selectedData = [
     { selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
 ]
 
+@inject('store') @observer
 export default class MenuStepTwo extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +30,7 @@ export default class MenuStepTwo extends React.Component {
         e.preventDefault();
         
         let result = [];
+        let errorStack = [];
 
         for(let i = 0; i < selectedData.length; i++) {
             if (selectedData[i].selected == true) {
@@ -36,7 +40,9 @@ export default class MenuStepTwo extends React.Component {
         
 
         if (result.length == 0) {
-            alert('Please choose at least one dish');
+            errorStack.push('Please choose at least one dish');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
 
@@ -62,7 +68,13 @@ export default class MenuStepTwo extends React.Component {
                 selectedData = tempState;
             }
         }
-        
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(20);
     }
 
     render() {
