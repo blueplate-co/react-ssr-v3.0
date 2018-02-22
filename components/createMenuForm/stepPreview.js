@@ -123,8 +123,25 @@ export default class MenuStepPreview extends React.Component {
                 self.addMore(menu_id);
             }
         })
-        .catch(function(err){
-            console.log(err);
+        // .catch(function(err){
+        //     console.log(err);
+        // });
+        .catch(error => {
+            var statusCode = error.response.status;
+            var message = error.response.data.message;
+            //- debug
+            console.log(error.response);
+            alert('Error when create menu. Please try again');
+
+            //- token expired or something else
+            if(statusCode === 403 && message === "Please login to continue")
+            {
+                //- token expired
+                console.log('Token expired. Please login again !');
+                Router.push('/');
+            }
+            
+            
         });
 
     }

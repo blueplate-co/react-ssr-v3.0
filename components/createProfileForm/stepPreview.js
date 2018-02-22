@@ -107,11 +107,8 @@ export default class ProfileStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
-        debugger
         // create new form data
         const data = new FormData();
-
-        debugger
 
         // split firtname and lastname
         let fullname = validator.trim(this.refs.fullname.innerText);
@@ -165,7 +162,7 @@ export default class ProfileStepPreview extends React.Component {
             headers: { 'content-type': 'multipart/form-data' }
         }
         //- http://13.250.107.234/api/chef/create
-        axios.post('http://localhost:1337/api/chef/create', data, config)
+        axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
             if(response.status === 200)
             {
@@ -184,7 +181,21 @@ export default class ProfileStepPreview extends React.Component {
             
         // });
         .catch(error => {
+            var statusCode = error.response.status;
+            var message = error.response.data.message;
+            //- debug
             console.log(error.response);
+            alert('Error when create profile. Please try again');
+
+            //- token expired or something else
+            if(statusCode === 403 && message === "Please login to continue")
+            {
+                //- token expired
+                console.log('Token expired. Please login again !');
+                Router.push('/');
+            }
+            
+            
         });
     }
 

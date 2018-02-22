@@ -17,6 +17,22 @@ export default class CreateMenuPage extends React.Component {
     super(props);
   }
 
+  /**
+   * Author: Tran Sy Bao
+   * Created at: 21-02-2017
+   */
+  componentDidMount = () => {
+
+    //- set axios default
+    if(localStorage.getItem('userToken') !== null)
+    {
+      var token = localStorage.getItem('userToken');
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    }   
+
+  }
+  //====================================
+
   render () {
     return (
       <Provider store={store}>
