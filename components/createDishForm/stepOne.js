@@ -78,37 +78,6 @@ export default class DishStepOne extends React.Component {
         }
     }
 
-    /**
-     * Author: Tran Sy Bao
-     * Created at: 21-02-2018
-     */
-    //- check token expiration
-    componentDidMount = () => {
-        console.log(localStorage.getItem('userToken'));
-        //- checking token on localStorage and check if token is expired or not
-        if(localStorage.getItem('userToken') !== null)
-        {
-            var token = localStorage.getItem('userToken');
-            axios.post('http://13.250.107.234/api/check/token', {
-                userToken: token
-            })
-            .then(function(res){
-                console.log(res);
-            })
-            .catch(error=>{
-            var data = error.response.data;
-            if(data === 'expired')
-            {
-                console.log('token hết hạn');
-                Router.push('/');
-            }
-
-            });
-        }
-
-    }
-    //==========================================
-
     render() {
         return (
             <div className="create_profile_step">

@@ -113,35 +113,6 @@ export default class ProfileStepOne extends React.Component {
         //- set email when load is done
         this.refs.email.value = localStorage.getItem('userEmail');
 
-        //- created by Tran Sy Bao
-        //- created at 21-02-2018
-        //- checking token on localStorage and check if token is expired or not
-        if(localStorage.getItem('userToken') !== null)
-        {
-            var token = localStorage.getItem('userToken');
-            // var email = localStorage.getItem('userEmail');
-            // this.state.dirtyEmail = true;
-            // this.state.userEmail = email;
-            axios.post('http://13.250.107.234/api/check/token', {
-                userToken: token
-            })
-            .catch(error=>{
-            var data = error.response.data;
-            if(data === 'expired')
-            {
-                console.log('token hết hạn');
-                Router.push('/');
-            }
-
-            });
-        }
-
-        //- fill email state if has email localStorage
-        // if()
-        // {
-
-        // }
-
     }
 
     render() {
