@@ -84,7 +84,7 @@ export default class DishStepSeven extends React.Component {
         } else {
             let data = {
                 dietaryString: resultString.toString(),
-                diatary: result
+                dietary: result
             }
             
             this.props.saveValues(data);

@@ -16,7 +16,7 @@ let fieldValues = {
     hours: null,
     mins: null,
     dietaryString: '',
-    diatary: [],
+    dietary: [],
     tags: []
 }
 

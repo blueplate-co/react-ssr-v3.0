@@ -75,7 +75,7 @@ export default class MenuStepSeven extends React.Component {
 
         let data = {
             dietaryString: resultString.toString(),
-            diatary: result
+            dietary: result
         }
         
         this.props.saveValues(data);

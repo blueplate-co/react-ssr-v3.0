@@ -14,7 +14,8 @@ export default class DishStepPreview extends React.Component {
         this.onChange = this.onChange.bind(this);
 
         this.state = {
-            imgSrc: null
+            imgSrc: null,
+            dishImages: null
         }
     }
 
@@ -94,7 +95,8 @@ export default class DishStepPreview extends React.Component {
 
         this.props.setProgress(100);
 
-        document.getElementsByTagName('input')[0].focus();
+        // focus into first field
+        document.querySelectorAll('[contenteditable="true"]')[0].focus();
     }
 
     render() {
@@ -105,6 +107,7 @@ export default class DishStepPreview extends React.Component {
                     @media (max-width: 480px) {
                         .container {
                             margin-top: 20px;
+                            margin-bottom: 20px;
                             .bottom-confirmation {
                                 position: fixed;
                                 width: 70%;
@@ -139,7 +142,8 @@ export default class DishStepPreview extends React.Component {
                                 }
                                 img {
                                     height: 160px;
-                                    width: auto;
+                                    width: 160px;
+                                    position: absolute;
                                 }
                             }
                             .dish-name {
@@ -256,6 +260,7 @@ export default class DishStepPreview extends React.Component {
                                     padding: 0px;
                                     margin-bottom: 15px;
                                     display: inline-block;
+                                    width: 100%;
                                 }    
                             }
                             .minimum-order {
@@ -366,19 +371,15 @@ export default class DishStepPreview extends React.Component {
                     <div className="dietary">
                         <h4>Dietary preference</h4>
                         <div className="list">
-                            {
-                                this.props.fieldValues.dietary ? 
-                                    this.props.fieldValues.dietary.map(function(item, index){
-                                        return (
-                                            <div key={index} className="list-item">
-                                                <span>{item.name}</span>
-                                                <img src={'/static/icons/' + item.icon}/>
-                                            </div>
-                                        )
-                                    })
-                                : (
-                                    <div className="list-item"></div>
-                                )
+                            {   
+                                this.props.fieldValues.dietary.map(function(item, index){
+                                    return (
+                                        <div key={index} className="list-item">
+                                            <span>{item.name}</span>
+                                            <img src={'/static/icons/' + item.icon}/>
+                                        </div>
+                                    )
+                                })
                             }
                         </div>
                     </div>
@@ -427,7 +428,7 @@ export default class DishStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button className="btn" onClick={ this.save }>Save</button>
                 </div>
 
             </div>
