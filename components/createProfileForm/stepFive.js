@@ -17,7 +17,7 @@ export default class ProfileStepFive extends React.Component {
         this.skip = this.skip.bind(this);
 
         this.state = {
-            dob: moment()
+            dob: ''
         }
     }
 

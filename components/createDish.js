@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import ProgressBar from '../components/progessBar';
 
 // store all values get from multi-step
 let fieldValues = {
@@ -40,7 +41,7 @@ export default class CreateDish extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1
+            progress: 0
         };
     }
 
@@ -55,21 +56,39 @@ export default class CreateDish extends React.Component {
     
     // increase step
     nextStep = () => {
-        this.setState({
-            step : this.state.step + 1
-        })
+        this.props.store.nextStep();
     }
-      
+        
     // Same as nextStep, but decrementing
     previousStep = () => {
+        this.props.store.previousStep();
+    }
+
+    // set progress for progressbar
+    setProgress = (number) => {
         this.setState({
-            step : this.state.step - 1
-        })
+            progress: number
+        });
+    }
+
+    // increase progress number for progressbar
+    increaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress + number
+        });
+    }
+
+    // increase progress number for progressbar
+    decreaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress - number
+        });
     }
 
     render() {
         return (
-            <div className="create_profile">
+            <div className="create_dish">
+            <ProgressBar progress={this.state.progress  } />
                 <style jsx>{`
                     /* Landscape phones and dowsn */
                     @media (max-width: 480px) {
@@ -77,27 +96,27 @@ export default class CreateDish extends React.Component {
                 `}</style>
 
             {(() => {
-                switch (this.state.step) {
+                switch (this.props.store.globalStep) {
                     case 1:
-                        return <DishStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 2:
-                        return <DishStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 3:
-                        return <DishStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 4:
-                        return <DishStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>     
+                        return <DishStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>     
                     case 5:
-                        return <DishStepFive fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>  
+                        return <DishStepFive fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>  
                     case 6:
-                        return <DishStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 7:
-                        return <DishStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 8:
-                        return <DishStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 9:
-                        return <DishStepNine fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <DishStepNine fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 10:
-                        return <DishStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>    
+                        return <DishStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>    
                 }
             })()}
                 

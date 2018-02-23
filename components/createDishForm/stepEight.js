@@ -3,11 +3,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 import cnf from '../../config';
 import layout from '../layout';
 
-
+@inject('store') @observer
 export default class DishStepEight extends React.Component {
     constructor(props) {
         super(props);
@@ -26,8 +27,11 @@ export default class DishStepEight extends React.Component {
     saveAndContinue = (e) => {
         e.preventDefault();
 
+
         if (this.state.tags.length == 0) {
-            alert("Must at least one tag");
+            let errorStack = ['Must at least one tag'];
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
 
@@ -90,14 +94,26 @@ export default class DishStepEight extends React.Component {
     addTag = (e) => {
         if (e.keyCode == 13) { // press enter / return key
             let tagValue = this.state.value;
-            let tagList = this.state.tags;
-            tagList.push(tagValue);
-            this.setState({
-                tags: tagList,
-                value: ''
-            });
+            if (validator.trim(tagValue).length > 0) { // run when tag name is not empty
+                let tagList = this.state.tags;
+                tagList.push(tagValue);
+                this.setState({
+                    tags: tagList,
+                    value: ''
+                });
+            }
         }
+    }
 
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(80);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

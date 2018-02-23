@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 
+import ProgressBar from '../components/progessBar';
+
 // store all values get from multi-step
 let fieldValues = {
     menuName: null,
@@ -15,8 +17,10 @@ let fieldValues = {
     days: null,
     hours: null,
     mins: null,
+    allergies: [],
+    allergiesString: '',
     dietaryString: '',
-    diatary: [],
+    dietary: [],
     tags: []
 }
 
@@ -35,7 +39,7 @@ export default class CreateMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1
+            progress: 0
         };
     }
 
@@ -50,21 +54,39 @@ export default class CreateMenu extends React.Component {
     
     // increase step
     nextStep = () => {
-        this.setState({
-            step : this.state.step + 1
-        })
+        this.props.store.nextStep();
     }
       
     // Same as nextStep, but decrementing
     previousStep = () => {
+        this.props.store.previousStep();
+    }
+
+    // set progress for progressbar
+    setProgress = (number) => {
         this.setState({
-            step : this.state.step - 1
-        })
+            progress: number
+        });
+    }
+
+    // increase progress number for progressbar
+    increaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress + number
+        });
+    }
+
+    // increase progress number for progressbar
+    decreaseProgress = (number) => {
+        this.setState({
+            progress: this.state.progress - number
+        });
     }
 
     render() {
         return (
             <div className="create_menu">
+                <ProgressBar progress={this.state.progress} />
                 <style jsx>{`
                     /* Landscape phones and dowsn */
                     @media (max-width: 480px) {
@@ -72,25 +94,25 @@ export default class CreateMenu extends React.Component {
                 `}</style>
 
             {(() => {
-                switch (this.state.step) {
+                switch (this.props.store.globalStep) {
                     case 1:
-                        return <MenuStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepOne fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 2:
-                        return <MenuStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepTwo fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 3:
-                        return <MenuStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepThree fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 4:
-                        return <MenuStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepFour fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 5:
-                        return <MenuStepFive fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepFive fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 6:
-                        return <MenuStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepSix fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 7:
-                        return <MenuStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepSeven fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 8:
-                        return <MenuStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 9:
-                        return <MenuStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues}/>
+                        return <MenuStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                 }
             })()}
                 

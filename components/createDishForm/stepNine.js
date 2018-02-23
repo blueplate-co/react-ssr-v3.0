@@ -3,11 +3,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 import cnf from '../../config';
 import layout from '../layout';
 
-
+@inject('store') @observer
 export default class DishStepNine extends React.Component {
     constructor(props) {
         super(props);
@@ -23,12 +24,17 @@ export default class DishStepNine extends React.Component {
 
         try {
             let value = this.refs.value.value;
-
+            let errorStack = [];
+            
             if (validator.trim(value.toString()).length == 0) {
-                alert('Must enter value');
+                errorStack.push('Must enter value');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             } else if (parseInt(value) == 0){
-                alert('Must at least 1 dish');
+                errorStack.push('Must has at least one dish');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
 
@@ -42,8 +48,17 @@ export default class DishStepNine extends React.Component {
         } catch (error) {
             alert(error);
         }
+    }
 
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
 
+        this.props.setProgress(90);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

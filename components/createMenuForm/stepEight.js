@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import React from 'react';
 
@@ -6,8 +5,9 @@ import validator from 'validator';
 
 import cnf from '../../config';
 import layout from '../layout';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class MenuStepEight extends React.Component {
     constructor(props) {
         super(props);
@@ -25,9 +25,12 @@ export default class MenuStepEight extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
+        let errorStack = [];
 
         if (this.state.tags.length == 0) {
-            alert("Must at least one tag");
+            errorStack.push('Must at least one tag');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
 
@@ -90,14 +93,23 @@ export default class MenuStepEight extends React.Component {
     addTag = (e) => {
         if (e.keyCode == 13) { // press enter / return key
             let tagValue = this.state.value;
-            let tagList = this.state.tags;
-            tagList.push(tagValue);
-            this.setState({
-                tags: tagList,
-                value: ''
-            });
+            if (tagValue.length !== 0) {
+                let tagList = this.state.tags;
+                tagList.push(tagValue);
+                this.setState({
+                    tags: tagList,
+                    value: ''
+                });
+            }
         }
+    }
 
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(80);
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

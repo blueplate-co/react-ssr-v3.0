@@ -3,13 +3,14 @@ import React from 'react';
 
 import validator from 'validator';
 import Slider from 'react-rangeslider';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class MenuStepThree extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            reverseValue: 5
+            reverseValue: 1
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
         console.log(this.props.fieldValues);
@@ -23,6 +24,7 @@ export default class MenuStepThree extends React.Component {
         let data = {
             numberOfPeople: null
         }
+        let errorStack = [];
         
         if (this.state.reverseValue > 0) {
             data = {
@@ -32,9 +34,17 @@ export default class MenuStepThree extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         } else {
-            alert('Must at least 1 people')
+            errorStack.push('Must at least 1 people');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
+    }
 
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(20);
     }
 
     handleChange = (value) => {
