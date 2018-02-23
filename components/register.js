@@ -112,6 +112,13 @@ export default class RegisterForm extends React.Component {
         })
     }
 
+    // when user press Enter key
+    handleSubmitLogin = (e) => {
+        if (e.keyCode == 13) {
+            this.register();
+        }
+    }
+
     componentDidMount = () => {
         document.getElementsByTagName('input')[0].focus();
     }
@@ -121,7 +128,7 @@ export default class RegisterForm extends React.Component {
         return (
             this.state.stage === 'register' ?
             (
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleSubmitLogin } >
                     <h3>Join us</h3>
                     <input type="email" required ref="email" placeholder="Email"/>
                     <input type="text" required ref="username" placeholder="Username"/>
@@ -140,9 +147,6 @@ export default class RegisterForm extends React.Component {
                     <h3>Email Validation</h3>
                     <p className="description">Thanks for signing up! A verification email has been sent to your email address. Please verify your account by clicking the link in the email.</p>
                     <p className="">Haven't received our verification email yet? <a className="clickable">Click here to resend.</a></p>
-                    <div className="bottom-confirmation">
-                        <button className="btn" onClick={ this.register }>Next</button>
-                    </div>
                 </div>
             )
         )
