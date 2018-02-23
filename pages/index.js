@@ -1,21 +1,15 @@
 import React from 'react';
-import Link from 'next/link';
-import Router from 'next/router'
+import store from '../stores/store';
+import { Provider } from 'mobx-react';
+import Link from 'next/link'
+
 
 import Head from '../components/head';
 import Navigation from '../components/navigation';
 import Footer from '../components/footer';
-import LoginForm from '../components/login';
-import Notification from '../components/notification';
+import cnf from '../config';
 
 import Layout from '../components/layout';
-
-import store from '../stores/store';
-import { Provider } from 'mobx-react';
-
-import validator from 'validator';
-import axios from 'axios';
-import md5 from 'md5';
 
 export default class Index extends React.Component {
 
@@ -41,21 +35,35 @@ export default class Index extends React.Component {
                       font-size: 14px;
                     }
                     .bottom-confirmation {
-                      position: fixed;
-                      width: 70%;
+                      width: 100%;
                       bottom: 15px;
                       z-index: 5;
                       left: 15%;
-                  }
+                      .btn {
+                          margin: 10px 0px;
+                          border-radius: 0px;
+                          color: ${cnf.color.primarycolor};
+                          border: 1px solid ${cnf.color.primarycolor};
+                          background-color: #fff;
+                      }
+                    }
                   }
               }
           `}</style>
-          <Notification>
             <Head title="Blueplate" />
             <Navigation title="Blueplate"/>
-            <LoginForm />
+            <div className="container">
+                <h3>Landing page</h3>
+                <div className="bottom-confirmation">
+                    <Link href="/register">
+                        <button className="btn inline" onClick={ this.saveAndContinue }>Join Us</button>
+                    </Link>
+                    <Link href="/login">
+                        <button className="btn inline" onClick={ this.saveAndContinue }>Sign In</button>
+                    </Link>
+                </div>
+            </div>
             <Footer/>
-          </Notification>
         </Layout>
       </Provider>
     )
