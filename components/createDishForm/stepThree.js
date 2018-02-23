@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 
 import validator from 'validator';
-
 import cnf from '../../config';
-import axios from 'axios';
 
+@inject('store') @observer
 export default class DishStepThree extends React.Component {
     constructor(props) {
         super(props);
@@ -72,6 +72,7 @@ export default class DishStepThree extends React.Component {
         let result = [];
 
         this.state.ingredient.map((item, index) => {
+            let errorStack = [];
             let tempName = document.getElementsByClassName('ingredient-name')[index].value;
             let tempQty = document.getElementsByClassName('ingredient-qty')[index].value;
             let tempUnit = document.getElementsByClassName('ingredient-unit')[index].value;
@@ -87,11 +88,15 @@ export default class DishStepThree extends React.Component {
                     // this.props.saveValues(data);
                     // this.props.nextStep();
                 } else {
-                    alert('Please complete ingredient before you add these');
+                    errorStack.push('Please complete ingredient before you add these');
+                    let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                    this.props.store.addNotification(notification);
                     return false;
                 }
             } catch (error) {
-                alert(error);
+                errorStack.push(error);
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
         });
@@ -115,6 +120,17 @@ export default class DishStepThree extends React.Component {
                 </div>
             )
         })
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(30);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

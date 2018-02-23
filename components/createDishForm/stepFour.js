@@ -3,11 +3,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 import cnf from '../../config';
 import layout from '../layout';
 
-
+@inject('store') @observer
 export default class DishStepFive extends React.Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,7 @@ export default class DishStepFive extends React.Component {
         this.saveAndContinue = this.saveAndContinue.bind(this);
 
         this.state = {
+            errorStack: []
         }
     }
 
@@ -27,6 +29,8 @@ export default class DishStepFive extends React.Component {
             let cost = this.refs.cost.value;
             let suggestedPrice = this.refs.suggestedPrice.value;
             let customPrice = this.refs.customPrice.value;
+
+            let errorStack = [];
 
             if (validator.trim(cost).length > 0 && validator.trim(suggestedPrice).length > 0 && validator.trim(customPrice).length > 0) { // no store empty string value                   
                 cost = parseInt(this.refs.cost.value);
@@ -41,13 +45,28 @@ export default class DishStepFive extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                alert('Please complete dish cost before you continue');
+                errorStack.push('Please complete dish cost before you continue');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
         } catch (error) {
-            alert(error);
+            errorStack.push(error);
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(40);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {
