@@ -54,6 +54,9 @@ export default class Notification extends React.Component {
                                 &.error {
                                     background-color: ${cnf.color.redcolor};
                                 }
+                                &.success {
+                                    background-color: ${cnf.color.greencolor};
+                                }
                                 h3 {
                                     margin: 5px 0px;
                                 }

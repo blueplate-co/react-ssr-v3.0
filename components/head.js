@@ -25,6 +25,7 @@ const Head = (props) => (
     <link rel="stylesheet" href="/static/styles/rrui.css"/>
     <link rel="stylesheet" href="/static/styles/react-datepicker.css"/>
     <link rel="stylesheet" href="/static/styles/phone-input.css"/>
+    <link rel="stylesheet" href="/static/styles/nprogress.css"/>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsk4kS2PWLNQKcjOWZT28UJ4izWcUUgOQ&libraries=places"></script>
     {/* custom styles from component */}
     <link href="/static/styles/range-slider.css" rel="stylesheet" />
