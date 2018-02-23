@@ -26,7 +26,7 @@ export default class Index extends React.Component {
             })
             if (this.state.time == 0) {
                 clearInterval(countdown);
-                Router.push('/');
+                Router.push('/login');
             }
         }, 1000);
     }
