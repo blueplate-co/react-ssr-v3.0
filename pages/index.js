@@ -67,6 +67,7 @@ export default class Index extends React.Component {
         //- save token to localstorage
         localStorage.setItem('userToken', token);
         localStorage.setItem('userEmail', email);
+        localStorage.setItem('userID', userID);
 
         alert('Login success. Welcome to Blue-Plate !');
         Router.push('/become');

@@ -136,7 +136,8 @@ export default class ProfileStepPreview extends React.Component {
         
         data.append('firstName', firstname);
         data.append('lastName', lastname);
-        data.append('uid', '5a6e8312e35b20787806756a');
+        // data.append('uid', '5a6e8312e35b20787806756a');
+        data.append('uid', localStorage.getItem('userID'));
         data.append('address', this.props.fieldValues.location);
         data.append('phoneNumber', this.props.fieldValues.phoneNo);
         data.append('serviceOption', this.props.fieldValues.services);
