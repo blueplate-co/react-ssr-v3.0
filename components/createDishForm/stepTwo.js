@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 
 import validator from 'validator';
 import axios from 'axios';
 
+
+@inject('store') @observer
 export default class DishStepTwo extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +16,8 @@ export default class DishStepTwo extends React.Component {
 
         this.state = {
             descriptionContent: '',
-            descriptionLength: 0
+            descriptionLength: 0,
+            errorStack: []
         }
     }
 
@@ -22,9 +26,12 @@ export default class DishStepTwo extends React.Component {
 
         // get length of description
         let stringLength = this.refs.dishDescription.value.length;
+        let errorStack = [];
 
         if (stringLength > 250) {
-            alert('Length of description not greater than 250 charaters');
+            errorStack.push('Length of description not greater than <b>250</b> charaters');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         } else {
             this.setState({
                 descriptionContent: this.refs.dishDescription.value,
@@ -37,36 +44,30 @@ export default class DishStepTwo extends React.Component {
     saveAndContinue = (e) => {
         e.preventDefault();
 
-        //flag variables to check error existed
-        let error = false;
-
         // Get values via this.refs
         let data = {
             dishName: null,
             dishDescription: null
         }
 
+        // error stack
+        let errorStack = [];
+
         // dish name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.dishName.value))) {
-            error = true;
-            alert('Must have dish name');
-        } else {
-            error = false
+            errorStack.push('Must have dish name');
         }
 
         // last name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.dishDescription.value))) {
-            error = true;
-            alert('Must have dish description');
-        } else {
-            error = false
+            errorStack.push('Must have dish description');
         }
 
         // no error found
-        if (!error) {
+        if (errorStack.length == 0) {
             data = {
-                dishName: this.refs.dishName.value,
-                dishDescription: this.refs.dishDescription.value
+                dishName: validator.escape(this.refs.dishName.value),
+                dishDescription: validator.escape(this.refs.dishDescription.value)
             }
             
             //- create new dish with api
@@ -74,6 +75,10 @@ export default class DishStepTwo extends React.Component {
             
             this.props.saveValues(data);
             this.props.nextStep();
+        } else {
+            // error found, display notification
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
     }
 
@@ -124,6 +129,18 @@ export default class DishStepTwo extends React.Component {
         .catch(function(err){
             console.log(err);
         });
+    }
+
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(20);
+
+        this.refs.dishName.focus();
     }
 
     render() {

@@ -472,7 +472,7 @@ export default class MenuStepPreview extends React.Component {
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {
-                                this.props.fieldValues.diatary.map(function(item, index){
+                                this.props.fieldValues.dietary.map(function(item, index){
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>

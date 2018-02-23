@@ -54,6 +54,9 @@ export default class Notification extends React.Component {
                                 &.error {
                                     background-color: ${cnf.color.redcolor};
                                 }
+                                &.success {
+                                    background-color: ${cnf.color.greencolor};
+                                }
                                 h3 {
                                     margin: 5px 0px;
                                 }
@@ -75,6 +78,7 @@ export default class Notification extends React.Component {
                 {
                     this.props.store.notification.map((item, index) => {
                         let hasTop = (index * 23) + '%';
+                        // render content of notification for dangerouslySetInnerHTML
                         let renderMarkup = () => {
                             let resultString = '';
                             if (Array.isArray(item.content) && item.content.length > 0) {

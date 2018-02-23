@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
+import NProgress from 'nprogress';
+import Router from 'next/router'
+
+Router.onRouteChangeStart = (url) => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+}
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 @inject('store') @observer
 export default class Navigation extends React.Component {

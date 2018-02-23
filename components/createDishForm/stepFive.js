@@ -3,11 +3,12 @@ import Link from 'next/link';
 import React from 'react';
 
 import validator from 'validator';
+import { inject, observer } from 'mobx-react';
 
 import cnf from '../../config';
 import layout from '../layout';
 
-
+@inject('store') @observer
 export default class DishStepFive extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +28,8 @@ export default class DishStepFive extends React.Component {
             let days = this.refs.days.value;
             let hours = this.refs.hours.value;
             let mins = this.refs.mins.value;
+            
+            let errorStack = []; 
 
             if (validator.trim(days).length > 0 && validator.trim(hours).length > 0 && validator.trim(mins).length > 0) { // no store empty string value                   
                 days = parseInt(this.refs.days.value);
@@ -46,13 +49,28 @@ export default class DishStepFive extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                alert('Please complete dish cost before you continue');
+                errorStack.push('Please complete dish cost before you continue');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
         } catch (error) {
-            alert(error);
+            errorStack.push(error);
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
+    }
+
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(50);
+
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {

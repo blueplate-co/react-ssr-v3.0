@@ -4,8 +4,9 @@ import Router from 'next/router';
 
 import validator from 'validator';
 import axios from 'axios';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class DishStepPreview extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,8 @@ export default class DishStepPreview extends React.Component {
         this.onChange = this.onChange.bind(this);
 
         this.state = {
-            imgSrc: null
+            imgSrc: null,
+            dishImages: null
         }
         console.log(this.props.fieldValues);
     }
@@ -250,6 +252,18 @@ export default class DishStepPreview extends React.Component {
 
     }
 
+    componentDidMount = () => {
+        // set function to back button
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+
+        this.props.setProgress(100);
+
+        // focus into first field
+        document.querySelectorAll('[contenteditable="true"]')[0].focus();
+    }
+
     render() {
         return (
             <div className="create_profile_step">
@@ -258,6 +272,7 @@ export default class DishStepPreview extends React.Component {
                     @media (max-width: 480px) {
                         .container {
                             margin-top: 20px;
+                            margin-bottom: 20px;
                             .bottom-confirmation {
                                 position: fixed;
                                 width: 70%;
@@ -292,7 +307,8 @@ export default class DishStepPreview extends React.Component {
                                 }
                                 img {
                                     height: 160px;
-                                    width: auto;
+                                    width: 160px;
+                                    position: absolute;
                                 }
                             }
                             .dish-name {
@@ -409,6 +425,7 @@ export default class DishStepPreview extends React.Component {
                                     padding: 0px;
                                     margin-bottom: 15px;
                                     display: inline-block;
+                                    width: 100%;
                                 }    
                             }
                             .minimum-order {
@@ -519,8 +536,8 @@ export default class DishStepPreview extends React.Component {
                     <div className="dietary">
                         <h4>Dietary preference</h4>
                         <div className="list">
-                            {
-                                this.props.fieldValues.diatary.map(function(item, index){
+                            {   
+                                this.props.fieldValues.dietary.map(function(item, index){
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
@@ -576,7 +593,7 @@ export default class DishStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button className="btn" onClick={ this.save }>Save</button>
                 </div>
 
             </div>

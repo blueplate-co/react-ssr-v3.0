@@ -136,7 +136,8 @@ export default class ProfileStepPreview extends React.Component {
         
         data.append('firstName', firstname);
         data.append('lastName', lastname);
-        data.append('uid', '5a6e8312e35b20787806756a');
+        // data.append('uid', '5a6e8312e35b20787806756a');
+        data.append('uid', localStorage.getItem('userID'));
         data.append('address', this.props.fieldValues.location);
         data.append('phoneNumber', this.props.fieldValues.phoneNo);
         data.append('serviceOption', this.props.fieldValues.services);
@@ -168,6 +169,11 @@ export default class ProfileStepPreview extends React.Component {
             {
                 console.log(response);
                 alert('Create profile of chef successfully...');
+                
+                //- save to localStorage
+                var create_chef_id = response.data.data.create_chef_id;
+                localStorage.setItem('create_chef_id', create_chef_id);
+
                 //- redirect
                 sessionStorage.setItem("welcomeStage", 1);
                 Router.push('/become');

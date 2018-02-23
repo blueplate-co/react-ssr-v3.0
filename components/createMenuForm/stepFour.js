@@ -6,8 +6,9 @@ import validator from 'validator';
 
 import cnf from '../../config';
 import layout from '../layout';
+import { inject, observer } from 'mobx-react';
 
-
+@inject('store') @observer
 export default class MenuStepFour extends React.Component {
     constructor(props) {
         super(props);
@@ -41,13 +42,23 @@ export default class MenuStepFour extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                alert('Please complete dish cost before you continue');
+                errorStack.push('Please complete ingredient before you add these');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
                 return false;
             }
         } catch (error) {
             alert(error);
             return false;
         }
+    }
+
+    componentDidMount = () => {
+        this.props.store.setBackFunction(()=>{
+            this.props.store.globalStep--;
+        });
+        this.props.setProgress(40);
+        document.getElementsByTagName('input')[0].focus();
     }
 
     render() {
