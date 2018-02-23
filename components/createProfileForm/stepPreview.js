@@ -169,6 +169,11 @@ export default class ProfileStepPreview extends React.Component {
             {
                 console.log(response);
                 alert('Create profile of chef successfully...');
+                
+                //- save to localStorage
+                var create_chef_id = response.data.data.create_chef_id;
+                localStorage.setItem('create_chef_id', create_chef_id);
+
                 //- redirect
                 sessionStorage.setItem("welcomeStage", 1);
                 Router.push('/become');
