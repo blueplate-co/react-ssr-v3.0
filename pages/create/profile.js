@@ -68,12 +68,14 @@ export default class CreateProfilePage extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <Layout>
-            <Head title="Create profile" />
-            <Navigation title="blueplate"/>
-            <CreateProfile/>
-          <Footer/>
-        </Layout>
+        <Notification>
+          <Layout>
+              <Head title="Create profile" />
+              <Navigation title="blueplate"/>
+              <CreateProfile/>
+            <Footer/>
+          </Layout>
+        </Notification>
       </Provider>
     )
   }

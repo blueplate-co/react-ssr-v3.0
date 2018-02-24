@@ -55,7 +55,7 @@ export default class ProfileStepFour extends React.Component {
         // no error found
         if (errorStack.length == 0) {
             data = {
-                profileImagesSrc: this.state.imgSrc,
+                profileImages: this.state.imgSrc,
                 cacheFile: this.state.cachefile
             }
             
@@ -82,9 +82,18 @@ export default class ProfileStepFour extends React.Component {
             this.props.store.globalStep--;
         });
 
+        // focus into first input
         document.getElementsByClassName('create_profile_step')[0].focus();
 
+        // set for the progress bar
         this.props.setProgress(45);
+
+        // set for the back function
+        if (this.props.fieldValues.profileImages.length > 0) {
+            this.setState({
+                imgSrc: this.props.fieldValues.profileImages[0]
+            });
+        }
     }
 
     render() {

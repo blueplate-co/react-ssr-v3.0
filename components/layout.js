@@ -20,6 +20,9 @@ const Layout = (props) => (
                     color: ${cnf.color.boldgraycolor};
                     font-weight: 500
                 }
+                .hidden {
+                    display: none!important;
+                }
                 .container {
                     width: 85%;
                     height: auto;

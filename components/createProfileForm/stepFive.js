@@ -17,7 +17,7 @@ export default class ProfileStepFive extends React.Component {
         this.skip = this.skip.bind(this);
 
         this.state = {
-            dob: ''
+            dob: new moment()
         }
     }
 
@@ -84,13 +84,22 @@ export default class ProfileStepFive extends React.Component {
         }
     }
 
-    componentDidMount = () => {
+    componentWillMount = () => {
         // set function to back button
         this.props.store.setBackFunction(()=>{
             this.props.store.globalStep--;
         });
 
         this.props.setProgress(55);
+
+        // set default value for back function action
+        this.setState({
+            dob: this.props.fieldValues.dob
+        });
+        // if default values for date of birth is moment object
+        // if (this.props.fieldValues.dob.length > 0) {
+        //     this.refs.gender.value = this.props.fieldValues.gender;
+        // }
     }
 
     render() {

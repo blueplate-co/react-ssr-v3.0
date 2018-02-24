@@ -88,7 +88,7 @@ export default class ProfileStepEight extends React.Component {
                 <div className="container">
                     <h3>Where you get inspiration?</h3>
                     <span className="title-description">Who is your favorite chef or books</span>
-                    <textarea ref="content" rows="20" cols="50"></textarea>
+                    <textarea ref="content" rows="20" cols="50" defaultValues={this.props.fieldValues.inspiration}></textarea>
                 </div>
                 <div className="container bottom-confirmation">
                     <button className="btn inline" onClick={ this.skip }>Skip</button>

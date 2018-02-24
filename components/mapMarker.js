@@ -106,7 +106,7 @@ export default class MapMarker extends React.Component {
                     .map-container {
                         width: 100vw;
                         height: 100%;
-                        position: absolute;
+                        position: fixed;
                         z-index: 100;
                         top: 0px;
                         &:after {

@@ -72,12 +72,16 @@ export default class ProfileStepTwo extends React.Component {
                 location: validator.escape(this.refs.location.value),
                 phoneNo: this.state.phone
             }
+
+            // set location value to mobx store
+            this.props.store.location = data.location;
+            this.props.store.lat = data.lat;
+            this.props.store.lng = data.lng;
             
             this.props.saveValues(data);
             this.props.nextStep();
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-            
             this.props.store.addNotification(notification);
         }
     }

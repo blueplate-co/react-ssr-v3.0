@@ -70,7 +70,6 @@ export default class ProfileStepThree extends React.Component {
 
     // handle action when user press Enter
     handleEnter = (e) => {
-        debugger
         if (e.keyCode == 13) { // only excute when press Enter key
             // trigger run saveAndContinue function
             this.saveAndContinue(e);
@@ -84,6 +83,11 @@ export default class ProfileStepThree extends React.Component {
         });
 
         this.props.setProgress(35);
+
+        // set default state for back action
+        this.setState({
+            services: this.props.fieldValues.services
+        })
     }
 
     render() {

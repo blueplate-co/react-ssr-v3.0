@@ -105,7 +105,7 @@ export default class CreateProfile extends React.Component {
             <ProgressBar progress={this.state.progress  } />
             {/* generate map marker with condition */}
             { this.generateMap() }
-            <style jsx>{`
+            <style jsx>{` 
                 /* Landscape phones and dowsn */
                 @media (max-width: 480px) {
                 }
