@@ -2,12 +2,12 @@ import { observable, action, mobx } from 'mobx';
 
 class globalStore {
     @observable backFunction = null; // back function for back button on navigation
-    @observable globalStep = 10; // step for current step multi step form
+    @observable globalStep = 1; // step for current step multi step form
     @observable globalMaps = null;
-    @observable showMap = false; // check variables to show/hide google maps
-    @observable lat = 13.7764671; // lat of current user
-    @observable lng = 109.2260315; // lng of current user
-    @observable address = '199 Phan Bội Châu, Trần Hưng Đạo, Thành phố Qui Nhơn, Bình Định'; // current address of user
+    @observable showMap = true; // check variables to show/hide google maps
+    @observable lat = 22.3345163; // lat of current user
+    @observable lng = 114.1472955; // lng of current user
+    @observable address = 'Cheung Sha Wan, Kowloon, Hong Kong'; // current address of user
     @observable notification = observable.shallowArray(); // notification list to display
 
     // go to next step in multi-step component
