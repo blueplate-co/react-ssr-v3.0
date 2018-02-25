@@ -87,7 +87,7 @@ export default class DishStepThree extends React.Component {
                         ingredient: result,
                     }
 
-                    // this.props.saveValues(data);
+                    this.props.saveValues(data);
                     // this.props.nextStep();
                 } else {
                     errorStack.push('Please complete ingredient before you add these');
@@ -105,7 +105,11 @@ export default class DishStepThree extends React.Component {
 
 
         //- insert multiple incredients and next
-        this.insertMultipleIngredients(this, result);
+        // this.insertMultipleIngredients(this, result);
+
+        //- next
+        this.props.nextStep();
+
     }
    
 

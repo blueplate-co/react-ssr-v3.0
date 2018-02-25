@@ -18,6 +18,7 @@ export default class DishStepPreview extends React.Component {
             dishImages: null
         }
         console.log(this.props.fieldValues);
+        this.insertMultipleIngredients(this);
     }
 
     // action when update avatar
@@ -45,9 +46,43 @@ export default class DishStepPreview extends React.Component {
      * Author: baots
      * Created at: 12:21PM, 12-02-2018
      */
+    insertMultipleIngredients = (self) => {
+
+        var ingredients = self.props.fieldValues.ingredient;
+        //- insert multiple ingredients
+        const formData = new FormData();
+        formData.append('data', ingredients);
+
+        //- create ingredient
+        //- set header
+        const config = {
+            headers: { 'Content-Type': 'application/json' }
+        }
+
+        axios
+        .post('http://13.250.107.234/api/ingredient/create/multiple', {
+            data: ingredients,
+        })
+        .then(function(res){
+            if(res.status === 200)
+            {
+                
+                var iid = res.data.data.map(a => a.id);
+                self.props.fieldValues.iid = iid;
+                console.log('iid: ', iid);
+                // return iid;
+
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+            return false;
+        });
+    }
+
     addIngredient = (create_dish_id) => {
+        
         //- form data
-        console.log(this.props.fieldValues.iid);
         var data = new FormData();
         data.create_dish_id = create_dish_id;
         data.ingredientsID = this.props.fieldValues.iid;
