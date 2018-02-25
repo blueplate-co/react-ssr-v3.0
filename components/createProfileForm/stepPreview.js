@@ -166,13 +166,14 @@ export default class ProfileStepPreview extends React.Component {
         axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
             if(response.status === 200)
-            {
-                console.log(response);
-                alert('Create profile of chef successfully...');
-                
+            {   
                 //- save to localStorage
                 var create_chef_id = response.data.data.create_chef_id;
                 localStorage.setItem('create_chef_id', create_chef_id);
+
+                //- debugging
+                console.log(response);
+                alert('Create profile of chef successfully...');
 
                 //- redirect
                 sessionStorage.setItem("welcomeStage", 1);

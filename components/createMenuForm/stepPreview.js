@@ -84,7 +84,8 @@ export default class MenuStepPreview extends React.Component {
         //- create data using for api
         //- local chef id: 5a7431f357076fd017913c9f
         //- server chef id: 5a79a1524be30c971138175e
-        data.append('chefID', '5a79a1524be30c971138175e');
+        // data.append('chefID', '5a79a1524be30c971138175e');
+        data.append('chefID', localStorage.getItem('create_chef_id'));
         data.append('name', name);
         data.append('describe', describe);
         data.append('numberOfPeople', numberOfPeople);
