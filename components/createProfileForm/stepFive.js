@@ -6,19 +6,16 @@ import { inject, observer } from 'mobx-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-
 @inject('store') @observer
 export default class ProfileStepFive extends React.Component {
     constructor(props) {
         super(props);
-
-        this.saveAndContinue = this.saveAndContinue.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.skip = this.skip.bind(this);
-
         this.state = {
-            dob: moment()
+            startDate: moment()
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.saveAndContinue = this.saveAndContinue.bind(this);
+        this.skip = this.skip.bind(this);
     }
 
     // action when user click skip button
@@ -49,14 +46,14 @@ export default class ProfileStepFive extends React.Component {
             errorStack.push('Invalid value from gender. Please try again');
         }
 
-        if (this.state.dob.length == 0) {
+        if (this.state.startDate.length == 0) {
             errorStack.push('Must choose your date of birth');
         }
 
         // no error found
         if (errorStack.length == 0) {
             data = {
-                dob: this.state.dob,
+                dob: this.state.startDate,
                 gender: this.refs.gender.value
             }
             
@@ -72,7 +69,7 @@ export default class ProfileStepFive extends React.Component {
     // handle change when datetime picker change value
     handleChange = (date) => {
         this.setState({
-            dob: date
+            startDate: date
         });
     }
 
@@ -124,13 +121,14 @@ export default class ProfileStepFive extends React.Component {
                 <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
                     <DatePicker
-                        selected={this.state.dob}
+                        selected={this.state.startDate}
                         onChange={this.handleChange}
                         placeholderText="date of birth"
                         autoFocus={true}
                         disabledKeyboardNavigation
                         showMonthDropdown
                         showYearDropdown
+                        dateFormat="YYYY/MM/DD"
                     />
                     <select ref="gender">
                         <option value="male">male</option>

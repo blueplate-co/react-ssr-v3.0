@@ -26,6 +26,21 @@ export default class MenuStepTwo extends React.Component {
         console.log(this.props.fieldValues);
     }
 
+    //- get dish list by create_chef_id
+    getDishList = () => {
+        var self = this;
+        var create_chef_id = localStorage.getItem('create_chef_id');
+        axios.post('http://localhost:1337/api/view/dishes', {
+            create_chef_id: create_chef_id
+        })
+        .then(function(res){
+            console.log(res);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }
+
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
@@ -77,6 +92,9 @@ export default class MenuStepTwo extends React.Component {
             this.props.store.globalStep--;
         });
         this.props.setProgress(20);
+
+        //- show dish list
+        console.log(localStorage.getItem('create_chef_id'));
     }
 
     render() {

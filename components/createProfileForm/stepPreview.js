@@ -42,6 +42,7 @@ export default class ProfileStepPreview extends React.Component {
             imgSrc: null,
             selectedDate: null
         }
+        console.log(this.props.fieldValues);
     }
 
     // action when update avatar
@@ -108,6 +109,7 @@ export default class ProfileStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
+        var self = this;
         // create new form data 
         const data = new FormData();
         let errorStack = [];
@@ -130,7 +132,7 @@ export default class ProfileStepPreview extends React.Component {
         let services = this.state.services;
 
         // get dob
-        let dob = this.state.dob;
+        let dob = this.state.dob.format('YYYY/MM/DD');
 
         // get gender
         let gender = this.state.gender;
@@ -143,7 +145,7 @@ export default class ProfileStepPreview extends React.Component {
         data.append('address', this.props.fieldValues.location);
         data.append('phoneNumber', this.props.fieldValues.phoneNo);
         data.append('serviceOption', this.props.fieldValues.services);
-        data.append('dateOfBirth', this.props.fieldValues.dob);
+        data.append('dateOfBirth', dob);
         data.append('gender', this.props.fieldValues.gender);
         data.append('certification', this.props.fieldValues.exp[0]);
         data.append('school', this.props.fieldValues.exp[1]);
@@ -184,7 +186,7 @@ export default class ProfileStepPreview extends React.Component {
                 console.log(response);
                 errorStack.push('Create profile of chef successfully...');
                 let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
-                this.props.store.addNotification(notification);
+                self.props.store.addNotification(notification);
                 
                 //- save to localStorage
                 var create_chef_id = response.data.data.create_chef_id;
