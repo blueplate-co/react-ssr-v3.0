@@ -9,6 +9,7 @@ export default class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
         this.register = this.register.bind(this);
+        this.resendEmail = this.resendEmail.bind(this);
         this.state = {
             argree: false,
             stage: 'register'
@@ -70,7 +71,7 @@ export default class RegisterForm extends React.Component {
         //- register with the information
         //- server: 13.250.107.234
         axios
-        .post('http://13.250.107.234/api/register', formData)
+        .post('http://localhost:1337/api/register', formData)
         .then(function(res){  
         if(res.status === 201)
         {   
@@ -127,19 +128,32 @@ export default class RegisterForm extends React.Component {
         document.getElementsByTagName('input')[0].focus();
     }
 
+    //- show notification
+    notify = (self, content, notiType, heading) => {
+        let errorStack = [];
+        errorStack.push(content);
+        let notification = { type: notiType, heading: heading, content: errorStack, createdAt: Date.now() };
+        self.props.store.addNotification(notification);
+    }
+
     //- resend email
     resendEmail = () => {
-        return axios.post('http://13.250.107.234/api/email/resend',{
+        var self = this;
+        axios.post('http://localhost:1337/api/email/resend',{
             email: sessionStorage.getItem('email'),
             token: sessionStorage.getItem('token'),
             username: sessionStorage.getItem('username'),
         }).then(function(res){
+
+            //- show notification
+            self.notify(self, 'Resent email success... !', 'success', 'Resend email');
+
             console.log(res);
         }).catch(function(err){
             console.log(err);
         });
     }
-
+    
 
     render = () => {
         return (
