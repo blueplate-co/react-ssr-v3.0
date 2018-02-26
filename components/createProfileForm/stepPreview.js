@@ -189,26 +189,26 @@ export default class ProfileStepPreview extends React.Component {
             }
             
         })
-        // .catch(function (error) {
-        //     alert('Error when create profile. Please try again');
-            
-        // });
         .catch(error => {
-            var statusCode = error.response.status;
-            var message = error.response.data.message;
-            //- debug
-            console.log(error.response);
-            errorStack.push('Error when create profile. Please try again');
-            let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
-            this.props.store.addNotification(notification);
-
-            //- token expired or something else
-            if(statusCode === 403 && message === "Please login to continue")
+            if(error.response)
             {
-                //- token expired
-                console.log('Token expired. Please login again !');
-                Router.push('/');
-            } 
+                var statusCode = error.response.status;
+                var message = error.response.data.message;
+                //- debug
+                console.log(error.response);
+                errorStack.push('Error when create profile. Please try again');
+                let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
+
+                //- token expired or something else
+                if(statusCode === 403 && message === "Please login to continue")
+                {
+                    //- token expired
+                    console.log('Token expired. Please login again !');
+                    Router.push('/');
+                } 
+            }
+            
         });
     }
 
