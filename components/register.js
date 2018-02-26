@@ -74,6 +74,10 @@ export default class RegisterForm extends React.Component {
         .then(function(res){  
         if(res.status === 201)
         {   
+            //- save some data to sessionStorage
+            sessionStorage.setItem('username', res.data.data.uName);
+            sessionStorage.setItem('token', res.data.data.uToken);
+            sessionStorage.setItem('email', res.data.data.uEmail);
             //- display email validation notification
             self.setState({
                 stage: 'emailValidation'
@@ -123,6 +127,19 @@ export default class RegisterForm extends React.Component {
         document.getElementsByTagName('input')[0].focus();
     }
 
+    //- resend email
+    resendEmail = () => {
+        return axios.post('http://13.250.107.234/api/email/resend',{
+            email: sessionStorage.getItem('email'),
+            token: sessionStorage.getItem('token'),
+            username: sessionStorage.getItem('username'),
+        }).then(function(res){
+            console.log(res);
+        }).catch(function(err){
+            console.log(err);
+        });
+    }
+
 
     render = () => {
         return (
@@ -146,7 +163,7 @@ export default class RegisterForm extends React.Component {
                 <div className="container">
                     <h3>Email Validation</h3>
                     <p className="description">Thanks for signing up! A verification email has been sent to your email address. Please verify your account by clicking the link in the email.</p>
-                    <p className="">Haven't received our verification email yet? <a className="clickable">Click here to resend.</a></p>
+                    <p className="">Haven't received our verification email yet? <a className="clickable" onClick={ this.resendEmail }>Click here to resend.</a></p>
                 </div>
             )
         )
