@@ -13,7 +13,6 @@ var allergies = [
     {name: 'Soy', icon: 'soy.svg', value: false},
     {name: 'Shellfish', icon: 'CrustaceanShellfish.svg', value: false},
     {name: 'Wheat', icon: 'gluten.svg', value: false}
-
 ];
 
 @inject('store') @observer
