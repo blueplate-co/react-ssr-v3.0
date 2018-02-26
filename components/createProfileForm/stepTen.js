@@ -6,13 +6,13 @@ import { inject, observer } from 'mobx-react';
 
 var allergies = [
     {name: 'Egg', icon: 'egg.svg', value: false},
-    {name: 'Fish', icon: 'egg.svg', value: false},
-    {name: 'Milk', icon: 'egg.svg', value: false},
-    {name: 'Peanut', icon: 'egg.svg', value: false},
-    {name: 'Tree-nuts', icon: 'egg.svg', value: false},
-    {name: 'Soy', icon: 'egg.svg', value: false},
-    {name: 'Shellfish', icon: 'egg.svg', value: false},
-    {name: 'Wheat', icon: 'egg.svg', value: false}
+    {name: 'Fish', icon: 'fish.svg', value: false},
+    {name: 'Milk', icon: 'milk.svg', value: false},
+    {name: 'Peanut', icon: 'peanuts.svg', value: false},
+    {name: 'Tree-nuts', icon: 'tree_nuts.svg', value: false},
+    {name: 'Soy', icon: 'soy.svg', value: false},
+    {name: 'Shellfish', icon: 'CrustaceanShellfish.svg', value: false},
+    {name: 'Wheat', icon: 'gluten.svg', value: false}
 
 ];
 
@@ -90,7 +90,7 @@ export default class ProfileStepTen extends React.Component {
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
                     <input defaultChecked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
                     <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
-                    <img style={{ float: `right` }} src={ `/static/icons/` + item.icon }/>
+                    <img style={{ float: `right` }} src={ `/static/icons/allergies/` + item.icon }/>
                 </p>
             );
         })
