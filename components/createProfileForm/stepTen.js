@@ -6,14 +6,13 @@ import { inject, observer } from 'mobx-react';
 
 var allergies = [
     {name: 'Egg', icon: 'egg.svg', value: false},
-    {name: 'Fish', icon: 'egg.svg', value: false},
-    {name: 'Milk', icon: 'egg.svg', value: false},
-    {name: 'Peanut', icon: 'egg.svg', value: false},
-    {name: 'Tree-nuts', icon: 'egg.svg', value: false},
-    {name: 'Soy', icon: 'egg.svg', value: false},
-    {name: 'Shellfish', icon: 'egg.svg', value: false},
-    {name: 'Wheat', icon: 'egg.svg', value: false}
-
+    {name: 'Fish', icon: 'fish.svg', value: false},
+    {name: 'Milk', icon: 'milk.svg', value: false},
+    {name: 'Peanut', icon: 'peanuts.svg', value: false},
+    {name: 'Tree-nuts', icon: 'tree_nuts.svg', value: false},
+    {name: 'Soy', icon: 'soy.svg', value: false},
+    {name: 'Shellfish', icon: 'CrustaceanShellfish.svg', value: false},
+    {name: 'Wheat', icon: 'gluten.svg', value: false}
 ];
 
 @inject('store') @observer
@@ -81,6 +80,21 @@ export default class ProfileStepTen extends React.Component {
         }
     }
 
+    // generate list input
+    generateList = () => {
+        let that = this;
+        
+        return allergies.map((item, index) => {
+            return (
+                <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
+                    <input defaultChecked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
+                    <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
+                    <img style={{ float: `right` }} src={ `/static/icons/allergies/` + item.icon }/>
+                </p>
+            );
+        })
+    }
+
     componentDidMount = () => {
         // set function to back button
         this.props.store.setBackFunction(()=>{
@@ -90,21 +104,17 @@ export default class ProfileStepTen extends React.Component {
         document.getElementsByTagName('input')[document.getElementsByTagName("input").length - 1].focus();
 
         this.props.setProgress(85);
-    }
 
-    // generate list input
-    generateList = () => {
-        var that = this;
-        
-        return allergies.map((item, index) => {
-            return (
-                <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
-                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
-                    <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
-                    <img style={{ float: `right` }} src={ `/static/icons/` + item.icon }/>
-                </p>
-            );
-        })
+        // set default value for back function
+        if (this.props.fieldValues.allergies.length > 0){
+            for (let i = 0; i < this.props.fieldValues.allergies.length; i++) {
+                for(let j = 0; j < allergies.length; j++) {
+                    if (allergies[j].name == this.props.fieldValues.allergies[i].name) {
+                        allergies[j].value = true;
+                    }
+                }
+            }
+        }
     }
 
     render() {

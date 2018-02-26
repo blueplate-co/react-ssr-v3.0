@@ -65,6 +65,7 @@ export default class ProfileStepSix extends React.Component {
         } else { // no error
             let data = {
                 exp: result,
+                expDummy: this.state.exp
             }
             
             this.props.saveValues(data);
@@ -77,7 +78,7 @@ export default class ProfileStepSix extends React.Component {
         var that = this;
         
         return this.state.exp.map((item, index) => {
-            return <input ref={'input' + index} key={index} type="text" placeholder={item.name}/>;
+            return <input ref={'input' + index} key={index} type="text" placeholder={item.name} defaultValue={item.value}/>;
         })
     }
 
@@ -97,6 +98,24 @@ export default class ProfileStepSix extends React.Component {
         document.getElementsByTagName('input')[0].focus();
 
         this.props.setProgress(65);
+
+        // set default value for back function action
+        if (this.props.fieldValues.exp.length > 0) {
+            let expDummy = [];
+            for(let i = 0; i < this.props.fieldValues.exp.length; i++) {
+                let singleExp = { name: 'certification', value: this.props.fieldValues.exp[i] };
+                expDummy.push(singleExp);
+            }
+
+            this.setState({
+                exp: expDummy
+            }, () => {
+                // overwrite value for input, because not set default to re-render component now
+                for(let i = 0; i < this.props.fieldValues.exp.length; i++) {
+                    document.getElementsByTagName('input')[i].value = this.props.fieldValues.exp[i];
+                }
+            })
+        }
     }
 
     render() {

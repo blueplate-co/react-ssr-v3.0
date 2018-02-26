@@ -5,17 +5,17 @@ import validator from 'validator';
 import { inject, observer } from 'mobx-react';
 
 var dietary = [
-    {name: 'Diabary', icon: 'highProtein.svg', value: false},
-    {name: 'Gluten-free', icon: 'highProtein.svg', value: false},
-    {name: 'High protein', icon: 'highProtein.svg', value: false},
-    {name: 'Lactose-free', icon: 'highProtein.svg', value: false},
-    {name: 'Low sodium', icon: 'highProtein.svg', value: false},
-    {name: 'Low-Carbs', icon: 'highProtein.svg', value: false},
-    {name: 'Nut free', icon: 'highProtein.svg', value: false},
-    {name: 'Paleo', icon: 'highProtein.svg', value: false},
-    {name: 'Pescetatrian', icon: 'highProtein.svg', value: false},
-    {name: 'Vegan', icon: 'highProtein.svg', value: false},
-    {name: 'Vegetarian', icon: 'highProtein.svg', value: false}
+    {name: 'Diabary', icon: 'Diabetic.svg', value: false},
+    {name: 'Gluten-free', icon: 'Gluten-free.svg', value: false},
+    {name: 'High protein', icon: 'HighProtein.svg', value: false},
+    {name: 'Lactose-free', icon: 'Lactose-free.svg', value: false},
+    {name: 'Low sodium', icon: 'Low sodium.svg', value: false},
+    {name: 'Low-Carbs', icon: 'Low-Carb.svg', value: false},
+    {name: 'Nut free', icon: 'Nut Free.svg', value: false},
+    {name: 'Paleo', icon: 'Paleo.svg', value: false},
+    {name: 'Pescetarian', icon: 'Pescetarian.svg', value: false},
+    {name: 'Vegan', icon: 'Vegan.svg', value: false},
+    {name: 'Vegetarian', icon: 'Vegetarian.svg', value: false}
 
 ];
 
@@ -91,9 +91,9 @@ export default class ProfileStepEleven extends React.Component {
         return dietary.map((item, index) => {
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
-                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
+                    <input type="checkbox" defaultChecked={item.value} name={item.name} id={item.name} onChange={this.handleInputChange}/>
                     <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
-                    <img style={{ float: `right` }} src={ `/static/icons/` + item.icon }/>
+                    <img style={{ float: `right` }} src={ `/static/icons/dietary/` + item.icon }/>
                 </p>
             );
         })
@@ -108,6 +108,17 @@ export default class ProfileStepEleven extends React.Component {
         document.getElementsByTagName('input')[document.getElementsByTagName("input").length - 1].focus();
 
         this.props.setProgress(95);
+
+        // set default value for back function
+        if (this.props.fieldValues.dietary.length > 0){
+            for (let i = 0; i < this.props.fieldValues.dietary.length; i++) {
+                for(let j = 0; j < dietary.length; j++) {
+                    if (dietary[j].name == this.props.fieldValues.dietary[i].name) {
+                        dietary[j].value = true;
+                    }
+                }
+            }
+        }
     }
 
     render() {

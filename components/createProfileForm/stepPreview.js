@@ -18,6 +18,7 @@ export default class ProfileStepPreview extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
         this.save = this.save.bind(this);
+        this.showMap = this.showMap.bind(this);
 
         this.state = {
             firstName: null,
@@ -107,7 +108,7 @@ export default class ProfileStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
-        // create new form data
+        // create new form data 
         const data = new FormData();
 
         // split firtname and lastname
@@ -166,20 +167,25 @@ export default class ProfileStepPreview extends React.Component {
         axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
             if(response.status === 200)
-            {   
+            {
+                console.log(response);
+                errorStack.push('Create profile of chef successfully...');
+                let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
+                
                 //- save to localStorage
                 var create_chef_id = response.data.data.create_chef_id;
                 localStorage.setItem('create_chef_id', create_chef_id);
 
-                //- debugging
-                console.log(response);
-                alert('Create profile of chef successfully...');
-
                 //- redirect
                 sessionStorage.setItem("welcomeStage", 1);
-                Router.push('/become');
+                setTimeout(() => {
+                    Router.push('/become');
+                }, 1500);
             }else{
-                alert('Cannot create chef profile');
+                errorStack.push('Cannot create chef profile.');
+                let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
             }
             
         })
@@ -188,26 +194,29 @@ export default class ProfileStepPreview extends React.Component {
             
         // });
         .catch(error => {
-            if(error.response)
-            {
-                var statusCode = error.response.status;
-                var message = error.response.data.message;
-                //- debug
-                console.log(error.response);
-                alert('Error when create profile. Please try again');
+            var statusCode = error.response.status;
+            var message = error.response.data.message;
+            //- debug
+            console.log(error.response);
+            errorStack.push('Error when create profile. Please try again');
+            let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
 
-                //- token expired or something else
-                if(statusCode === 403 && message === "Please login to continue")
-                {
-                    //- token expired
-                    console.log('Token expired. Please login again !');
-                    Router.push('/');
-                }
-            }
-            console.log(error);
-            
-            
+            //- token expired or something else
+            if(statusCode === 403 && message === "Please login to continue")
+            {
+                //- token expired
+                console.log('Token expired. Please login again !');
+                Router.push('/');
+            } 
         });
+    }
+
+    // toggle show google maps
+    showMap = () => {
+        this.props.store.showMap = true;
+        let element = document.getElementsByClassName("create_profile_step");
+        element[0].classList.add("hidden");
     }
 
     componentDidMount = () => {
@@ -474,7 +483,7 @@ export default class ProfileStepPreview extends React.Component {
                                 <img src={this.state.imgSrc} />
                             ) :
                             (
-                                <img src={this.props.fieldValues.profileImagesSrc} />
+                                <img src={this.props.fieldValues.profileImages} />
                             )
                         }
                         <i className="fas fa-arrow-up"></i>
@@ -492,7 +501,7 @@ export default class ProfileStepPreview extends React.Component {
                     {/* general profile */}
                     <span className="user-name" ><img src="/static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.state.firstName} {this.state.lastName}</span></span>
                     <span className="user-email"><img src="/static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.state.email}</span></span>
-                    <span className="user-location"><img src="/static/icons/marker.svg" /><span ref="location"> {this.state.location}</span></span>
+                    <span className="user-location" onClick={ this.showMap } ><img src="/static/icons/marker.svg" /><span ref="location"> {this.props.store.address}</span></span>
 
                     {/* serving options */}   
                     {this.props.fieldValues.services ? (
@@ -578,7 +587,7 @@ export default class ProfileStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies">
+                    <div className="allergies" onClick={ () => this.props.goToStep(10) } >
                         <span className="title">Major food allergies</span>
                         <div className="list">
                             {
@@ -586,7 +595,7 @@ export default class ProfileStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/allergies/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -595,7 +604,7 @@ export default class ProfileStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="allergies">
+                    <div className="allergies" onClick={ () => this.props.goToStep(11) }>
                         <span className="title">Dietary preference</span>
                         <div className="list">
                             {
@@ -603,7 +612,7 @@ export default class ProfileStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/dietary/' + item.icon}/>
                                         </div>
                                     )
                                 })

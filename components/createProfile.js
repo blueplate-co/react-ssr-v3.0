@@ -69,6 +69,11 @@ export default class CreateProfile extends React.Component {
         this.props.store.previousStep();
     }
 
+    // Go to specific step
+    goToStep = (step) => {
+        this.props.store.goToStep(step);
+    }
+
     // set progress for progressbar
     setProgress = (number) => {
         this.setState({
@@ -105,7 +110,7 @@ export default class CreateProfile extends React.Component {
             <ProgressBar progress={this.state.progress  } />
             {/* generate map marker with condition */}
             { this.generateMap() }
-            <style jsx>{`
+            <style jsx>{` 
                 /* Landscape phones and dowsn */
                 @media (max-width: 480px) {
                 }
@@ -136,7 +141,7 @@ export default class CreateProfile extends React.Component {
                     case 11:
                         return <ProfileStepEleven fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 12:
-                        return <ProfileStepPreview fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>    
+                        return <ProfileStepPreview fieldValues={fieldValues} previousStep={this.previousStep} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress} goToStep={this.goToStep}/>    
                 }
             })()}
                 
