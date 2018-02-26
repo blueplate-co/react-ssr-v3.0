@@ -24,9 +24,9 @@ export default class DishStepPreview extends React.Component {
     // action when update avatar
     onChange = () => {
         // Assuming only image
-        var file = this.refs.file.files[0];
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
+        let file = this.refs.file.files[0];
+        let reader = new FileReader();
+        let url = reader.readAsDataURL(file);
         reader.onloadend = function (e) {
             this.setState({
                 imgSrc: [reader.result],
@@ -93,7 +93,7 @@ export default class DishStepPreview extends React.Component {
     }
       
     addAllergy = (create_dish_id) => {
-        var data = new FormData();
+        let data = new FormData();
         data.create_dish_id = create_dish_id;
         data.allergies = this.props.fieldValues.allergiesString;
         return axios.post('http://13.250.107.234/api/dish/create/allergies', {
@@ -103,7 +103,7 @@ export default class DishStepPreview extends React.Component {
     }
 
     addDietary = (create_dish_id) => {
-        var data = new FormData();
+        let data = new FormData();
         data.create_dish_id = create_dish_id;
         data.dietaries = this.props.fieldValues.dietaryString;
         return axios.post('http://13.250.107.234/api/dish/create/dietaries', {
@@ -117,102 +117,144 @@ export default class DishStepPreview extends React.Component {
         const data = new FormData();
 
         //- update first then create ingredients, food allergy, dietary
-        var propValues = this.props.fieldValues;
-        var dishImageSrc = this.props.fieldValues.dishImagesSrc;
-        var dishName = this.props.fieldValues.dishName;
-        var dishDescription = this.props.fieldValues.dishDescription;
-        var cacheFile = this.props.fieldValues.cacheFile;
-        var fileName = propValues.cacheFile['name'];
-        console.log(propValues);
+        let propValues = this.props.fieldValues;
+        let dishImageSrc = this.props.fieldValues.dishImagesSrc;
+        let dishName = document.getElementsByClassName('dish-name')[0].innerText;
+        let dishDescription = document.getElementsByClassName('dish-description')[0].innerText
+        let cacheFile = this.props.fieldValues.cacheFile;
+        let fileName = propValues.cacheFile['name'];
 
         //- cost
-        var cost = self.props.fieldValues.cost;
-        var customPrice = self.props.fieldValues.customPrice;
-        var suggestedPrice = self.props.fieldValues.suggestedPrice;
+        let cost = document.getElementsByClassName('cost')[0].innerText;
+        let customPrice = document.getElementsByClassName('customPrice')[0].innerText;
+        let suggestedPrice = document.getElementsByClassName('suggestedPrice')[0].innerText;
 
         //- preparation time
-        var prepareTime = self.props.fieldValues.prepareTime; //- in minutes
+        let days = document.querySelector('.days span').innerText;
+        let hours = document.querySelector('.hours span').innerText;
+        let mins = document.querySelector('.mins span').innerText;
+        let prepareTime = self.props.fieldValues.prepareTime; //- in minutes
 
         //- tags
-        var tags = self.props.fieldValues.tags; //- array
+        let tags = self.props.fieldValues.tags; //- array
 
         //- minimum order
-        var minimumOrder = self.props.fieldValues.minimumOrder;
+        let minimumOrder = document.getElementsByClassName('min-order')[0].innerText;
 
-        //- create data using for api
-        //- local chef id: 5a7431f357076fd017913c9f
-        //- server chef id: 5a79a1524be30c971138175e
-        // data.append('chefID', '5a79a1524be30c971138175e');
-        data.append('chefID', localStorage.getItem('create_chef_id'));
-        data.append('name', dishName);
-        data.append('describe', dishDescription);
-
-        //- cost
-        console.log(typeof(cost));
-        data.append('cost', cost);
-        data.append('suggestedPrice', suggestedPrice);
-        data.append('customPrice', customPrice);
-        //- preparation time
-        data.append('prepareTime', prepareTime);
-        //- tags
-        data.append('tags', tags);
-        //- minimum order
-        data.append('minOrder', minimumOrder);
-
-        //- dish image
-        data.append('dishImageName', fileName);
-        data.append('dishImage', cacheFile);
-
-        console.log(data);
-        console.log(typeof(cacheFile));
-        
-        //- set header
-        const config = {
-            headers: { 'Content-Type': 'multipart/form-data' }
+        //////
+        //////  CHECK THE EDITABLE DATA BEFORE GOES ON
+        //////
+        let errorStack = [];
+        if (validator.trim(dishName).length == 0) {
+            errorStack.push('Dish name must not empty');
         }
+        if (validator.trim(dishDescription).length == 0) {
+            errorStack.push('Dish description must not empty');
+        }
+        if (parseInt(cost) == NaN) {
+            errorStack.push('Invalid dish cost format');
+        }
+        if (parseInt(customPrice) == NaN) {
+            errorStack.push('Invalid dish custom price format');
+        }
+        if (parseInt(suggestedPrice) == NaN) {
+            errorStack.push('Invalid dish suggested price format');
+        }
+        if (parseInt(days) == NaN) {
+            errorStack.push('Invalid days format');
+        }
+        if (parseInt(hours) == NaN) {
+            errorStack.push('Invalid hours format');
+        }
+        if (parseInt(mins) == NaN) {
+            errorStack.push('Invalid mins format');
+        }
+        if (parseInt(minimumOrder) == NaN) {
+            errorStack.push('Invalid minium orders number format');
+        }
+        debugger
+        if (errorStack.length > 0) {
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return;
+        } else {
+            //- create data using for api
+            //- local chef id: 5a7431f357076fd017913c9f
+            //- server chef id: 5a79a1524be30c971138175e
+            data.append('chefID', '5a79a1524be30c971138175e');
+            data.append('name', dishName);
+            data.append('describe', dishDescription);
 
-        //- using axios
-        axios
-        .post('http://13.250.107.234/api/dish/create', data)
-        .then(function(res){
-            console.log(res);
-            if(res.status === 200)
-            {
-                //- prop ids
-                var dish_id = {};
-                dish_id.create_dish_id = res.data.data.create_dish_id;
-                dish_id.update_dish_id = res.data.data.update_dish_id;
-                console.log(dish_id);
-                //- using axios all
-                self.addMore(dish_id);
-            }
-        })
-        // .catch(function(err){
-        //     console.log(err);
-        // });
-        .catch(error => {
-            var statusCode = error.response.status;
-            var message = error.response.data.message;
-            //- debug
-            console.log(error.response);
-            alert('Error when create profile. Please try again');
+            //- cost
+            console.log(typeof(cost));
+            data.append('cost', cost);
+            data.append('suggestedPrice', suggestedPrice);
+            data.append('customPrice', customPrice);
+            //- preparation time
+            data.append('prepareTime', prepareTime);
+            //- tags
+            data.append('tags', tags);
+            //- minimum order
+            data.append('minOrder', minimumOrder);
 
-            //- token expired or something else
-            if(statusCode === 403 && message === "Please login to continue")
-            {
-                //- token expired
-                console.log('Token expired. Please login again !');
-                Router.push('/');
+            //- dish image
+            data.append('dishImageName', fileName);
+            data.append('dishImage', cacheFile);
+
+            console.log(data);
+            console.log(typeof(cacheFile));
+            
+            //- set header
+            const config = {
+                headers: { 'Content-Type': 'multipart/form-data' }
             }
-            
-            
-        });
+
+            //- using axios
+            axios
+            .post('http://13.250.107.234/api/dish/create', data)
+            .then(function(res){
+                console.log(res);
+                if(res.status === 200)
+                {
+                    //- prop ids
+                    let dish_id = {};
+                    dish_id.create_dish_id = res.data.data.create_dish_id;
+                    dish_id.update_dish_id = res.data.data.update_dish_id;
+                    console.log(dish_id);
+                    //- using axios all
+                    self.addMore(dish_id);
+                }
+            })
+            // .catch(function(err){
+            //     console.log(err);
+            // });
+            .catch(error => {
+                debugger
+                let statusCode = error.response.status;
+                let message = error.response.data.message;
+                //- debug
+                console.log(error.response);
+                let errorStack = [];
+                errorStack.push('Error when create profile. Please try again');
+                let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
+
+                //- token expired or something else
+                if(statusCode === 403 && message === "Please login to continue")
+                {
+                    //- token expired
+                    console.log('Token expired. Please login again !');
+                    Router.push('/');
+                } 
+            });
+        }
 
     }
 
     //- insert allergy, dietary and ingredients
     addMore = (dish_id)=> {
         console.log(this.props.fieldValues);
+        let that = this;
         axios.all([
             this.addAllergy(dish_id.create_dish_id), 
             this.addDietary(dish_id.create_dish_id), 
@@ -224,9 +266,14 @@ export default class DishStepPreview extends React.Component {
             console.log(arr[2].data);
 
             //- go back to /become with stage 2
-            alert('Create Dish Successful');
+            let errorStack = [];
+            errorStack.push('Create Dish Successful');
+            let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
+            that.props.store.addNotification(notification);
             sessionStorage.setItem("welcomeStage", 2);
-            Router.push('/become');
+            setTimeout(() => {
+                Router.push('/become');
+            }, 1500);
         })
         .catch(function(err){
             console.log(err);
@@ -237,55 +284,7 @@ export default class DishStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
-        // create new form data
-        const data = new FormData();
-
-        //- alert('Create Dish Successful');
-        //- sessionStorage.setItem("welcomeStage", 2);
-        //- Router.push('/become');
-
-        // split firtname and lastname
-        // let fullname = validator.trim(this.refs.fullname.innerText);
-        // let firstname = null;
-        // let lastname = null;
-
-        // firstname = validator.trim(fullname.split(" ")[0]);
-        // lastname = validator.trim(fullname.substr(fullname.indexOf(" "), fullname.length));
-        
-        // data.append('firstName', firstname);
-        // data.append('lastName', lastname);
-        // data.append('uid', '5a6e8312e35b20787806756a');
-        // data.append('address', this.props.fieldValues.location);
-        // data.append('phoneNumber', this.props.fieldValues.phoneNo);
-        // data.append('serviceOption', this.props.fieldValues.services);
-        // data.append('dateOfBirth', this.props.fieldValues.dob);
-        // data.append('gender', this.props.fieldValues.gender);
-        // data.append('certification', this.props.fieldValues.exp[0]);
-        // data.append('school', this.props.fieldValues.exp[1]);
-        // data.append('about', this.props.fieldValues.yourself);
-        // data.append('inspiration', this.props.fieldValues.inspiration);
-        // data.append('chefImageName', 'abc.jpg');
-        // data.append('chefImage', this.props.fieldValues.cacheFile, 'abc.jpg');
-        
-
-        // const config = {
-        //     headers: { 'content-type': 'multipart/form-data' }
-        // }
-
-        // axios.post('http://13.250.107.234/api/chef/create', data, config)
-        // .then(function (response) {
-        //     alert('Create successful ^^');
-        // })
-        // .catch(function (error) {
-        //     alert('Error when create profile. Please try again');
-            
-        // });
-
-        //- save data
         this.sendRequest(this);
-
-
-
     }
 
     componentDidMount = () => {
@@ -492,7 +491,7 @@ export default class DishStepPreview extends React.Component {
                                 <img src={this.state.imgSrc} />
                             ) :
                             (
-                                <img src={this.props.fieldValues.dishImagesSrc} />
+                                <img src={this.props.fieldValues.dishImagesSrc[0]} />
                             )
                         }
                         <i className="fas fa-arrow-up"></i>
@@ -518,8 +517,8 @@ export default class DishStepPreview extends React.Component {
                             this.props.fieldValues.ingredient.map(function(item, index){
                                 return (
                                     <div key={index} className="ingredient-item">
-                                        <span>{item.name}</span>
-                                        <span>{item.qty} {item.unit}</span>
+                                        <span>{item.iName}</span>
+                                        <span>{item.iQuantity} {item.iUnit}</span>
                                     </div>
                                 )
                             })
@@ -545,9 +544,9 @@ export default class DishStepPreview extends React.Component {
                     <div className="preparation-wrapper">
                         <h4>Preparation time</h4>
                         <div className="preparation-row">
-                            <span className="days" ref="dishName" suppressContentEditableWarning="true" contentEditable="true"><span>{this.props.fieldValues.days}</span> days</span>
-                            <span className="hours" ref="dishName" suppressContentEditableWarning="true" contentEditable="true"><span>{this.props.fieldValues.hours}</span> hours</span>
-                            <span className="mins" ref="dishName" suppressContentEditableWarning="true" contentEditable="true"><span>{this.props.fieldValues.mins}</span> mins</span>
+                            <span className="days" ref="dishName"><span suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.days}</span> days</span>
+                            <span className="hours" ref="dishName"><span suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.hours}</span> hours</span>
+                            <span className="mins" ref="dishName"><span suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.mins}</span> mins</span>
                         </div>
                     </div>
 
@@ -560,7 +559,7 @@ export default class DishStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/allergies/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -577,7 +576,7 @@ export default class DishStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/dietary/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -622,7 +621,7 @@ export default class DishStepPreview extends React.Component {
                     <div className="minimum-order">
                         <div className="list">
                             <span>Minimum order</span>
-                            <span className="mins" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.minimumOrder}</span>
+                            <span className="mins min-order" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.minimumOrder}</span>
                         </div>
                     </div>
 

@@ -17,7 +17,7 @@ export default class DishStepThree extends React.Component {
 
         this.state = {
             ingredient: [
-                {name: '', qty: 0, unit: ''}
+                {iName: '', iQuantity: 0, iUnit: ''}
             ]
         }
     }
@@ -25,13 +25,13 @@ export default class DishStepThree extends React.Component {
     // action when user add exp skills
     addIngredient = (e) => {
         let dummyArray = this.state.ingredient;
-        dummyArray.push({name: '', qty: 0, unit: ''});
+        dummyArray.push({iName: '', iQuantity: 0, iUnit: ''});
         this.setState({
             addIngredient: dummyArray
         })
     }
 
-    insertMultipleIngredients = (self, ingredients) => {
+    insertMultipleIngredients = (self, ingredients, callback) => {
 
         //- insert multiple ingredients
         const formData = new FormData();
@@ -57,7 +57,7 @@ export default class DishStepThree extends React.Component {
                 self.props.fieldValues.iid = iid; //- array
 
                 //- next
-                self.props.nextStep();
+                callback();
             }
         })
         .catch(function(err){
@@ -66,15 +66,14 @@ export default class DishStepThree extends React.Component {
         });
     }
 
-    // handlechange when user input 
-
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
         let result = [];
+        let errorStack = [];
+        let data = {}
 
         this.state.ingredient.map((item, index) => {
-            let errorStack = [];
             let tempName = document.getElementsByClassName('ingredient-name')[index].value;
             let tempQty = document.getElementsByClassName('ingredient-qty')[index].value;
             let tempUnit = document.getElementsByClassName('ingredient-unit')[index].value;
@@ -83,12 +82,9 @@ export default class DishStepThree extends React.Component {
                 if (validator.trim(tempName).length > 0 && validator.trim(tempQty).length > 0 && validator.trim(tempUnit).length > 0) { // no store empty string value
                     var tempIngredient = {iName: tempName, iQuantity: parseFloat(tempQty), iUnit: tempUnit}
                     result.push(tempIngredient);  
-                    let data = {
+                    data = {
                         ingredient: result,
                     }
-
-                    this.props.saveValues(data);
-                    // this.props.nextStep();
                 } else {
                     errorStack.push('Please complete ingredient before you add these');
                     let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
@@ -108,6 +104,7 @@ export default class DishStepThree extends React.Component {
         // this.insertMultipleIngredients(this, result);
 
         //- next
+        this.props.saveValues(data);
         this.props.nextStep();
 
     }
@@ -116,13 +113,12 @@ export default class DishStepThree extends React.Component {
     // generate list input
     generateList = () => {
         var that = this;
-        
         return this.state.ingredient.map((item, index) => {
             return (
                 <div key={index} style={{ display: 'inline-flex' }}>
-                    <input className="ingredient-name" style={{ width: '60%', marginRight: '3%' }} type="text" placeholder="ingredient"/>
-                    <input className="ingredient-qty" style={{ width: '20%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="0"/>
-                    <input className="ingredient-unit" style={{ width: '20%' }} type="text" placeholder=""/>
+                    <input defaultValue={item.iName} className="ingredient-name" style={{ width: '60%', marginRight: '3%' }} type="text" placeholder="ingredient"/>
+                    <input defaultValue={item.iQuantity} className="ingredient-qty" style={{ width: '20%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="0"/>
+                    <input defaultValue={item.iUnit} className="ingredient-unit" style={{ width: '20%' }} type="text" placeholder=""/>
                 </div>
             )
         })
@@ -137,6 +133,18 @@ export default class DishStepThree extends React.Component {
         this.props.setProgress(30);
 
         document.getElementsByTagName('input')[0].focus();
+
+        // set default value
+        if (this.props.fieldValues.ingredient.length > 0) {
+            this.setState({
+                ingredient: this.props.fieldValues.ingredient
+            },() => {
+                // treat for set value for first ingredients line, because, sometimes, all these value in first line not filled
+                document.getElementsByTagName('input')[0].value = this.props.fieldValues.ingredient[0].iName;
+                document.getElementsByTagName('input')[1].value = this.props.fieldValues.ingredient[0].iQuantity;
+                document.getElementsByTagName('input')[2].value = this.props.fieldValues.ingredient[0].iUnit;
+            })
+        }
     }
 
     render() {

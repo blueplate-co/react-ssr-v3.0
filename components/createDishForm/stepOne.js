@@ -83,6 +83,13 @@ export default class DishStepOne extends React.Component {
     componentDidMount = () => {
         this.props.store.setBackFunction(null);
         this.props.setProgress(10);
+
+        // set defaultvalue of images
+        if (this.props.fieldValues.dishImagesSrc.length > 0) {
+            this.setState({
+                imgSrc: this.props.fieldValues.dishImagesSrc[0]
+            })
+        }
     }
 
     render() {

@@ -50,6 +50,12 @@ export default class DishStepNine extends React.Component {
         }
     }
 
+    handleEnter = (e) => {
+        if (e.keyCode == 13) {
+            this.saveAndContinue(e);
+        }
+    }
+
     componentDidMount = () => {
         // set function to back button
         this.props.store.setBackFunction(()=>{
@@ -94,10 +100,10 @@ export default class DishStepNine extends React.Component {
                     }
                 `}</style>
 
-                <div className="container">
+                <div className="container" onKeyDown={ this.handleEnter }>
                     <h3>Minimum order</h3>
                     <div className="row-data">
-                        <input ref="value" type="number" placeholder="number of orders from foodies" />
+                        <input ref="value" type="number" defaultValue={this.props.fieldValues.minimumOrder} placeholder="number of orders from foodies" />
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
