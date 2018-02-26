@@ -74,7 +74,7 @@ export default class ProfileStepTwo extends React.Component {
             }
 
             // set location value to mobx store
-            this.props.store.location = data.location;
+            this.props.store.address = data.location;
             this.props.store.lat = data.lat;
             this.props.store.lng = data.lng;
             

@@ -44,7 +44,7 @@ export default class ProfileStepFour extends React.Component {
 
         // Get values via this.refs
         let data = {
-            profileImagesSrc: null,
+            profileImages: null,
             cachefile: null
         }
 

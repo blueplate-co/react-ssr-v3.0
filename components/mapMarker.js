@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import cnf from '../config';
+import validator from 'validator';
 
 @inject('store') @observer
 export default class MapMarker extends React.Component {
@@ -85,18 +86,83 @@ export default class MapMarker extends React.Component {
                 });
             });
         } else {
-            alert('Location not support on your devices');
+            errorStack.push('Location not support on your devices');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
         }
     }
 
     // hide map for hidden
     hideMap = () => {
-        this.props.store.showMap = false;
+        // errorStack for init error list
+        let errorStack = [];
+
+        let that = this;
+
+        // location must not empty string and with valid format
+        if (validator.isEmpty(validator.trim(this.refs.search.value))) {
+            errorStack.push('Must have location address.');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return;
+        } else {
+            let addr = document.getElementById("search");
+            // Get geocoder instance
+            let geocoder = new google.maps.Geocoder();
+
+            // Geocode the address
+            geocoder.geocode({
+                'address': addr.value
+            }, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+                    // set it to the correct, formatted address if it's valid
+                    that.props.store.address = results[0].formatted_address;
+                    that.props.store.lat = results[0].geometry.location.lat();
+                    that.props.store.lng = results[0].geometry.location.lng();
+                    // display again step-preview
+                    let element = document.getElementsByClassName("create_profile_step");
+                    element[0].classList.remove("hidden");
+                    // hide map
+                    that.props.store.showMap = false;
+                }
+                else{
+                    errorStack.push("Invalid address.");
+                    let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                    that.props.store.addNotification(notification);
+                }
+            });
+        }
+    }
+
+    // handle change when change input location
+    handleChange = (e) => {
+        let value = e.target.value;
+        this.setState({
+            address: value
+        })
     }
 
     componentDidMount = () => {
         // init map for launch
         this.initialize();
+
+        // init for google places autocomplete
+        let that = this;
+        let inputPlaces = document.getElementById('search');
+        let autocomplete = new google.maps.places.Autocomplete(inputPlaces, {
+            types: ["geocode"]
+        });
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            let place = autocomplete.getPlace();
+            that.setState({
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+                address: place.formatted_address
+            });
+            // re-init google maps
+            that.initialize();
+        });
     }
 
     render() {
@@ -107,7 +173,7 @@ export default class MapMarker extends React.Component {
                         width: 100vw;
                         height: 100%;
                         position: fixed;
-                        z-index: 100;
+                        z-index: 10;
                         top: 0px;
                         &:after {
                             width: 22px;
@@ -172,7 +238,7 @@ export default class MapMarker extends React.Component {
                     }
                 `}</style>
                 <div id="map"></div>
-                <input defaultValue={this.state.address} value={this.state.address} id="search" type="text" />
+                <input defaultValue={this.state.address} value={this.state.address} onChange={(e) => {this.handleChange(e)}} id="search" ref="search" type="text" />
                 <img id="back" onClick={ () => this.hideMap() } className="round-btn float-btn" src="/static/icons/arrow_back_white.svg" />
                 <img id="zoom-in" onClick={ () => this.zoomIn() } className="round-btn float-btn" src="/static/icons/zoomIn.svg" />
                 <img id="zoom-out" onClick={ () => this.zoomOut() } className="round-btn float-btn" src="/static/icons/zoomOut.svg" />
