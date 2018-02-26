@@ -172,7 +172,7 @@ export default class DishStepPreview extends React.Component {
         if (parseInt(minimumOrder) == NaN) {
             errorStack.push('Invalid minium orders number format');
         }
-        debugger
+         
         if (errorStack.length > 0) {
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
@@ -181,7 +181,7 @@ export default class DishStepPreview extends React.Component {
             //- create data using for api
             //- local chef id: 5a7431f357076fd017913c9f
             //- server chef id: 5a79a1524be30c971138175e
-            data.append('chefID', '5a79a1524be30c971138175e');
+            data.append('chefID', localStorage.getItem('create_chef_id'));
             data.append('name', dishName);
             data.append('describe', dishDescription);
 
@@ -229,7 +229,7 @@ export default class DishStepPreview extends React.Component {
             //     console.log(err);
             // });
             .catch(error => {
-                debugger
+                 
                 let statusCode = error.response.status;
                 let message = error.response.data.message;
                 //- debug

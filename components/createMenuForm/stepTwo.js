@@ -5,6 +5,7 @@ import validator from 'validator';
 import cnf from '../../config';
 
 import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 
 // global variable for list check
 let selectedData = [
@@ -23,34 +24,23 @@ export default class MenuStepTwo extends React.Component {
         this.state = {
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
-        console.log(this.props.fieldValues);
-    }
 
-    //- get dish list by create_chef_id
-    getDishList = () => {
-        var self = this;
-        var create_chef_id = localStorage.getItem('create_chef_id');
-        axios.post('http://localhost:1337/api/view/dishes', {
-            create_chef_id: create_chef_id
-        })
-        .then(function(res){
-            console.log(res);
-        })
-        .catch(function(err){
-            console.log(err);
-        });
+        console.log(this.props.fieldValues);
     }
 
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
+
+        //- dishes list
+        let dishes = this.props.fieldValues.dishList;
         
         let result = [];
         let errorStack = [];
 
-        for(let i = 0; i < selectedData.length; i++) {
-            if (selectedData[i].selected == true) {
-                result.push(selectedData[i])
+        for(let i = 0; i < dishes.length; i++) {
+            if (dishes[i].selected == true) {
+                result.push(dishes[i])
             }
         }
         
@@ -92,12 +82,12 @@ export default class MenuStepTwo extends React.Component {
             this.props.store.globalStep--;
         });
         this.props.setProgress(20);
-
-        //- show dish list
-        console.log(localStorage.getItem('create_chef_id'));
+        
     }
 
     render() {
+        console.log('----: ', this.props.fieldValues.dishList);
+        var dishes = this.props.fieldValues.dishList;
         return (
             <div className="create_menu_step">
                 <style jsx>{`
@@ -169,20 +159,20 @@ export default class MenuStepTwo extends React.Component {
                     </div>
 
                     {
-                        selectedData.map((item, index) => (
+                        dishes.map((item, index) => (
                             <div key={index} className="data-row">
                                 <span>
-                                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
-                                    <label htmlFor={item.name} style={{ float: `left` }}></label>
+                                    <input type="checkbox" name="dish[]" id={item.dName} onChange={this.handleInputChange} value={item.id}/>
+                                    <label htmlFor={item.dName} style={{ float: `left` }}></label>
                                 </span>
                                 <span>
-                                    { item.name }
+                                    { item.dName }
                                 </span>
                                 <span>
-                                    $ { item.cost }
+                                    $ { item.dCost }
                                 </span>
                                 <span>
-                                    $ { item.selling }
+                                    $ { item.dSuggestedPrice }
                                 </span>
                             </div>
                     ))}
