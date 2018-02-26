@@ -114,6 +114,13 @@ export default class DishStepEight extends React.Component {
         this.props.setProgress(80);
 
         document.getElementsByTagName('input')[0].focus();
+
+        // default value for back action
+        if (this.props.fieldValues.tags.length >0){ 
+            this.setState({
+                tags: this.props.fieldValues.tags
+            })
+        }
     }
 
     render() {

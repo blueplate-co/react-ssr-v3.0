@@ -116,9 +116,9 @@ export default class DishStepFive extends React.Component {
                         <div className="custom">Custom</div>
                     </div>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="$0"/>
-                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="$0"/>
-                        <input ref="customPrice" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="$0"/>
+                        <input defaultValue={this.props.fieldValues.cost} ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="$0"/>
+                        <input defaultValue={this.props.fieldValues.suggestedPrice} ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="$0"/>
+                        <input defaultValue={this.props.fieldValues.customPrice} ref="customPrice" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="$0"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

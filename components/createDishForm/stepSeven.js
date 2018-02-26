@@ -100,7 +100,7 @@ export default class DishStepSeven extends React.Component {
         return dietary.map((item, index) => {
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
-                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
+                    <input defaultChecked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
                     <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
                     <img style={{ float: `right` }} src={ `/static/icons/dietary/` + item.icon }/>
                 </p>
@@ -117,6 +117,17 @@ export default class DishStepSeven extends React.Component {
         this.props.setProgress(70);
 
         document.getElementsByTagName('input')[0].focus();
+
+        // set default value for back function
+        if (this.props.fieldValues.dietary.length > 0){
+            for (let i = 0; i < this.props.fieldValues.dietary.length; i++) {
+                for(let j = 0; j < dietary.length; j++) {
+                    if (dietary[j].name == this.props.fieldValues.dietary[i].name) {
+                        dietary[j].value = true;
+                    }
+                }
+            }
+        }
     }
 
     render() {
