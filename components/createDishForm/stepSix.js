@@ -6,14 +6,13 @@ import { inject, observer } from 'mobx-react';
 
 var allergies = [
     {name: 'Egg', id: "1", icon: 'egg.svg', value: false},
-    {name: 'Fish', id: "2", icon: 'egg.svg', value: false},
-    {name: 'Milk', id: "3", icon: 'egg.svg', value: false},
-    {name: 'Peanut', id: "4", icon: 'egg.svg', value: false},
-    {name: 'Tree-nuts', id: "5", icon: 'egg.svg', value: false},
-    {name: 'Soy', id: "6", icon: 'egg.svg', value: false},
-    {name: 'Shellfish', id: "7", icon: 'egg.svg', value: false},
-    {name: 'Wheat', id: "8", icon: 'egg.svg', value: false}
-
+    {name: 'Fish', id: "2", icon: 'fish.svg', value: false},
+    {name: 'Milk', id: "3", icon: 'milk.svg', value: false},
+    {name: 'Peanut', id: "4", icon: 'peanuts.svg', value: false},
+    {name: 'Tree-nuts', id: "5", icon: 'tree_nuts.svg', value: false},
+    {name: 'Soy', id: "6", icon: 'soy.svg', value: false},
+    {name: 'Shellfish', id: "7", icon: 'CrustaceanShellfish.svg', value: false},
+    {name: 'Wheat', id: "8", icon: 'gluten.svg', value: false}
 ];
 
 @inject('store') @observer
@@ -97,17 +96,30 @@ export default class DishStepSix extends React.Component {
         return allergies.map((item, index) => {
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
-                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
+                    <input defaultChecked={item.value}  type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
                     <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
-                    <img style={{ float: `right` }} src={ `/static/icons/` + item.icon }/>
+                    <img style={{ float: `right` }} src={ `/static/icons/allergies/` + item.icon }/>
                 </p>
             );
         })
     }
 
     componentDidMount = () => {
-        this.props.store.setBackFunction(null);
+        this.props.store.setBackFunction(() => {
+            this.props.store.globalStep--;
+        });
         this.props.setProgress(60);
+
+        // set default value for back function
+        if (this.props.fieldValues.allergies.length > 0){
+            for (let i = 0; i < this.props.fieldValues.allergies.length; i++) {
+                for(let j = 0; j < allergies.length; j++) {
+                    if (allergies[j].name == this.props.fieldValues.allergies[i].name) {
+                        allergies[j].value = true;
+                    }
+                }
+            }
+        }
     }
 
     render() {

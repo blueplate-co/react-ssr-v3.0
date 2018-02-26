@@ -141,6 +141,11 @@ export default class DishStepTwo extends React.Component {
         this.props.setProgress(20);
 
         this.refs.dishName.focus();
+
+        // set default for textarea
+        this.setState({
+            descriptionContent: this.props.fieldValues.dishDescription
+        })
     }
 
     render() {
@@ -172,7 +177,7 @@ export default class DishStepTwo extends React.Component {
                 `}</style>
                 <div className="container">
                     <h3>Dish Detail</h3>
-                    <input type="text" required ref="dishName" placeholder="dish name" defaultValue={ this.props.fieldValues.firstName }/>
+                    <input type="text" required ref="dishName" placeholder="dish name" defaultValue={ this.props.fieldValues.dishName }/>
                     <textarea 
                         onChange={this.checkLength}
                         ref="dishDescription"

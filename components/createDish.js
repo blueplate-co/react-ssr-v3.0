@@ -5,24 +5,24 @@ import ProgressBar from '../components/progessBar';
 
 // store all values get from multi-step
 let fieldValues = {
-    dishImagesSrc: null,
-    cacheFile: null,
-    dishName: null,
-    dishDescription: null,
+    dishImagesSrc: '',
+    cacheFile: '',
+    dishName: '',
+    dishDescription: '',
     ingredient: [],
-    cost: null,
-    suggestedPrice: null,
-    customPrice: null,
-    prepareTime: null,
-    days: null,
-    hours: null,
-    mins: null,
+    cost: '',
+    suggestedPrice: '',
+    customPrice: '',
+    prepareTime: '',
+    days: '',
+    hours: '',
+    mins: '',
     allergiesString: [],
     allergies: [],
     dietaryString: [],
     dietary: [],
     tags: [],
-    minimumOrder: null
+    minimumOrder: ''
 }
 
 import DishStepOne from '../components/createDishForm/stepOne';
@@ -62,6 +62,11 @@ export default class CreateDish extends React.Component {
     // Same as nextStep, but decrementing
     previousStep = () => {
         this.props.store.previousStep();
+    }
+
+    // Go to specific step
+    goToStep = (step) => {
+        this.props.store.goToStep(step);
     }
 
     // set progress for progressbar
@@ -116,7 +121,7 @@ export default class CreateDish extends React.Component {
                     case 9:
                         return <DishStepNine fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 10:
-                        return <DishStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>    
+                        return <DishStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress} goToStep={this.goToStep}/>    
                 }
             })()}
                 

@@ -108,9 +108,9 @@ export default class DishStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="days"/>
-                        <input ref="hours" className="hours" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="hours"/>
-                        <input ref="mins" className="mins" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="mins"/>
+                        <input defaultValue={this.props.fieldValues.days} ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="days"/>
+                        <input defaultValue={this.props.fieldValues.hours} ref="hours" className="hours" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="hours"/>
+                        <input defaultValue={this.props.fieldValues.mins} ref="mins" className="mins" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
