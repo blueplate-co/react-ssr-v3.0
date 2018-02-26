@@ -62,7 +62,7 @@ export default class DishStepOne extends React.Component {
         }
 
         if (!this.state.imgSrc || this.state.imgSrc.length < 0) {
-            errorStack.push('Must set avatar');
+            errorStack.push("Please choose one image for your dish!");
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
             return false;

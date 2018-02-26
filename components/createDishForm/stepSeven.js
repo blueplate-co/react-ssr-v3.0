@@ -77,7 +77,7 @@ export default class DishStepSeven extends React.Component {
         }
 
         if (result.length == 0) {
-            errorStack.push('Must choose at least option.');
+            errorStack.push('Please provide at least one dietary');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

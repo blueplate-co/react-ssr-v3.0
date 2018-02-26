@@ -74,7 +74,7 @@ export default class DishStepSix extends React.Component {
         }
 
         if (result.length == 0) {
-            errorStack.push('Must choose at least option.');
+            errorStack.push('Please provide at least one allergy');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

@@ -27,12 +27,12 @@ export default class DishStepNine extends React.Component {
             let errorStack = [];
             
             if (validator.trim(value.toString()).length == 0) {
-                errorStack.push('Must enter value');
+                errorStack.push('Please provide the number of order you want to receive from others');
                 let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
                 return false;
             } else if (parseInt(value) == 0){
-                errorStack.push('Must has at least one dish');
+                errorStack.push('A dish need to be serviced to at least 1 person');
                 let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
                 return false;

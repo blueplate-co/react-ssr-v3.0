@@ -19,15 +19,36 @@ export default class DishStepFive extends React.Component {
         }
     }
 
+    //- action when user fill cost    
+    dayFill = ()=>{
+        //- get value and send data back
+        var current = this.refs.days.value;
+        this.refs.days.value = current + ' day(s)';
+    }
+
+    //- action when user fill cost
+    hourFill = ()=>{
+        //- get value and send data back
+        var current = this.refs.hours.value;
+        this.refs.hours.value = current + ' hour(s)';
+    }
+
+    //- action when user fill cost
+    minFill = ()=>{
+        //- get value and send data back
+        var current = this.refs.mins.value;
+        this.refs.mins.value = current + ' minute(s)';
+    }
+
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
 
         // make sure parseInt qty is valid
         try {
-            let days = this.refs.days.value;
-            let hours = this.refs.hours.value;
-            let mins = this.refs.mins.value;
+            let days = this.refs.days.value.split(' ')[0];
+            let hours = this.refs.hours.value.split(' ')[0];
+            let mins = this.refs.mins.value.split(' ')[0];
             
             let errorStack = []; 
 
@@ -108,9 +129,9 @@ export default class DishStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="days"/>
-                        <input ref="hours" className="hours" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="hours"/>
-                        <input ref="mins" className="mins" style={{ width: '25%', textAlign: 'right' }} type="number" placeholder="mins"/>
+                        <input ref="days" className="days" onBlur={ this.dayFill } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
+                        <input ref="hours" className="hours" onBlur={ this.hourFill } style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
+                        <input ref="mins" className="mins" onBlur={ this.minFill } style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

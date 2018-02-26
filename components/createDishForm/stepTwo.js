@@ -29,7 +29,7 @@ export default class DishStepTwo extends React.Component {
         let errorStack = [];
 
         if (stringLength > 250) {
-            errorStack.push('Length of description not greater than <b>250</b> charaters');
+            errorStack.push('Length of description must be greater than <b>250</b> charaters');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
         } else {
@@ -55,12 +55,12 @@ export default class DishStepTwo extends React.Component {
 
         // dish name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.dishName.value))) {
-            errorStack.push('Must have dish name');
+            errorStack.push("Dish's name cannot be blank");
         }
 
         // last name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.dishDescription.value))) {
-            errorStack.push('Must have dish description');
+            errorStack.push("Dish's description cannot be blank");
         }
 
         // no error found

@@ -29,7 +29,7 @@ export default class DishStepEight extends React.Component {
 
 
         if (this.state.tags.length == 0) {
-            let errorStack = ['Must at least one tag'];
+            let errorStack = ['Please provide at least one tag name'];
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
             return false;
