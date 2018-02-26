@@ -4,7 +4,7 @@ class globalStore {
     @observable backFunction = null; // back function for back button on navigation
     @observable globalStep = 1; // step for current step multi step form
     @observable globalMaps = null;
-    @observable showMap = false; // check variables to show/hide google maps
+    @observable showMap = true; // check variables to show/hide google maps
     @observable lat = 22.3345163; // lat of current user
     @observable lng = 114.1472955; // lng of current user
     @observable address = 'Cheung Sha Wan, Kowloon, Hong Kong'; // current address of user

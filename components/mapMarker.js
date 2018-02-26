@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import cnf from '../config';
 import validator from 'validator';
+import axios from 'axios';
 
 @inject('store') @observer
 export default class MapMarker extends React.Component {
@@ -76,12 +77,25 @@ export default class MapMarker extends React.Component {
     getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
+                let that = this;
                 this.setState({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 }, () => {
+                    // after get lat, lng. Must get new map and pan camera to this point then change address
                     let map = this.props.store.globalMaps;
                     let latlng = new google.maps.LatLng(this.state.lat, this.state.lng);
+                    // create new geocoder to get address from latlng
+                    let geocoder = new google.maps.Geocoder;
+                    geocoder.geocode({'location': latlng}, function(results, status) {
+                        if (status === 'OK') {
+                            that.setState({
+                                address: results[0].formatted_address
+                            })
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
                     map.panTo(latlng);
                 });
             });
