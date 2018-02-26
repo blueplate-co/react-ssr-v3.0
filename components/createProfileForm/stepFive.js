@@ -17,7 +17,7 @@ export default class ProfileStepFive extends React.Component {
         this.skip = this.skip.bind(this);
 
         this.state = {
-            dob: new moment()
+            dob: moment()
         }
     }
 
@@ -128,6 +128,9 @@ export default class ProfileStepFive extends React.Component {
                         onChange={this.handleChange}
                         placeholderText="date of birth"
                         autoFocus={true}
+                        disabledKeyboardNavigation
+                        showMonthDropdown
+                        showYearDropdown
                     />
                     <select ref="gender">
                         <option value="male">male</option>
