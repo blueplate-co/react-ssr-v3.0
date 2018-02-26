@@ -110,6 +110,7 @@ export default class ProfileStepPreview extends React.Component {
     save = () => {
         // create new form data 
         const data = new FormData();
+        let errorStack = [];
 
         // split firtname and lastname
         let fullname = validator.trim(this.refs.fullname.innerText);
@@ -157,9 +158,21 @@ export default class ProfileStepPreview extends React.Component {
         //-images
         data.append('chefImageName', this.props.fieldValues.cacheFile['name']);
         data.append('chefImage', this.props.fieldValues.cacheFile);
-  
-        
 
+        if ((validator.trim(firstname).length == 0) && (validator.trim(lastname).length == 0)) {
+            errorStack.push('Please complete your full name');
+        }
+
+        if (this.state.services.length == 0) {
+            errorStack.push('Please choose at least one service option');
+        }
+
+        if (errorStack.length > 0) {
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return true;
+        }
+  
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
@@ -500,7 +513,7 @@ export default class ProfileStepPreview extends React.Component {
                     </div>
                     {/* general profile */}
                     <span className="user-name" ><img src="/static/icons/avatar.svg" /><span ref="fullname" suppressContentEditableWarning="true" contentEditable="true"> {this.state.firstName} {this.state.lastName}</span></span>
-                    <span className="user-email"><img src="/static/icons/email.svg" /><span ref="email" suppressContentEditableWarning="true" contentEditable="true"> {this.state.email}</span></span>
+                    <span className="user-email"><img src="/static/icons/email.svg" /><span ref="email"> {this.state.email}</span></span>
                     <span className="user-location" onClick={ this.showMap } ><img src="/static/icons/marker.svg" /><span ref="location"> {this.props.store.address}</span></span>
 
                     {/* serving options */}   
