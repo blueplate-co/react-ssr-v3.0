@@ -62,8 +62,7 @@ export default class ProfileStepTen extends React.Component {
     // action when user click skip button
     skip = (e) => {
         let data = {
-            allergies: [],
-            otherAllergies: []
+            allergies: []
         }
         this.props.saveValues(data);
         this.props.nextStep();

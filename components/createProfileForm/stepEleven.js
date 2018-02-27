@@ -65,8 +65,7 @@ export default class ProfileStepEleven extends React.Component {
     // action when user click skip button
     skip = (e) => {
         let data = {
-            dietary: [],
-            otherDietary: []
+            dietary: []
         }
         this.props.saveValues(data);
         this.props.nextStep();
