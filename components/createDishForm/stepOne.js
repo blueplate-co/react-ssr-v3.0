@@ -40,8 +40,8 @@ export default class DishStepOne extends React.Component {
         e.preventDefault();
 
         let data = {
-            dishImagesSrc: null,
-            cacheFile: null
+            dishImagesSrc: '',
+            cacheFile: ''
         }
 
         this.props.saveValues(data);
