@@ -23,21 +23,38 @@ export default class DishStepFive extends React.Component {
     dayFill = ()=>{
         //- get value and send data back
         var current = this.refs.days.value;
-        this.refs.days.value = current + ' day(s)';
+        console.log(current.length);
+        if(current.length < 3)
+        {
+            this.refs.days.value = current + ' day(s)';
+        }else{
+            this.refs.days.value = current;
+        }
     }
 
     //- action when user fill cost
     hourFill = ()=>{
         //- get value and send data back
         var current = this.refs.hours.value;
-        this.refs.hours.value = current + ' hour(s)';
+        if(current.length < 3)
+        {
+            this.refs.hours.value = current + ' hour(s)';
+        }else{
+            this.refs.hours.value = current;
+        }
     }
 
     //- action when user fill cost
     minFill = ()=>{
         //- get value and send data back
         var current = this.refs.mins.value;
-        this.refs.mins.value = current + ' minute(s)';
+        
+        if(current.length < 3)
+        {
+            this.refs.mins.value = current + ' minute(s)';
+        }else{
+            this.refs.mins.value = current;
+        }
     }
 
     // action when user click to next button
@@ -52,10 +69,10 @@ export default class DishStepFive extends React.Component {
             
             let errorStack = []; 
 
-            if (validator.trim(days).length > 0 && validator.trim(hours).length > 0 && validator.trim(mins).length > 0) { // no store empty string value                   
-                days = parseInt(this.refs.days.value);
-                hours = parseInt(this.refs.hours.value);
-                mins = parseInt(this.refs.mins.value);
+            if (validator.trim(days).length > 0 || validator.trim(hours).length > 0 || validator.trim(mins).length > 0) { // no store empty string value                   
+                days = parseInt(days);
+                hours = parseInt(hours);
+                mins = parseInt(mins);
 
                 // calculate what total time in mins to complete this dish
                 let totalTime = (days * 24 * 60) + (hours * 60) + mins;
@@ -129,9 +146,9 @@ export default class DishStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" onBlur={ this.dayFill } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
-                        <input ref="hours" className="hours" onBlur={ this.hourFill } style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
-                        <input ref="mins" className="mins" onBlur={ this.minFill } style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
+                        <input ref="days" className="days" onChange={ this.dayFill } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
+                        <input ref="hours" className="hours" onChange={ this.hourFill } style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
+                        <input ref="mins" className="mins" onChange={ this.minFill } style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

@@ -121,9 +121,9 @@ export default class ProfileStepFive extends React.Component {
                 <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
                     <DatePicker
-                        selected={this.state.startDate}
+                        // selected={this.state.startDate}
                         onChange={this.handleChange}
-                        placeholderText="date of birth"
+                        placeholderText="Date of birth"
                         autoFocus={true}
                         disabledKeyboardNavigation
                         showMonthDropdown
