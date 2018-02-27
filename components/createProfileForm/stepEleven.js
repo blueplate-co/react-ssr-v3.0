@@ -70,7 +70,7 @@ export default class ProfileStepEleven extends React.Component {
         }
 
         if (result.length == 0) {
-            errorStack.push('Must choose at least option.');
+            errorStack.push('Please choose at lease 1 dietary');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

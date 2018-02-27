@@ -28,7 +28,7 @@ export default class MenuStepEight extends React.Component {
         let errorStack = [];
 
         if (this.state.tags.length == 0) {
-            errorStack.push('Must at least one tag');
+            errorStack.push('Please provide at lease 1 tag.');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
             return false;

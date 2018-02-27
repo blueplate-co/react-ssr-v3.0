@@ -110,7 +110,7 @@ export default class MenuStepFour extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                errorStack.push('Please complete ingredient before you add these');
+                errorStack.push('Please fill cost, suggested price and custom price to continue.');
                 let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
                 return false;

@@ -78,7 +78,7 @@ export default class MenuStepSeven extends React.Component {
         }
 
         if(result.length == 0) {
-            errorStack.push('Please complete dietary before you add these');
+            errorStack.push('Please complete dietary before you add these.');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
         } else {

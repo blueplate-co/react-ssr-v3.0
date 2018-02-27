@@ -58,7 +58,7 @@ export default class ProfileStepSix extends React.Component {
         });
 
         if (result.length == 0) {
-            errorStack.push('Must have at least one experience');
+            errorStack.push('Please provide at lease 1 experience.');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

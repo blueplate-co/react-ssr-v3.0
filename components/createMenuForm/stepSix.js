@@ -74,7 +74,7 @@ export default class MenuStepSix extends React.Component {
         }
 
         if (result.length == 0) {
-            errorStack.push('Please choose at least one allergies');
+            errorStack.push('Please choose at least one allergy.');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
         } else {
