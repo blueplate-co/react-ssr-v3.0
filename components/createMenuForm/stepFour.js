@@ -90,13 +90,13 @@ export default class MenuStepFour extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
+        let errorStack = [];
 
         // make sure parseInt qty is valid
         try {
-            let cost           = this.refs.cost.value.substr(1);
-            let suggestedPrice = this.refs.suggestedPrice.value.substr(1);
-            let customPrice    = this.refs.customPrice.value.substr(1);
-
+            let cost           = this.refs.cost.value;
+            let suggestedPrice = this.refs.suggestedPrice.value;
+            let customPrice    = this.refs.customPrice.value;
             if (validator.trim(cost).length > 0 && validator.trim(suggestedPrice).length > 0 && validator.trim(customPrice).length > 0) { // no store empty string value                   
                 cost           = parseInt(cost);
                 suggestedPrice = parseInt(suggestedPrice);
@@ -116,7 +116,9 @@ export default class MenuStepFour extends React.Component {
                 return false;
             }
         } catch (error) {
-            alert(error);
+            errorStack.push(error);
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
             return false;
         }
     }

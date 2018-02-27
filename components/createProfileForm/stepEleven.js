@@ -169,9 +169,9 @@ export default class ProfileStepEleven extends React.Component {
         // set default value for back function
         if (this.props.fieldValues.dietary.length > 0){
             for (let i = 0; i < this.props.fieldValues.dietary.length; i++) {
-                for(let j = 0; j < dietary.length; j++) {
-                    if (dietary[j].name == this.props.fieldValues.dietary[i].name) {
-                        dietary[j].value = true;
+                for(let j = 0; j < this.state.dietary.length; j++) {
+                    if (this.state.dietary[j].name == this.props.fieldValues.dietary[i].name) {
+                        this.state.dietary[j].value = true;
                     }
                 }
             }

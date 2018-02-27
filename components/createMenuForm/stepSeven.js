@@ -38,7 +38,7 @@ export default class MenuStepSeven extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        let tempState = this.statedietary;
+        let tempState = this.state.dietary;
         for (let i = 0; i < tempState.length; i++) {
             if (tempState[i].name == name) {
                 tempState[i].value = value;

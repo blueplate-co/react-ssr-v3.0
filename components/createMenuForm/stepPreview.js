@@ -288,6 +288,7 @@ export default class MenuStepPreview extends React.Component {
                     @media (max-width: 480px) {
                         .container {
                             margin-top: 20px;
+                            margin-bottom: 20px;
                             [conteneditable="true"] {
                                 width: 100%
                             }
@@ -460,7 +461,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/allergies/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -477,7 +478,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/dietary/' + item.icon}/>
                                         </div>
                                     )
                                 })
