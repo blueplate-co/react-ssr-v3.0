@@ -141,9 +141,9 @@ export default class MenuStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
-                        <input ref="hours" className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
-                        <input ref="mins" className="mins" style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
+                        <input ref="days" defaultValues={this.props.fieldValues.days} className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
+                        <input ref="hours" defaultValues={this.props.fieldValues.hours} className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
+                        <input ref="mins" defaultValues={this.props.fieldValues.mins} className="mins" style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

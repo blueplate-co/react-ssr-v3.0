@@ -110,6 +110,12 @@ export default class MenuStepEight extends React.Component {
         });
         this.props.setProgress(80);
         document.getElementsByTagName('input')[0].focus();
+
+        if (this.props.fieldValues.tags.length > 0) {
+            this.setState({
+                tags: this.props.fieldValues.tags
+            })
+        }
     }
 
     render() {

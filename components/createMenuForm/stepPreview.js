@@ -244,39 +244,43 @@ export default class MenuStepPreview extends React.Component {
         const {cursor, carouselState: {active, dragging}, ...rest} = props
         let current = -Math.round(cursor) % this.state.data.length
         while (current < 0) {
-          current += this.state.data.length
+            current += this.state.data.length
         }
         // Put current card at center
         const translateX = (cursor - cardPadCount) * cardSize + (carouselWidth - cardSize) / 2
         return (
-          <div
+            <div
             className={cx(
-              'carousel-container',
-              {
+                'carousel-container',
+                {
                 'is-active': active,
                 'is-dragging': dragging
-              }
+                }
             )}
-          >
+            >
             <div
-              className='carousel-track'
-              style={{transform: `translate3d(${translateX}px, 0, 0)`}}
-              {...rest}
+                className='carousel-track'
+                style={{transform: `translate3d(${translateX}px, 0, 0)`}}
+                {...rest}
             />
-      
+        
             <div className='carousel-pagination-wrapper'>
-              <ol className='carousel-pagination'>
+                <ol className='carousel-pagination'>
                 {this.state.data.map((_, index) => (
-                  <li
+                    <li
                     key={index}
                     className={current === index ? 'current' : ''}
-                  />
+                    />
                 ))}
-              </ol>
+                </ol>
             </div>
-          </div>
+            </div>
         )
-      }
+    }
+
+    componentDidMount = () => {
+        
+    }
 
     render() {
         const Container = touchWithMouseHOC(this.CarouselContainer);
