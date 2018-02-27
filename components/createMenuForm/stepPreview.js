@@ -132,7 +132,10 @@ export default class MenuStepPreview extends React.Component {
             var message = error.response.data.message;
             //- debug
             console.log(error.response);
-            alert('Error when create menu. Please try again');
+            let errorStack = [];
+            errorStack.push('Error when create menu. Please try again');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
 
             //- token expired or something else
             if(statusCode === 403 && message === "Please login to continue")
@@ -150,6 +153,7 @@ export default class MenuStepPreview extends React.Component {
     //- insert allergy, dietary and ingredients
     addMore = (menu_id)=> {
         console.log(this.props.fieldValues);
+        let that = this;
         axios.all([
             this.addDish(menu_id.create_menu_id),
             this.addAllergy(menu_id.create_menu_id), 
@@ -161,7 +165,10 @@ export default class MenuStepPreview extends React.Component {
             console.log(arr[2].data);
 
             //- go back to /become with stage 2
-            alert('Create menu successful');
+            let errorStack = [];
+            errorStack.push('Create menu successful!');
+            let notification = { type: 'error', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
+            that.props.store.addNotification(notification);
             // sessionStorage.setItem("welcomeStage", 2);
             // Router.push('/become');
         })
@@ -276,10 +283,6 @@ export default class MenuStepPreview extends React.Component {
             </div>
             </div>
         )
-    }
-
-    componentDidMount = () => {
-        
     }
 
     render() {

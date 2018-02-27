@@ -184,7 +184,6 @@ export default class DishStepPreview extends React.Component {
             data.append('chefID', localStorage.getItem('create_chef_id'));
             data.append('name', dishName);
             data.append('describe', dishDescription);
-            debugger
 
             //- cost
             console.log(typeof(cost));
