@@ -4,8 +4,6 @@ import React from 'react';
 import validator from 'validator';
 import { inject, observer } from 'mobx-react';
 
-import axios from 'axios';
-
 @inject('store') @observer
 export default class MenuStepOne extends React.Component {
     constructor(props) {
@@ -64,33 +62,10 @@ export default class MenuStepOne extends React.Component {
         }
     }
 
-    //- get dish list by create_chef_id
-    getDishList = (self) => {
-        var create_chef_id = localStorage.getItem('create_chef_id');
-        axios.post('http://13.250.107.234/api/view/dishes', {
-            create_chef_id: create_chef_id
-        })
-        .then(function(res){
-            console.log(res);
-            //- save to props
-            let data = {
-                dishList: res.data,
-            }
-    
-            self.props.saveValues(data);
-        })
-        .catch(function(err){
-            console.log(err);
-        });
-    }
-
     componentDidMount = () => {
         this.props.setProgress(10);
         this.props.store.setBackFunction(null);
         document.getElementsByTagName('input')[0].focus();
-
-         //- get dish list
-        //  this.getDishList(this);
     }
 
     render() {

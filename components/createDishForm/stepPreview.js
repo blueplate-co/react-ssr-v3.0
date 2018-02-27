@@ -114,7 +114,7 @@ export default class DishStepPreview extends React.Component {
 
     sendRequest = (self) => {
         //- create form data
-        const data = new FormData();
+        let data = new FormData();
 
         //- update first then create ingredients, food allergy, dietary
         let propValues = this.props.fieldValues;
@@ -184,6 +184,7 @@ export default class DishStepPreview extends React.Component {
             data.append('chefID', localStorage.getItem('create_chef_id'));
             data.append('name', dishName);
             data.append('describe', dishDescription);
+            debugger
 
             //- cost
             console.log(typeof(cost));
