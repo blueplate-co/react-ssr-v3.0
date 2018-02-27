@@ -63,9 +63,9 @@ export default class DishStepFive extends React.Component {
 
         // make sure parseInt qty is valid
         try {
-            let days = this.refs.days.value.split(' ')[0];
-            let hours = this.refs.hours.value.split(' ')[0];
-            let mins = this.refs.mins.value.split(' ')[0];
+            let days = this.refs.days.value;
+            let hours = this.refs.hours.value;
+            let mins = this.refs.mins.value;
             
             let errorStack = []; 
 
@@ -146,9 +146,9 @@ export default class DishStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" onChange={ this.dayFill } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
-                        <input ref="hours" className="hours" onChange={ this.hourFill } style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
-                        <input ref="mins" className="mins" onChange={ this.minFill } style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
+                        <input ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
+                        <input ref="hours" className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
+                        <input ref="mins" className="mins" style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

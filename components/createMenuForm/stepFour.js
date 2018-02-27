@@ -176,9 +176,9 @@ export default class MenuStepFour extends React.Component {
                         <div className="custom">Custom</div>
                     </div>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} onChange={this.costFilling} onBlur={this.removeDollarSign} type="text" placeholder="$0"/>
-                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0" disabled/>
-                        <input ref="customPrice" style={{ width: '25%', textAlign: 'right' }} onChange={this.customCostFilling} onBlur={this.removeDollarSignOnCustomPrice} type="text" placeholder="$0"/>
+                        <input ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="$0"/>
+                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
+                        <input ref="customPrice" style={{ width: '25%', textAlign: 'right' }} type="text" placeholder="$0"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
