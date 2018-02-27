@@ -4,21 +4,6 @@ import React from 'react';
 import validator from 'validator';
 import { inject, observer } from 'mobx-react';
 
-var dietary = [
-    {name: 'Diabary', icon: 'Diabetic.svg', value: false},
-    {name: 'Gluten-free', icon: 'Gluten-free.svg', value: false},
-    {name: 'High protein', icon: 'HighProtein.svg', value: false},
-    {name: 'Lactose-free', icon: 'Lactose-free.svg', value: false},
-    {name: 'Low sodium', icon: 'Low sodium.svg', value: false},
-    {name: 'Low-Carbs', icon: 'Low-Carb.svg', value: false},
-    {name: 'Nut free', icon: 'Nut Free.svg', value: false},
-    {name: 'Paleo', icon: 'Paleo.svg', value: false},
-    {name: 'Pescetarian', icon: 'Pescetarian.svg', value: false},
-    {name: 'Vegan', icon: 'Vegan.svg', value: false},
-    {name: 'Vegetarian', icon: 'Vegetarian.svg', value: false}
-
-];
-
 @inject('store') @observer
 export default class ProfileStepEleven extends React.Component {
     constructor(props) {
@@ -29,6 +14,20 @@ export default class ProfileStepEleven extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
 
         this.state = {
+            dietary: [
+                {name: 'Diabary', icon: 'Diabetic.svg', value: false},
+                {name: 'Gluten-free', icon: 'Gluten-free.svg', value: false},
+                {name: 'High protein', icon: 'HighProtein.svg', value: false},
+                {name: 'Lactose-free', icon: 'Lactose-free.svg', value: false},
+                {name: 'Low sodium', icon: 'Low sodium.svg', value: false},
+                {name: 'Low-Carbs', icon: 'Low-Carb.svg', value: false},
+                {name: 'Nut free', icon: 'Nut Free.svg', value: false},
+                {name: 'Paleo', icon: 'Paleo.svg', value: false},
+                {name: 'Pescetarian', icon: 'Pescetarian.svg', value: false},
+                {name: 'Vegan', icon: 'Vegan.svg', value: false},
+                {name: 'Vegetarian', icon: 'Vegetarian.svg', value: false}
+            ],
+            new_dietary: []
         }
     }
 
@@ -37,14 +36,30 @@ export default class ProfileStepEleven extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        let tempState = dietary;
+        let tempState = this.state.dietary;
         for (let i = 0; i < tempState.length; i++) {
             if (tempState[i].name == name) {
                 tempState[i].value = value;
-                dietary = tempState;
+                this.setState({
+                    dietary: tempState
+                })
             }
-        }
-        
+        } 
+    }
+
+    handleInputChangeOther(event, self) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        let tempState = self.state.new_dietary;
+        for (let i = 0; i < tempState.length; i++) {
+            if (tempState[i].name == name) {
+                tempState[i].value = value;
+                this.setState({
+                    new_dietary: tempState
+                })
+            }
+        } 
     }
 
     // action when user click skip button
@@ -63,9 +78,15 @@ export default class ProfileStepEleven extends React.Component {
         let result = [];
         let errorStack = [];
 
-        for(let i = 0; i < dietary.length; i++) {
-            if (dietary[i].value == true) {
-                result.push(dietary[i])
+        for(let i = 0; i < this.state.dietary.length; i++) {
+            if (this.state.dietary[i].value == true) {
+                result.push(this.state.dietary[i])
+            }
+        }
+
+        for(let i = 0; i < this.state.new_dietary.length; i++) {
+            if (this.state.new_dietary[i].value == true) {
+                result.push(this.state.new_dietary[i])
             }
         }
 
@@ -88,7 +109,7 @@ export default class ProfileStepEleven extends React.Component {
     generateList = () => {
         var that = this;
         
-        return dietary.map((item, index) => {
+        return this.state.dietary.map((item, index) => {
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
                     <input type="checkbox" defaultChecked={item.value} name={item.name} id={item.name} onChange={this.handleInputChange}/>
@@ -97,6 +118,42 @@ export default class ProfileStepEleven extends React.Component {
                 </p>
             );
         })
+    }
+
+    // generate list input
+    generateListOther = () => {
+        let that = this;
+        return this.state.new_dietary.map((item, index) => {
+            return (
+                <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
+                    <input defaultChecked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChangeOther(event,this)}/>
+                    <label htmlFor={item.name} style={{ float: `left` }}>{item.name}</label>
+                    <img style={{ float: `right` }} src={ `/static/icons/dietary/` + item.icon }/>
+                </p>
+            );
+        })
+    }
+
+    // add new allergies
+    addNew = (e) => {
+        if (e.keyCode == 13) {
+            let value = this.refs.dietary.value;
+            let errorStack = [];
+            if (validator.trim(value).length == 0) {
+                errorStack.push('Must have new dietary');
+                let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+                this.props.store.addNotification(notification);
+                this.refs.dietary.value = '';
+                return true;
+            }
+            let dietary = { name: value, icon: 'other.svg', value: true };
+            let dummyArray = this.state.new_dietary;
+            dummyArray.push(dietary);
+            this.setState({
+                new_dietary: dummyArray
+            })
+            this.refs.dietary.value = '';
+        }
     }
 
     componentDidMount = () => {
@@ -157,8 +214,9 @@ export default class ProfileStepEleven extends React.Component {
                     <span className="title-description">Who is your favorite chef or books</span>
                     <form>
                         { this.generateList() }
+                        { this.generateListOther() }
                     </form>
-                    <input type="text" placeholder="Others" style={{ marginBottom: '100px' }}/>
+                    <input type="text" ref="dietary" placeholder="Others" onKeyDown={ this.addNew } style={{ marginBottom: '100px' }}/>
                 </div>
                 <div className="container bottom-confirmation">
                     <button className="btn inline" onClick={ this.skip }>Skip</button>

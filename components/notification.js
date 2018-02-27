@@ -19,7 +19,7 @@ export default class Notification extends React.Component {
     }
 
     componentDidUpdate = () => {
-        let maxLifespan = 5000; // alive in 5s
+        let maxLifespan = 1500; // alive in 1.5s
         let that = this;
         // check once per second
         setInterval(function checkItems(){

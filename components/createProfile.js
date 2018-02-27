@@ -25,7 +25,6 @@ let fieldValues = {
     inspiration: '',
     allergies: [],
     dietary: []
-
 }
 
 import ProfileStepOne from '../components/createProfileForm/stepOne';
