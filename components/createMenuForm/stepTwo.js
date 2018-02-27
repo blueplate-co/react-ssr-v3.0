@@ -6,16 +6,6 @@ import cnf from '../../config';
 
 import { inject, observer } from 'mobx-react';
 import axios from 'axios';
-
-// global variable for list check
-// let selectedData = [
-//     { id: 1, selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
-//     { id: 2, selected: false, name: 'Beer', cost: 200, selling: 30 },
-//     { id: 3, selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
-//     { id: 4, selected: false, name: 'Pizza', cost: 200, selling: 30 },
-//     { id: 5, selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
-//     { id: 6, selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
-// ]
 let selectedData = [];
 
 @inject('store') @observer
@@ -26,24 +16,18 @@ export default class MenuStepTwo extends React.Component {
             dishList: []
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
-
-        console.log(this.props.fieldValues);
-        this.getDishList(this);
+        this.getDishList = this.getDishList.bind(this);
     }
 
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
-
-        //- dishes list
-        let dishes = this.props.fieldValues.dishList;
         
         let result = [];
         let errorStack = [];
-
-        for(let i = 0; i < selectedData.length; i++) {
-            if (dishes[i].selected == true) {
-                result.push(dishes[i])
+        for(let i = 0; i < this.state.dishList.length; i++) {
+            if (this.state.dishList[i].selected == true) {
+                result.push(this.state.dishList[i])
             }
         }
         
@@ -66,27 +50,18 @@ export default class MenuStepTwo extends React.Component {
     }
 
     //- get dish list by create_chef_id
-    getDishList = (self) => {
+    getDishList = () => {
+        let that = this;
         var create_chef_id = localStorage.getItem('create_chef_id');
         axios.post('http://13.250.107.234/api/view/dishes', {
             create_chef_id: create_chef_id
         })
         .then(function(res){
-            console.log('here');
-            //- save to props
-            // let data = {
-            //     dishList: res.data,
-            // }
-    
-            // self.props.saveValues(data);
-            console.log('data: ', res.data);
             selectedData = res.data;
-            self.state.dishList = selectedData;
-            self.setState({
+            selectedData[0].selected = false;
+            that.setState({
                 dishList: selectedData
             });
-            console.log('selectedData in function: ', selectedData);
-            console.log('state value: ', self.state.dishList);
         })
         .catch(function(err){
             console.log(err);
@@ -94,16 +69,15 @@ export default class MenuStepTwo extends React.Component {
     }
 
     // when user click change checkbox
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    handleInputChange(event, name, self) {
 
-        let tempState = selectedData;
+        let tempState = self.state.dishList;
         for (let i = 0; i < tempState.length; i++) {
-            if (tempState[i].name == name) {
-                tempState[i].selected = value;
-                selectedData = tempState;
+            if (tempState[i].dName == name) {
+                tempState[i].selected = !tempState[i].selected;
+                self.setState({
+                    dishList: tempState
+                })
             }
         }
     }
@@ -113,7 +87,7 @@ export default class MenuStepTwo extends React.Component {
             this.props.store.globalStep--;
         });
         this.props.setProgress(20);
-        
+        this.getDishList();
     }
 
     render() {
@@ -189,11 +163,11 @@ export default class MenuStepTwo extends React.Component {
                     </div>
 
                     {
-                        selectedData.map((item, index) => (
+                        this.state.dishList.map((item, index) => (
                             <div key={index} className="data-row">
                                 <span>
-                                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
-                                    <label htmlFor={item.name} style={{ float: `left` }}></label>
+                                    <input type="checkbox" name={item.dName} id={item.dName} onChange={() => this.handleInputChange(event, item.dName, this)}/>
+                                    <label htmlFor={item.dName} style={{ float: `left` }}></label>
                                 </span>
                                 <span>
                                     { item.dName }
