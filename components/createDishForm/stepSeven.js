@@ -41,10 +41,11 @@ export default class DishStepSeven extends React.Component {
         for (let i = 0; i < tempState.length; i++) {
             if (tempState[i].name == name) {
                 tempState[i].value = value;
-                this.state.dietary = tempState;
+                this.setState({
+                    dietary: tempState
+                })
             }
-        }
-        
+        }   
     }
 
     // action when user click skip button
@@ -103,7 +104,6 @@ export default class DishStepSeven extends React.Component {
             }
         }
 
-        debugger
         if (result.length == 0) {
             errorStack.push('Please provide at least one dietary');
             // have error

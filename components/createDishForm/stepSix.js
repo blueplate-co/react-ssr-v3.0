@@ -38,7 +38,9 @@ export default class DishStepSix extends React.Component {
         for (let i = 0; i < tempState.length; i++) {
             if (tempState[i].name == name) {
                 tempState[i].value = value;
-                this.state.allergies = tempState;
+                this.setState({
+                    allergies: tempState
+                })
             }
         }
     }
