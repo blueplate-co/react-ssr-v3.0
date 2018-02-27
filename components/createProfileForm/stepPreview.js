@@ -164,8 +164,8 @@ export default class ProfileStepPreview extends React.Component {
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
-
-        axios.post('http://13.250.107.234/api/chef/create', data, config)
+        //- http://13.250.107.234/api/chef/create
+        axios.post('http://localhost:1337/api/chef/create', data, config)
         .then(function (response) {
             if(response.status === 200)
             {
@@ -179,9 +179,12 @@ export default class ProfileStepPreview extends React.Component {
             }
             
         })
-        .catch(function (error) {
-            alert('Error when create profile. Please try again');
+        // .catch(function (error) {
+        //     alert('Error when create profile. Please try again');
             
+        // });
+        .catch(error => {
+            console.log(error.response);
         });
     }
 

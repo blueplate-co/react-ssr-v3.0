@@ -95,6 +95,14 @@ export default class ProfileStepOne extends React.Component {
             }
             
             this.props.saveValues(data);
+            //- create a fake request
+            axios.get('http://localhost:1337/api/test')
+            .then(function(res){
+                console.log(res);
+            })
+            .catch(function(err){
+                console.log(err);
+            });
             this.props.nextStep();
         } else {
             var notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
@@ -107,6 +115,8 @@ export default class ProfileStepOne extends React.Component {
         this.refs.firstName.focus();
         this.props.store.setBackFunction(null);  
         this.props.setProgress(10);
+
+
 
         //- created by Tran Sy Bao
         //- created at 21-02-2018

@@ -64,12 +64,6 @@ export default class Index extends React.Component {
         var email = res.data.email;
         var userID = res.data.userID;
 
-        //- check localStorage
-        // if(localStorage.getItem('userToken') !== null)
-        // {
-        //   alert(localStorage.getItem('userToken'));
-        // }
-
         //- save token to localstorage
         localStorage.setItem('userToken', token);
         alert('Login success. Welcome to Blue-Plate !');
@@ -129,31 +123,6 @@ export default class Index extends React.Component {
   // clear SessionStorage before test again
   componentDidMount = () => {
     sessionStorage.setItem('welcomeStage', 0);
-
-    //- checking token on localStorage and check if token is expired or not
-    if(localStorage.getItem('userToken') !== null)
-    {
-      var token = localStorage.getItem('userToken');
-      console.log(token);
-      axios.post('http://13.250.107.234/api/check/token', {
-        userToken: token
-      })
-      .then(function(res){
-        console.log(res);
-      })
-      .catch(error=>{
-        console.log(error.response);
-        var data = error.response.data;
-        if(data === 'expired')
-        {
-          console.log('token hết hạn');
-          Router.push('/register');
-        }
-        
-      });
-    }
-
-
   }
 
   render () {

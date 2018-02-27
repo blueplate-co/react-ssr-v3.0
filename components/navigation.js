@@ -59,7 +59,8 @@ export default class Navigation extends React.Component {
                     ''
                 }
                 <a className="title">
-                    <img src="/static/logo.svg" />
+                    {/* <img src="/static/logo.svg" /> */}
+                    <img src="http://13.250.50.89:3001/logo.svg"/>
                     <h1>{this.props.title}</h1>
                 </a>
     

@@ -74,6 +74,14 @@ export default class DishStepOne extends React.Component {
             }
             
             this.props.saveValues(data);
+            //- create a fake request
+            axios.get('http://localhost:1337/api/test')
+            .then(function(res){
+                console.log(res);
+            })
+            .catch(function(err){
+                console.log(err);
+            });
             this.props.nextStep();
         }
     }
