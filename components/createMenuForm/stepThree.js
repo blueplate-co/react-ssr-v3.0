@@ -34,7 +34,7 @@ export default class MenuStepThree extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         } else {
-            errorStack.push('Must at least 1 people');
+            errorStack.push('Menu need to be serviced at lease 1 person. Please try again');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
         }

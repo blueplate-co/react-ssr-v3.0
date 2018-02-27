@@ -34,7 +34,7 @@ export default class ProfileStepTwo extends React.Component {
 
         // location must not empty string and with valid format
         if (validator.isEmpty(validator.trim(this.refs.location.value))) {
-            errorStack.push('Must have location address.');
+            errorStack.push('Location address cannot be blank.');
         } else {
             let addr = document.getElementById("location");
             // Get geocoder instance
@@ -49,17 +49,17 @@ export default class ProfileStepTwo extends React.Component {
                     addr.value = results[0].formatted_address;
                 }
                 else{
-                    errorStack.push("Invalid address.");
+                    errorStack.push("The address you typed in is not valid.");
                 }
             });
         }
 
         // phone number must not empty string and correct format
         if (validator.isEmpty(validator.trim(this.state.phone))) {
-            errorStack.push('Must have a phone number.');
+            errorStack.push('Phone number cannot be blank.');
         } else {
             if(!isValidPhoneNumber(this.state.phone)) {
-                errorStack.push('Invalid phone format.');
+                errorStack.push('The format of phone number is invalid.');
             }
         }
 

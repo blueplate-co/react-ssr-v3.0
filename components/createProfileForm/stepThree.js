@@ -27,7 +27,7 @@ export default class ProfileStepThree extends React.Component {
 
         // must choose atleast one option
         if (this.state.services.length == 0) {
-            errorStack.push('Must choose at least one option');
+            errorStack.push('Please choose at least 1 service.');
         }
 
         // no error found

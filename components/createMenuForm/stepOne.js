@@ -25,7 +25,7 @@ export default class MenuStepOne extends React.Component {
 
         if (stringLength > 250) {
             let errorStack = [];
-            errorStack.push('Max length has 250 characters');
+            errorStack.push("Menu's description must be lower than 250 characters");
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
         } else {
@@ -90,7 +90,7 @@ export default class MenuStepOne extends React.Component {
         document.getElementsByTagName('input')[0].focus();
 
          //- get dish list
-         this.getDishList(this);
+        //  this.getDishList(this);
     }
 
     render() {

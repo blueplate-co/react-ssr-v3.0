@@ -68,7 +68,7 @@ export default class MenuStepFive extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                errorStack.push('Please complete preparation time before continue');
+                errorStack.push('Please your preparation time to continue.');
                 let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
                 return false;

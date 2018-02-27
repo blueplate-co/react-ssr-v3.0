@@ -184,7 +184,7 @@ export default class DishStepFive extends React.Component {
                     </div>
                     <div style={{ display: 'inline-flex' }}>
                         <input ref="cost" onBlur={ this.removeDollarSign } onChange={ this.costFilling } style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="$0"/>
-                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
+                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0" disabled/>
                         <input ref="customPrice" onChange={this.customCostFilling} onBlur={this.removeDollarSignOnCustomPrice} style={{ width: '25%', textAlign: 'right' }} type="text" placeholder="$0"/>
                     </div>
                 </div>

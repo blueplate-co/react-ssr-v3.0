@@ -88,7 +88,7 @@ export default class ProfileStepTen extends React.Component {
         }
 
         if (result.length == 0) {
-            errorStack.push('Must choose at least option.');
+            errorStack.push('Please choose at least 1 allergy.');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

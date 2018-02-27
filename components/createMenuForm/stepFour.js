@@ -110,7 +110,7 @@ export default class MenuStepFour extends React.Component {
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
-                errorStack.push('Please complete ingredient before you add these');
+                errorStack.push('Please fill cost, suggested price and custom price to continue.');
                 let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
                 return false;
@@ -177,7 +177,7 @@ export default class MenuStepFour extends React.Component {
                     </div>
                     <div style={{ display: 'inline-flex' }}>
                         <input ref="cost" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} onChange={this.costFilling} onBlur={this.removeDollarSign} type="text" placeholder="$0"/>
-                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
+                        <input ref="suggestedPrice" style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0" disabled/>
                         <input ref="customPrice" style={{ width: '25%', textAlign: 'right' }} onChange={this.customCostFilling} onBlur={this.removeDollarSignOnCustomPrice} type="text" placeholder="$0"/>
                     </div>
                 </div>

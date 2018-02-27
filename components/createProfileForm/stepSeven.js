@@ -29,7 +29,7 @@ export default class ProfileStepSeven extends React.Component {
         let errorStack = [];
 
         if (validator.trim(this.refs.content.value).length == 0) {
-            errorStack.push('Must have content');
+            errorStack.push('Please give us a little bit more about yourself.');
             // have error
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);

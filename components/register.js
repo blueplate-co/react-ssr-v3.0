@@ -71,7 +71,7 @@ export default class RegisterForm extends React.Component {
         //- register with the information
         //- server: 13.250.107.234
         axios
-        .post('http://localhost:1337/api/register', formData)
+        .post('http://13.250.107.234/api/register', formData)
         .then(function(res){  
         if(res.status === 201)
         {   
@@ -139,7 +139,7 @@ export default class RegisterForm extends React.Component {
     //- resend email
     resendEmail = () => {
         var self = this;
-        axios.post('http://localhost:1337/api/email/resend',{
+        axios.post('http://13.250.107.234/api/email/resend',{
             email: sessionStorage.getItem('email'),
             token: sessionStorage.getItem('token'),
             username: sessionStorage.getItem('username'),

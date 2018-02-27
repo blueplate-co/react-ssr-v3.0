@@ -49,7 +49,7 @@ export default class ProfileStepFour extends React.Component {
         }
 
         if (!this.state.imgSrc || this.state.imgSrc.length < 0) {
-            errorStack.push('Must set avatar');
+            errorStack.push('Please choose an image for your profile.');
         }
 
         // no error found

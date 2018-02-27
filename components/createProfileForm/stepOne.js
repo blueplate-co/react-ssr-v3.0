@@ -72,19 +72,19 @@ export default class ProfileStepOne extends React.Component {
 
         // first name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.firstName.value))) {
-            errorStack.push('Must have first name. ');
+            errorStack.push('First name cannot be blank.');
         }
 
         // last name must not empty string
         if (validator.isEmpty(validator.trim(this.refs.lastName.value))) {
-            errorStack.push('Must have last name. ');
+            errorStack.push('Last name cannot be blank.');
         }
 
         // email must not empty string and correct format
         if (validator.isEmpty(validator.trim(this.refs.email.value))) {
-            errorStack.push('Must have email address. ');
+            errorStack.push('Email address cannot be blank.');
         } else if (!validator.isEmail(validator.trim(this.refs.email.value))){
-            errorStack.push('Must have correct email format. ');
+            errorStack.push('Your input is not a valid email address.');
         }
 
         // no error found

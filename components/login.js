@@ -29,7 +29,7 @@ export default class LoginForm extends React.Component {
     let errorStack = [];
 
     if (validator.trim(password).length < 6) {
-        errorStack.push('Must have password with length greater than 6 characters');
+        errorStack.push("Password's character must be greater than 6");
         let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
         this.props.store.addNotification(notification);
     } else if (!validator.isEmail(validator.trim(email))) {
@@ -67,7 +67,7 @@ export default class LoginForm extends React.Component {
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userID', userID);
 
-        errorStack.push('Login success. Welcome to Blue-Plate !');
+        errorStack.push('Login success. Welcome to Blueplate !');
         let notification = { type: 'success', heading: 'Success!', content: errorStack, createdAt: Date.now() };
         self.props.store.addNotification(notification);
         setTimeout(()=> {

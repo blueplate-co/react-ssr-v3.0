@@ -43,11 +43,11 @@ export default class ProfileStepFive extends React.Component {
 
         // no need to validate date type input, bacause it can't be overwrite value from that form input
         if (_.indexOf(['male', 'female', 'other'], this.refs.gender.value) == -1) {
-            errorStack.push('Invalid value from gender. Please try again');
+            errorStack.push('Gender value is invalid. Please try again !');
         }
 
         if (this.state.startDate.length == 0) {
-            errorStack.push('Must choose your date of birth');
+            errorStack.push('Date of birth cannot be blank.');
         }
 
         // no error found
