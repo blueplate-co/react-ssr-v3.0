@@ -90,7 +90,7 @@ export default class MenuStepOne extends React.Component {
         document.getElementsByTagName('input')[0].focus();
 
          //- get dish list
-         this.getDishList(this);
+        //  this.getDishList(this);
     }
 
     render() {

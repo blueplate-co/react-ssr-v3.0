@@ -8,24 +8,27 @@ import { inject, observer } from 'mobx-react';
 import axios from 'axios';
 
 // global variable for list check
-let selectedData = [
-    { id: 1, selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
-    { id: 2, selected: false, name: 'Beer', cost: 200, selling: 30 },
-    { id: 3, selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
-    { id: 4, selected: false, name: 'Pizza', cost: 200, selling: 30 },
-    { id: 5, selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
-    { id: 6, selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
-]
+// let selectedData = [
+//     { id: 1, selected: false, name: 'Ice-cream', cost: 200, selling: 30 },
+//     { id: 2, selected: false, name: 'Beer', cost: 200, selling: 30 },
+//     { id: 3, selected: false, name: 'Hippo meat', cost: 100, selling: 300 },
+//     { id: 4, selected: false, name: 'Pizza', cost: 200, selling: 30 },
+//     { id: 5, selected: false, name: 'Dinosaur', cost: 570, selling: 730 },
+//     { id: 6, selected: false, name: 'Dragon', cost: 2000, selling: 3000 },
+// ]
+let selectedData = [];
 
 @inject('store') @observer
 export default class MenuStepTwo extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            dishList: []
         }
         this.saveAndContinue = this.saveAndContinue.bind(this);
 
         console.log(this.props.fieldValues);
+        this.getDishList(this);
     }
 
     // action when user click to next button
@@ -38,7 +41,7 @@ export default class MenuStepTwo extends React.Component {
         let result = [];
         let errorStack = [];
 
-        for(let i = 0; i < dishes.length; i++) {
+        for(let i = 0; i < selectedData.length; i++) {
             if (dishes[i].selected == true) {
                 result.push(dishes[i])
             }
@@ -60,6 +63,34 @@ export default class MenuStepTwo extends React.Component {
         this.props.saveValues(data);
         this.props.nextStep();
 
+    }
+
+    //- get dish list by create_chef_id
+    getDishList = (self) => {
+        var create_chef_id = localStorage.getItem('create_chef_id');
+        axios.post('http://13.250.107.234/api/view/dishes', {
+            create_chef_id: create_chef_id
+        })
+        .then(function(res){
+            console.log('here');
+            //- save to props
+            // let data = {
+            //     dishList: res.data,
+            // }
+    
+            // self.props.saveValues(data);
+            console.log('data: ', res.data);
+            selectedData = res.data;
+            self.state.dishList = selectedData;
+            self.setState({
+                dishList: selectedData
+            });
+            console.log('selectedData in function: ', selectedData);
+            console.log('state value: ', self.state.dishList);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
     }
 
     // when user click change checkbox
@@ -86,8 +117,7 @@ export default class MenuStepTwo extends React.Component {
     }
 
     render() {
-        console.log('----: ', this.props.fieldValues.dishList);
-        var dishes = this.props.fieldValues.dishList;
+        var selectedData = this.state.dishList;
         return (
             <div className="create_menu_step">
                 <style jsx>{`
@@ -159,11 +189,11 @@ export default class MenuStepTwo extends React.Component {
                     </div>
 
                     {
-                        dishes.map((item, index) => (
+                        selectedData.map((item, index) => (
                             <div key={index} className="data-row">
                                 <span>
-                                    <input type="checkbox" name="dish[]" id={item.dName} onChange={this.handleInputChange} value={item.id}/>
-                                    <label htmlFor={item.dName} style={{ float: `left` }}></label>
+                                    <input type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChange}/>
+                                    <label htmlFor={item.name} style={{ float: `left` }}></label>
                                 </span>
                                 <span>
                                     { item.dName }
