@@ -90,7 +90,7 @@ export default class MenuStepFour extends React.Component {
     // action when user click to next button
     saveAndContinue = (e) => {
         e.preventDefault();
-
+        let errorStack = [];
         // make sure parseInt qty is valid
         try {
             let cost           = this.refs.cost.value.substr(1);

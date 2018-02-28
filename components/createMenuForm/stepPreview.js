@@ -149,6 +149,8 @@ export default class MenuStepPreview extends React.Component {
 
     //- insert allergy, dietary and ingredients
     addMore = (menu_id)=> {
+        let errorStack = [];
+        var self = this;
         console.log(this.props.fieldValues);
         axios.all([
             this.addDish(menu_id.create_menu_id),
@@ -161,9 +163,10 @@ export default class MenuStepPreview extends React.Component {
             console.log(arr[2].data);
 
             //- go back to /become with stage 2
-            alert('Create menu successful');
-            // sessionStorage.setItem("welcomeStage", 2);
-            // Router.push('/become');
+            // alert('Create menu successful');
+            errorStack.push('Create menu successful');
+            let notification = { type: 'success', heading: 'Success', content: errorStack, createdAt: Date.now() };
+            self.props.store.addNotification(notification);
         })
         .catch(function(err){
             console.log(err);
