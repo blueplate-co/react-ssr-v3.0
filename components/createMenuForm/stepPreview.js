@@ -456,7 +456,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies" onClick={ () => { this.props.store.globalStep = 6 } } >
+                    <div className="allergies" onClick={ () => this.props.goToStep(6) } >
                         <h4>Major food allergies</h4>
                         <div className="list">
                             {
@@ -473,7 +473,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="dietary" onClick={ () => { this.props.store.globalStep = 7 } }>
+                    <div className="dietary" onClick={ () => this.props.goToStep(7) }>
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {
@@ -490,7 +490,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
                     
                     {/* Tags */}
-                    <div className="tags">
+                    <div className="tags" onClick={ () => this.props.goToStep(8) }>
                         <h4>Tags</h4>
                         <ul>
                             {
@@ -506,15 +506,6 @@ export default class MenuStepPreview extends React.Component {
                                             position: 'relative'
                                         }}>
                                             {item}
-                                            <img
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '8px',
-                                                    top: '9px'
-                                                }}
-                                                src="../../static/icons/close.svg"
-                                                onClick={ () => { this.removeTag(index) } }
-                                            />
                                         </li>
                                     )
                                 })
