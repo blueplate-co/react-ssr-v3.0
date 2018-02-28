@@ -178,9 +178,9 @@ export default class MenuStepFour extends React.Component {
                         <div className="custom">Custom</div>
                     </div>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="cost" defaultValues={this.props.fieldValues.cost} style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="$0"/>
-                        <input ref="suggestedPrice" defaultValues={this.props.fieldValues.suggestedPrice} style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
-                        <input ref="customPrice" defaultValues={this.props.fieldValues.customPrice} style={{ width: '25%', textAlign: 'right' }} type="text" placeholder="$0"/>
+                        <input ref="cost" defaultValue={this.props.fieldValues.cost} style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="$0"/>
+                        <input ref="suggestedPrice" defaultValue={this.props.fieldValues.suggestedPrice} style={{ width: '50%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="$0"/>
+                        <input ref="customPrice" defaultValue={this.props.fieldValues.customPrice} style={{ width: '25%', textAlign: 'right' }} type="text" placeholder="$0"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

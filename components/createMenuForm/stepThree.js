@@ -47,7 +47,7 @@ export default class MenuStepThree extends React.Component {
         this.props.setProgress(20);
 
         this.setState({
-            reverseValue: this.props.fieldValues.numberOfPeople
+            reverseValue: parseInt(this.props.fieldValues.numberOfPeople)
         })
     }
 

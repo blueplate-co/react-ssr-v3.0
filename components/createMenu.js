@@ -9,7 +9,7 @@ let fieldValues = {
     menuName: '',
     menuDescription: '',
     selectedDish: [],
-    numberOfPeople: '',
+    numberOfPeople: 0,
     cost: '',
     suggestedPrice: '',
     customPrice: '',
