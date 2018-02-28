@@ -68,20 +68,29 @@ export default class MenuStepFive extends React.Component {
             let mins = this.refs.mins.value;
 
             if (validator.trim(days).length > 0 || validator.trim(hours).length > 0 || validator.trim(mins).length > 0) { // no store empty string value                   
-                days = parseInt(days);
-                hours = parseInt(hours);
-                mins = parseInt(mins);
+                if (isNaN(parseInt(days))) {
+                    days = 0;
+                }
+
+                if (isNaN(parseInt(hours))) {
+                    hours = 0;
+                }
+
+                if (isNaN(parseInt(mins))) {
+                    mins = 0;
+                }
 
                 // calculate what total time in mins to complete this dish
                 let totalTime = (days * 24 * 60) + (hours * 60) + mins;
                 totalTime = parseInt(totalTime);
 
                 let data = {
-                    prepareTime: totalTime,
-                    days: days,
-                    hours: hours,
-                    mins: mins
+                    prepareTime: parseInt(totalTime),
+                    days: parseInt(days),
+                    hours: parseInt(hours),
+                    mins: parseInt(mins)
                 }
+
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
@@ -141,9 +150,9 @@ export default class MenuStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" defaultValue={this.props.fieldValues.days} className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
-                        <input ref="hours" defaultValue={this.props.fieldValues.hours} className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
-                        <input ref="mins" defaultValue={this.props.fieldValues.mins} className="mins" style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
+                        <input ref="days" defaultValue={this.props.fieldValues.days} className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="days"/>
+                        <input ref="hours" defaultValue={this.props.fieldValues.hours} className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="hours"/>
+                        <input ref="mins" defaultValue={this.props.fieldValues.mins} className="mins" style={{ width: '35%', textAlign: 'right' }} type="number" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">

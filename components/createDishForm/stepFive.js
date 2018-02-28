@@ -87,10 +87,10 @@ export default class DishStepFive extends React.Component {
                 totalTime = parseInt(totalTime);
 
                 let data = {
-                    prepareTime: totalTime,
-                    days: days,
-                    hours: hours,
-                    mins: mins
+                    prepareTime: parseInt(totalTime),
+                    days: parseInt(days),
+                    hours: parseInt(hours),
+                    mins: parseInt(mins)
                 }
 
                 this.props.saveValues(data);
@@ -155,9 +155,9 @@ export default class DishStepFive extends React.Component {
                 <div className="container">
                     <h3>Preparation time</h3>
                     <div style={{ display: 'inline-flex' }}>
-                        <input ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="text" placeholder="days"/>
-                        <input ref="hours" className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="text" placeholder="hours"/>
-                        <input ref="mins" className="mins" style={{ width: '35%', textAlign: 'right' }} type="text" placeholder="mins"/>
+                        <input defaultValue={this.props.fieldValues.days} ref="days" className="days" style={{ width: '25%', marginRight: '3%', textAlign: 'left' }} type="number" placeholder="days"/>
+                        <input defaultValue={this.props.fieldValues.hours} ref="hours" className="hours" style={{ width: '40%' , marginRight: '3%', textAlign: 'center' }} type="number" placeholder="hours"/>
+                        <input defaultValue={this.props.fieldValues.mins} ref="mins" className="mins" style={{ width: '35%', textAlign: 'right' }} type="number" placeholder="mins"/>
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
