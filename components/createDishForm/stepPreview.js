@@ -93,23 +93,16 @@ export default class DishStepPreview extends React.Component {
     }
       
     addAllergy = (create_dish_id) => {
-        let data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.allergies = this.props.fieldValues.allergiesString;
         return axios.post('http://13.250.107.234/api/dish/create/allergies', {
             create_dish_id: create_dish_id,
-            allergies: this.props.fieldValues.allergies2
+            allergies: (this.props.fieldValues.allergies2 == null)?[]:this.props.fieldValues.allergies2
         });
     }
 
     addDietary = (create_dish_id) => {
-        let data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.dietaries = this.props.fieldValues.dietaryString;
-        console.log('dietaries: ', this.props.fieldValues.dietary);
         return axios.post('http://13.250.107.234/api/dish/create/dietaries', {
             create_dish_id: create_dish_id,
-            dietaries: this.props.fieldValues.dietary
+            dietaries: (this.props.fieldValues.dietaries == null)?[]:this.props.fieldValues.dietaries
         });
     }
 
@@ -283,8 +276,11 @@ export default class DishStepPreview extends React.Component {
                 Router.push('/become');
             }, 1500);
         })
-        .catch(function(err){
-            console.log(err);
+        // .catch(function(err){
+        //     console.log(err);
+        // });
+        .catch(error => {
+            console.log(error.response);
         });
     }
     //------------------------------------
