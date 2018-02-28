@@ -519,7 +519,7 @@ export default class DishStepPreview extends React.Component {
                     <span className="dish-description" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.dishDescription}</span>
 
                     {/* Ingredients */}
-                    <div className="ingredient-wrapper">
+                    <div className="ingredient-wrapper" onClick={ () => { this.props.store.globalStep = 3; } }  >
                         <h4>Ingredients</h4>
                         {
                             this.props.fieldValues.ingredient.map(function(item, index){
