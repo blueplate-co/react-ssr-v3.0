@@ -26,6 +26,7 @@
     "react-rangeslider": "^2.2.0",
     "react-touch-carousel": "^0.8.2",
     "styled-jsx-plugin-sass": "^0.2.2",
+    "unsplash-js": "^4.8.0",
     "validator": "^9.4.0"
   },
   "devDependencies": {}
