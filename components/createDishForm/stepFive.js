@@ -69,10 +69,18 @@ export default class DishStepFive extends React.Component {
             
             let errorStack = []; 
 
-            if (validator.trim(days).length > 0 || validator.trim(hours).length > 0 || validator.trim(mins).length > 0) { // no store empty string value                   
-                days = parseInt(days);
-                hours = parseInt(hours);
-                mins = parseInt(mins);
+            if (validator.trim(days).length > 0 || validator.trim(hours).length > 0 || validator.trim(mins).length > 0) { // no store empty string value 
+                if (isNaN(parseInt(days))) {
+                    days = 0;
+                }
+
+                if (isNaN(parseInt(hours))) {
+                    hours = 0;
+                }
+
+                if (isNaN(parseInt(mins))) {
+                    mins = 0;
+                }
 
                 // calculate what total time in mins to complete this dish
                 let totalTime = (days * 24 * 60) + (hours * 60) + mins;
@@ -84,6 +92,7 @@ export default class DishStepFive extends React.Component {
                     hours: hours,
                     mins: mins
                 }
+
                 this.props.saveValues(data);
                 this.props.nextStep();
             } else {
