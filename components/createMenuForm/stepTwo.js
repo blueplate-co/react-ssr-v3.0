@@ -61,6 +61,25 @@ export default class MenuStepTwo extends React.Component {
             selectedData[0].selected = false;
             that.setState({
                 dishList: selectedData
+            },() => {
+                if (that.props.fieldValues.selectedDish.length > 0) {
+                    // set default value for back function.
+                    if (that.props.fieldValues.selectedDish.length > 0){
+                        for (let i = 0; i < that.props.fieldValues.selectedDish.length; i++) {
+                            for(let j = 0; j < that.state.dishList.length; j++) {
+                                if (that.state.dishList[j].name == that.props.fieldValues.selectedDish[i].name) {
+                                    let dummyState = that.state.dishList;
+                                    dummyState[j].selected = true;
+                                    that.setState({
+                                        dishList: dummyState 
+                                    },() => {
+                                        console.log(that.state.dishList);
+                                    })
+                                }
+                            }
+                        }
+                    }
+                }
             });
         })
         .catch(function(err){
@@ -70,7 +89,6 @@ export default class MenuStepTwo extends React.Component {
 
     // when user click change checkbox
     handleInputChange(event, name, self) {
-
         let tempState = self.state.dishList;
         for (let i = 0; i < tempState.length; i++) {
             if (tempState[i].dName == name) {
@@ -88,6 +106,7 @@ export default class MenuStepTwo extends React.Component {
         });
         this.props.setProgress(20);
         this.getDishList();
+
     }
 
     render() {
@@ -166,7 +185,7 @@ export default class MenuStepTwo extends React.Component {
                         this.state.dishList.map((item, index) => (
                             <div key={index} className="data-row">
                                 <span>
-                                    <input type="checkbox" name={item.dName} id={item.dName} onChange={() => this.handleInputChange(event, item.dName, this)}/>
+                                    <input defaultChecked={item.selected} type="checkbox" name={item.dName} id={item.dName} onChange={() => this.handleInputChange(event, item.dName, this)}/>
                                     <label htmlFor={item.dName} style={{ float: `left` }}></label>
                                 </span>
                                 <span>

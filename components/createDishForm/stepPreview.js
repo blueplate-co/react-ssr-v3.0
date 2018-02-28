@@ -151,25 +151,25 @@ export default class DishStepPreview extends React.Component {
         if (validator.trim(dishDescription).length == 0) {
             errorStack.push('Dish description must not empty');
         }
-        if (parseInt(cost) == NaN) {
+        if (isNaN(parseInt(cost))) {
             errorStack.push('Invalid dish cost format');
         }
-        if (parseInt(customPrice) == NaN) {
+        if (isNaN(parseInt(customPrice))) {
             errorStack.push('Invalid dish custom price format');
         }
-        if (parseInt(suggestedPrice) == NaN) {
+        if (isNaN(parseInt(suggestedPrice))) {
             errorStack.push('Invalid dish suggested price format');
         }
-        if (parseInt(days) == NaN) {
+        if (isNaN(parseInt(days))) {
             errorStack.push('Invalid days format');
         }
-        if (parseInt(hours) == NaN) {
+        if (isNaN(parseInt(hours))) {
             errorStack.push('Invalid hours format');
         }
-        if (parseInt(mins) == NaN) {
+        if (isNaN(parseInt(mins))) {
             errorStack.push('Invalid mins format');
         }
-        if (parseInt(minimumOrder) == NaN) {
+        if (isNaN(parseInt(minimumOrder))) {
             errorStack.push('Invalid minium orders number format');
         }
          
@@ -184,7 +184,6 @@ export default class DishStepPreview extends React.Component {
             data.append('chefID', localStorage.getItem('create_chef_id'));
             data.append('name', dishName);
             data.append('describe', dishDescription);
-            debugger
 
             //- cost
             console.log(typeof(cost));
@@ -552,7 +551,7 @@ export default class DishStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies">
+                    <div className="allergies" onClick={() => { this.props.store.globalStep = 6 }}>
                         <h4>Major food allergies</h4>
                         <div className="list">
                             {
@@ -569,7 +568,7 @@ export default class DishStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="dietary">
+                    <div className="dietary" onClick={() => { this.props.store.globalStep = 7 }}>
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {   
@@ -602,15 +601,6 @@ export default class DishStepPreview extends React.Component {
                                             position: 'relative'
                                         }}>
                                             {item}
-                                            <img
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '8px',
-                                                    top: '9px'
-                                                }}
-                                                src="/static/icons/close.svg"
-                                                onClick={ () => { this.removeTag(index) } }
-                                            />
                                         </li>
                                     )
                                 })

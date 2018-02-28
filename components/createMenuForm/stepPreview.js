@@ -9,7 +9,7 @@ import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
 
 
 const cardSize = 100
-const cardPadCount = 4
+const cardPadCount = 0
 const carouselWidth = 100
 
 function log (text) {
@@ -22,15 +22,8 @@ export default class MenuStepPreview extends React.Component {
         super(props);
 
         this.state = {
-            data: [
-                { title: '', text: '', background: 'https://www.colourbox.com/preview/2226606-salad-with-vegetables-and-greens.jpg' },
-                { title: '', text: '', background: 'http://longwallpapers.com/Desktop-Wallpaper/food-wallpaper-full-hd-For-Desktop-Wallpaper.jpg' },
-                { title: '', text: '', background: 'https://media-cdn.tripadvisor.com/media/photo-s/03/d3/9c/e8/wtf-what-tasty-food.jpg' },
-                { title: '', text: '', background: 'http://www.123inspiration.com/wp-content/uploads/2013/05/creative-food-art-6.jpg' }
-            ]
+            data: []
         }
-
-        console.log(this.props.fieldValues);
     }
 
     /**
@@ -132,7 +125,11 @@ export default class MenuStepPreview extends React.Component {
             var message = error.response.data.message;
             //- debug
             console.log(error.response);
-            alert('Error when create menu. Please try again');
+            debugger
+            let errorStack = [];
+            errorStack.push('Error when create menu. Please try again');
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
 
             //- token expired or something else
             if(statusCode === 403 && message === "Please login to continue")
@@ -152,6 +149,7 @@ export default class MenuStepPreview extends React.Component {
         let errorStack = [];
         var self = this;
         console.log(this.props.fieldValues);
+        let that = this;
         axios.all([
             this.addDish(menu_id.create_menu_id),
             this.addAllergy(menu_id.create_menu_id), 
@@ -224,62 +222,64 @@ export default class MenuStepPreview extends React.Component {
 
     }
 
-    renderCard (index, modIndex) {
-        const item = this.state.data[modIndex]
-        return (
-            <div
-                key={index}
-                className='carousel-card'
-                onClick={() => log(`clicked card ${1 + modIndex}`)}
-            >
+    renderCard (indexx) {
+        console.log(indexx);
+        return this.props.fieldValues.selectedDish.map((item, index)=>{
+            return (
                 <div
-                    className='carousel-card-inner'
-                    style={{backgroundImage: `url(${item.background})`}}
+                    key={index}
+                    className='carousel-card'
+                    onClick={() => log(`clicked card ${1 + index}`)}
                 >
-                    <div className='carousel-title'>{item.title}</div>
-                    <div className='carousel-text'>{item.text}</div>
+                    <div
+                        className='carousel-card-inner'
+                        style={{backgroundImage: `url(http://13.250.107.234/images/${item.dImageName})`}}
+                    >
+                        <div className='carousel-title'></div>
+                        <div className='carousel-text'></div>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        })
     }
 
     CarouselContainer = (props) => {
         const {cursor, carouselState: {active, dragging}, ...rest} = props
-        let current = -Math.round(cursor) % this.state.data.length
+        let current = -Math.round(cursor) % this.props.fieldValues.selectedDish.length
         while (current < 0) {
-          current += this.state.data.length
+            current += this.props.fieldValues.selectedDish.length
         }
         // Put current card at center
         const translateX = (cursor - cardPadCount) * cardSize + (carouselWidth - cardSize) / 2
         return (
-          <div
+            <div
             className={cx(
-              'carousel-container',
-              {
+                'carousel-container',
+                {
                 'is-active': active,
                 'is-dragging': dragging
-              }
+                }
             )}
-          >
+            >
             <div
-              className='carousel-track'
-              style={{transform: `translate3d(${translateX}px, 0, 0)`}}
-              {...rest}
+                className='carousel-track'
+                style={{transform: `translate3d(${translateX}px, 0, 0)`}}
+                {...rest}
             />
-      
+        
             <div className='carousel-pagination-wrapper'>
-              <ol className='carousel-pagination'>
-                {this.state.data.map((_, index) => (
-                  <li
+                <ol className='carousel-pagination'>
+                {this.props.fieldValues.selectedDish.map((_, index) => (
+                    <li
                     key={index}
                     className={current === index ? 'current' : ''}
-                  />
+                    />
                 ))}
-              </ol>
+                </ol>
             </div>
-          </div>
+            </div>
         )
-      }
+    }
 
     render() {
         const Container = touchWithMouseHOC(this.CarouselContainer);
@@ -291,6 +291,7 @@ export default class MenuStepPreview extends React.Component {
                     @media (max-width: 480px) {
                         .container {
                             margin-top: 20px;
+                            margin-bottom: 20px;
                             [conteneditable="true"] {
                                 width: 100%
                             }
@@ -423,7 +424,7 @@ export default class MenuStepPreview extends React.Component {
 
                     <TouchCarousel
                         component={Container.bind(this)}
-                        cardCount={4}
+                        cardCount={1}
                         cardSize={375}
                         renderCard={this.renderCard.bind(this)}
                     />
@@ -455,7 +456,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies">
+                    <div className="allergies" onClick={ () => { this.props.store.globalStep = 6 } } >
                         <h4>Major food allergies</h4>
                         <div className="list">
                             {
@@ -463,7 +464,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/allergies/' + item.icon}/>
                                         </div>
                                     )
                                 })
@@ -472,7 +473,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="dietary">
+                    <div className="dietary" onClick={ () => { this.props.store.globalStep = 7 } }>
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {
@@ -480,7 +481,7 @@ export default class MenuStepPreview extends React.Component {
                                     return (
                                         <div key={index} className="list-item">
                                             <span>{item.name}</span>
-                                            <img src={'/static/icons/' + item.icon}/>
+                                            <img src={'/static/icons/dietary/' + item.icon}/>
                                         </div>
                                     )
                                 })

@@ -66,6 +66,12 @@ export default class MenuStepOne extends React.Component {
         this.props.setProgress(10);
         this.props.store.setBackFunction(null);
         document.getElementsByTagName('input')[0].focus();
+        // set default for textarea
+        if (this.props.fieldValues.menuDescription.length > 0) {
+            this.setState({
+                descriptionContent: this.props.fieldValues.menuDescription
+            })
+        }
     }
 
     render() {
