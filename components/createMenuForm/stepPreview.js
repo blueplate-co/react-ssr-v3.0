@@ -6,6 +6,7 @@ import cx from 'classnames';
 import axios from 'axios';
 import TouchCarousel, { clamp } from 'react-touch-carousel';
 import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
+import { inject, observer } from 'mobx-react';
 
 
 const cardSize = 100
@@ -16,7 +17,7 @@ function log (text) {
     console.log(text);  
 }
 
-
+@inject('store') @observer
 export default class MenuStepPreview extends React.Component {
     constructor(props) {
         super(props);
@@ -54,6 +55,7 @@ export default class MenuStepPreview extends React.Component {
     sendRequest = (self) => {
         //- create form data
         const data = new FormData();
+        let that = this;
 
         //- update first then create ingredients, food allergy, dietary
         var propValues = this.props.fieldValues;
@@ -129,7 +131,7 @@ export default class MenuStepPreview extends React.Component {
             let errorStack = [];
             errorStack.push('Error when create menu. Please try again');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-            this.props.store.addNotification(notification);
+            that.props.store.addNotification(notification);
 
             //- token expired or something else
             if(statusCode === 403 && message === "Please login to continue")
@@ -161,7 +163,8 @@ export default class MenuStepPreview extends React.Component {
             //- go back to /become with stage 2
             let errorStack = [];
             errorStack.push('Create menu successful!');
-            let notification = { type: 'error', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
+            debugger
+            let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
             that.props.store.addNotification(notification);
             // sessionStorage.setItem("welcomeStage", 2);
             // Router.push('/become');
