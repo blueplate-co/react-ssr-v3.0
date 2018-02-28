@@ -93,29 +93,23 @@ export default class DishStepPreview extends React.Component {
     }
       
     addAllergy = (create_dish_id) => {
-        let data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.allergies = this.props.fieldValues.allergiesString;
         return axios.post('http://13.250.107.234/api/dish/create/allergies', {
             create_dish_id: create_dish_id,
-            allergies: this.props.fieldValues.allergies2
+            allergies: (this.props.fieldValues.allergies2 == null)?[]:this.props.fieldValues.allergies2
         });
     }
 
     addDietary = (create_dish_id) => {
-        let data = new FormData();
-        data.create_dish_id = create_dish_id;
-        data.dietaries = this.props.fieldValues.dietaryString;
         return axios.post('http://13.250.107.234/api/dish/create/dietaries', {
             create_dish_id: create_dish_id,
-            dietaries: this.props.fieldValues.dietaries
+            dietaries: (this.props.fieldValues.dietaries == null)?[]:this.props.fieldValues.dietaries
         });
     }
 
     sendRequest = (self) => {
         //- create form data
-        const data = new FormData();
-
+        let data = new FormData();
+        console.log('here');
         //- update first then create ingredients, food allergy, dietary
         let propValues = this.props.fieldValues;
         let dishImageSrc = this.props.fieldValues.dishImagesSrc;
@@ -151,25 +145,25 @@ export default class DishStepPreview extends React.Component {
         if (validator.trim(dishDescription).length == 0) {
             errorStack.push('Dish description must not empty');
         }
-        if (parseInt(cost) == NaN) {
+        if (isNaN(parseInt(cost))) {
             errorStack.push('Invalid dish cost format');
         }
-        if (parseInt(customPrice) == NaN) {
+        if (isNaN(parseInt(customPrice))) {
             errorStack.push('Invalid dish custom price format');
         }
-        if (parseInt(suggestedPrice) == NaN) {
+        if (isNaN(parseInt(suggestedPrice))) {
             errorStack.push('Invalid dish suggested price format');
         }
-        if (parseInt(days) == NaN) {
+        if (isNaN(parseInt(days))) {
             errorStack.push('Invalid days format');
         }
-        if (parseInt(hours) == NaN) {
+        if (isNaN(parseInt(hours))) {
             errorStack.push('Invalid hours format');
         }
-        if (parseInt(mins) == NaN) {
+        if (isNaN(parseInt(mins))) {
             errorStack.push('Invalid mins format');
         }
-        if (parseInt(minimumOrder) == NaN) {
+        if (isNaN(parseInt(minimumOrder))) {
             errorStack.push('Invalid minium orders number format');
         }
          
@@ -182,14 +176,17 @@ export default class DishStepPreview extends React.Component {
             //- local chef id: 5a7431f357076fd017913c9f
             //- server chef id: 5a79a1524be30c971138175e
             data.append('chefID', localStorage.getItem('create_chef_id'));
+            // data.append('chefID', '5a7431f357076fd017913c9f');
             data.append('name', dishName);
             data.append('describe', dishDescription);
 
             //- cost
+            data.append('cost', parseInt(cost));
+            data.append('suggestedPrice', parseInt(suggestedPrice));
+            data.append('customPrice', parseInt(customPrice));
             console.log(typeof(cost));
-            data.append('cost', cost);
-            data.append('suggestedPrice', suggestedPrice);
-            data.append('customPrice', customPrice);
+            console.log(typeof(suggestedPrice));
+            console.log(typeof(customPrice));
             //- preparation time
             data.append('prepareTime', prepareTime);
             //- tags
@@ -213,7 +210,7 @@ export default class DishStepPreview extends React.Component {
             axios
             .post('http://13.250.107.234/api/dish/create', data)
             .then(function(res){
-                console.log(res);
+                console.log('add new dish: ',res);
                 if(res.status === 200)
                 {
                     //- prop ids
@@ -229,23 +226,27 @@ export default class DishStepPreview extends React.Component {
             //     console.log(err);
             // });
             .catch(error => {
-                 
-                let statusCode = error.response.status;
-                let message = error.response.data.message;
-                //- debug
                 console.log(error.response);
-                let errorStack = [];
-                errorStack.push('Error when create profile. Please try again');
-                let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
-                this.props.store.addNotification(notification);
-
-                //- token expired or something else
-                if(statusCode === 403 && message === "Please login to continue")
+                if(error.response)
                 {
-                    //- token expired
-                    console.log('Token expired. Please login again !');
-                    Router.push('/');
-                } 
+                    let statusCode = error.response.status;
+                    let message = error.response.data.message;
+                    //- debug
+                    console.log(error.response);
+                    let errorStack = [];
+                    errorStack.push('Error when create profile. Please try again');
+                    let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+                    this.props.store.addNotification(notification);
+
+                    //- token expired or something else
+                    if(statusCode === 403 && message === "Please login to continue")
+                    {
+                        //- token expired
+                        console.log('Token expired. Please login again !');
+                        Router.push('/');
+                    } 
+                }
+                
             });
         }
 
@@ -275,8 +276,11 @@ export default class DishStepPreview extends React.Component {
                 Router.push('/become');
             }, 1500);
         })
-        .catch(function(err){
-            console.log(err);
+        // .catch(function(err){
+        //     console.log(err);
+        // });
+        .catch(error => {
+            console.log(error.response);
         });
     }
     //------------------------------------
@@ -511,7 +515,7 @@ export default class DishStepPreview extends React.Component {
                     <span className="dish-description" ref="dishName" suppressContentEditableWarning="true" contentEditable="true">{this.props.fieldValues.dishDescription}</span>
 
                     {/* Ingredients */}
-                    <div className="ingredient-wrapper">
+                    <div className="ingredient-wrapper" onClick={ () => { this.props.store.globalStep = 3; } }  >
                         <h4>Ingredients</h4>
                         {
                             this.props.fieldValues.ingredient.map(function(item, index){
@@ -551,7 +555,7 @@ export default class DishStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies">
+                    <div className="allergies" onClick={() => { this.props.store.globalStep = 6 }}>
                         <h4>Major food allergies</h4>
                         <div className="list">
                             {
@@ -568,7 +572,7 @@ export default class DishStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="dietary">
+                    <div className="dietary" onClick={() => { this.props.store.globalStep = 7 }}>
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {   
@@ -601,15 +605,6 @@ export default class DishStepPreview extends React.Component {
                                             position: 'relative'
                                         }}>
                                             {item}
-                                            <img
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '8px',
-                                                    top: '9px'
-                                                }}
-                                                src="/static/icons/close.svg"
-                                                onClick={ () => { this.removeTag(index) } }
-                                            />
                                         </li>
                                     )
                                 })

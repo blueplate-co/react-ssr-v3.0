@@ -21,7 +21,7 @@ export default class ProfileStepFive extends React.Component {
     // action when user click skip button
     skip = (e) => {
         let data = {
-            dob: '',
+            dob: moment(),
             gender: ''
         }
         this.props.saveValues(data);
@@ -121,7 +121,7 @@ export default class ProfileStepFive extends React.Component {
                 <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
                     <DatePicker
-                        // selected={this.state.startDate}
+                        selected={this.state.startDate}
                         onChange={this.handleChange}
                         placeholderText="Date of birth"
                         autoFocus={true}

@@ -110,8 +110,8 @@ export default class ProfileStepPreview extends React.Component {
     // send profile to create profile
     save = () => {
         var self = this;
-        // create new form data 
-        const data = new FormData();
+        // create new form data
+        let data = new FormData();
         let errorStack = [];
 
         // split firtname and lastname
@@ -178,6 +178,7 @@ export default class ProfileStepPreview extends React.Component {
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
+
         //- http://13.250.107.234/api/chef/create
         axios.post('http://13.250.107.234/api/chef/create', data, config)
         .then(function (response) {
