@@ -21,7 +21,7 @@ export default class ProfileStepFive extends React.Component {
     // action when user click skip button
     skip = (e) => {
         let data = {
-            dob: '',
+            dob: moment(),
             gender: ''
         }
         this.props.saveValues(data);
