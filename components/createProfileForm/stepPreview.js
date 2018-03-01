@@ -7,6 +7,7 @@ import axios from 'axios';
 import { inject, observer } from 'mobx-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Loader from '../../components/loader';
 
 import cnf from '../../config';
 
@@ -31,7 +32,7 @@ export default class ProfileStepPreview extends React.Component {
             services: [],
             profileImages: null,
             cacheFile: null,
-            dob: null,
+            dob: '',
             gender: null,
             exp: [],
             yourself: null,
@@ -40,7 +41,8 @@ export default class ProfileStepPreview extends React.Component {
             allergies: [],
             dietary: [],
             imgSrc: null,
-            selectedDate: null
+            selectedDate: null,
+            sentRequest: false
         }
         console.log(this.props.fieldValues);
     }
@@ -49,14 +51,35 @@ export default class ProfileStepPreview extends React.Component {
     onChange = () => {
         // Assuming only image
         var file = this.refs.file.files[0];
-        var reader = new FileReader();
-        var url = reader.readAsDataURL(file);
-        reader.onloadend = function (e) {
-            this.setState({
-                imgSrc: [reader.result],
-                cachefile: file
-            })
-        }.bind(this); 
+
+        let fileExstension = file.name.split('.')[file.name.split('.').length -1];
+        let fileSize = file.size;
+        let allowExstension = ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'];
+        let allowSize = 3000000;
+        let errorStack = [];
+
+        if (fileSize > allowSize) {
+            errorStack.push('Image size must less than <b>3 MB</b>');
+        }
+
+        if (allowExstension.indexOf(fileExstension) == -1) {
+            errorStack.push('Invalid image exstension');
+        }
+
+        if (errorStack.length > 0) {
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return true;
+        } else {
+            var reader = new FileReader();
+            var url = reader.readAsDataURL(file);
+            reader.onloadend = function (e) {
+                this.setState({
+                    imgSrc: [reader.result],
+                    cachefile: file
+                })
+            }.bind(this); 
+        }
     }
 
     // trigger action update avatar
@@ -109,6 +132,12 @@ export default class ProfileStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
+
+        // change state into sentRequest to change submit button
+        this.setState({
+            sentRequest: true
+        })
+
         var self = this;
         // create new form data
         let data = new FormData();
@@ -132,7 +161,7 @@ export default class ProfileStepPreview extends React.Component {
         let services = this.state.services;
 
         // get dob
-        let dob = this.state.dob.format('YYYY/MM/DD');
+        let dob = this.state.dob.replace(/-/g, '/');
 
         // get gender
         let gender = this.state.gender;
@@ -172,6 +201,9 @@ export default class ProfileStepPreview extends React.Component {
         if (errorStack.length > 0) {
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
+            this.setState({
+                sentRequest: false
+            });
             return true;
         }
   
@@ -197,11 +229,17 @@ export default class ProfileStepPreview extends React.Component {
                 sessionStorage.setItem("welcomeStage", 1);
                 setTimeout(() => {
                     Router.push('/become');
+                    this.setState({
+                        sentRequest: false
+                    });
                 }, 1500);
             }else{
                 errorStack.push('Cannot create chef profile.');
                 let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
+                this.setState({
+                    sentRequest: false
+                });
             }
             
         })
@@ -223,6 +261,10 @@ export default class ProfileStepPreview extends React.Component {
                     console.log('Token expired. Please login again !');
                     Router.push('/');
                 } 
+
+                this.setState({
+                    sentRequest: false
+                });
             }
             
         });
@@ -540,11 +582,8 @@ export default class ProfileStepPreview extends React.Component {
                     <div className="personal-information">
                         <div className="user-dob">
                             <span style={{ 'display': 'inline-flex'}} >
-                                <DatePicker
-                                    selected={this.state.dob}
-                                    onChange={this.handleChangeDateTime}
-                                    className="dob-changer"
-                                /></span>
+                                <input type="date" value={this.state.dob} onChange={(e) => this.handleChangeDateTime }/>
+                            </span>
                         </div>
                         <div className="user-gender">
                             <span onClick={ this.changeGender } >
@@ -639,7 +678,14 @@ export default class ProfileStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                    {
+                        (this.state.sentRequest) ?
+                        <Loader/>
+                        :
+                        'Save'
+                    }
+                    </button>
                 </div>
 
             </div>

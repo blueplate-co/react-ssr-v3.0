@@ -62,6 +62,11 @@ export default class CreateMenu extends React.Component {
         this.props.store.previousStep();
     }
 
+    // Go to specific step
+    goToStep = (step) => {
+        this.props.store.goToStep(step);
+    }
+
     // set progress for progressbar
     setProgress = (number) => {
         this.setState({
@@ -112,7 +117,7 @@ export default class CreateMenu extends React.Component {
                     case 8:
                         return <MenuStepEight fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
                     case 9:
-                        return <MenuStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress}/>
+                        return <MenuStepPreview fieldValues={fieldValues} nextStep={this.nextStep} saveValues={this.saveValues} setProgress={this.setProgress} goToStep={this.goToStep}/>
                 }
             })()}
                 

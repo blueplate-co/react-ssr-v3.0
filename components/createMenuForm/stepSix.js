@@ -147,7 +147,6 @@ export default class MenuStepSix extends React.Component {
     generateListOther = () => {
         let that = this;
         return this.state.new_allergies.map((item, index) => {
-            debugger
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
                     <input checked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChangeOther(event,this)}/>
@@ -266,7 +265,7 @@ export default class MenuStepSix extends React.Component {
                     <input style={{ marginBottom: '100px' }} onKeyDown={ this.addNew } ref="allergies" type="text" placeholder="Others"/>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    <button className="btn inline skip" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

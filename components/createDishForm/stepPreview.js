@@ -5,6 +5,7 @@ import Router from 'next/router';
 import validator from 'validator';
 import axios from 'axios';
 import { inject, observer } from 'mobx-react';
+import Loader from '../../components/loader';
 
 @inject('store') @observer
 export default class DishStepPreview extends React.Component {
@@ -15,7 +16,8 @@ export default class DishStepPreview extends React.Component {
 
         this.state = {
             imgSrc: null,
-            dishImages: null
+            dishImages: null,
+            sentRequest: false
         }
         console.log(this.props.fieldValues);
         this.insertMultipleIngredients(this);
@@ -25,14 +27,35 @@ export default class DishStepPreview extends React.Component {
     onChange = () => {
         // Assuming only image
         let file = this.refs.file.files[0];
-        let reader = new FileReader();
-        let url = reader.readAsDataURL(file);
-        reader.onloadend = function (e) {
-            this.setState({
-                imgSrc: [reader.result],
-                cachefile: file
-            })
-        }.bind(this); 
+
+        let fileExstension = file.name.split('.')[file.name.split('.').length -1];
+        let fileSize = file.size;
+        let allowExstension = ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'];
+        let allowSize = 3000000;
+        let errorStack = [];
+
+        if (fileSize > allowSize) {
+            errorStack.push('Image size must less than <b>3 MB</b>');
+        }
+
+        if (allowExstension.indexOf(fileExstension) == -1) {
+            errorStack.push('Invalid image exstension');
+        }
+
+        if (errorStack.length > 0) {
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return true;
+        } else {
+            let reader = new FileReader();
+            let url = reader.readAsDataURL(file);
+            reader.onloadend = function (e) {
+                this.setState({
+                    imgSrc: [reader.result],
+                    cachefile: file
+                })
+            }.bind(this); 
+        }
     }
 
     // trigger action update avatar
@@ -107,6 +130,9 @@ export default class DishStepPreview extends React.Component {
     }
 
     sendRequest = (self) => {
+        this.setState({
+            sentRequest: true
+        });
         //- create form data
         let data = new FormData();
         console.log('here');
@@ -170,7 +196,10 @@ export default class DishStepPreview extends React.Component {
         if (errorStack.length > 0) {
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
-            return;
+            this.setState({
+                sentRequest: false
+            });
+            return true;
         } else {
             //- create data using for api
             //- local chef id: 5a7431f357076fd017913c9f
@@ -220,6 +249,9 @@ export default class DishStepPreview extends React.Component {
                     console.log(dish_id);
                     //- using axios all
                     self.addMore(dish_id);
+                    this.setState({
+                        sentRequest: false
+                    });
                 }
             })
             // .catch(function(err){
@@ -623,7 +655,14 @@ export default class DishStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                        {
+                            (this.state.sentRequest) ?
+                            <Loader/>
+                            :
+                            'Save'
+                        }
+                    </button>
                 </div>
 
             </div>

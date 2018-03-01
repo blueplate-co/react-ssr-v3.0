@@ -11,7 +11,7 @@ export default class ProfileStepFive extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment()
+            startDate: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.saveAndContinue = this.saveAndContinue.bind(this);
@@ -120,7 +120,7 @@ export default class ProfileStepFive extends React.Component {
 
                 <div className="container" onKeyDown = { this.handleEnter }>
                     <h3>About you</h3>
-                    <DatePicker
+                    {/* <DatePicker
                         selected={this.state.startDate}
                         onChange={this.handleChange}
                         placeholderText="Date of birth"
@@ -129,7 +129,8 @@ export default class ProfileStepFive extends React.Component {
                         showMonthDropdown
                         showYearDropdown
                         dateFormat="YYYY/MM/DD"
-                    />
+                    /> */}
+                    <input type="date" value={this.state.startDate} onChange={(e) => { this.setState({ startDate: e.target.value }) } }/>
                     <select ref="gender">
                         <option value="male">male</option>
                         <option value="female">female</option>
@@ -137,7 +138,7 @@ export default class ProfileStepFive extends React.Component {
                     </select>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    <button className="btn inline skip" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

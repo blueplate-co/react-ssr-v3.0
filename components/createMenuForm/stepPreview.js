@@ -4,8 +4,10 @@ import React from 'react';
 import validator from 'validator';
 import cx from 'classnames';
 import axios from 'axios';
+import Loader from '../../components/loader';
 import TouchCarousel, { clamp } from 'react-touch-carousel';
 import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
+import { inject, observer } from 'mobx-react';
 
 import { inject, observer } from 'mobx-react';
 
@@ -23,7 +25,8 @@ export default class MenuStepPreview extends React.Component {
         super(props);
 
         this.state = {
-            data: []
+            data: [],
+            sentRequest: false
         }
     }
 
@@ -53,8 +56,12 @@ export default class MenuStepPreview extends React.Component {
     }
 
     sendRequest = (self) => {
+        this.setState({
+            sentRequest: true
+        })
         //- create form data
         const data = new FormData();
+        let that = this;
 
         //- update first then create ingredients, food allergy, dietary
         var propValues = this.props.fieldValues;
@@ -116,6 +123,9 @@ export default class MenuStepPreview extends React.Component {
                 console.log(menu_id);
                 //- using axios all
                 self.addMore(menu_id);
+                this.setState({
+                    sentRequest: false
+                })
             }
         })
         // .catch(function(err){
@@ -126,11 +136,13 @@ export default class MenuStepPreview extends React.Component {
             var message = error.response.data.message;
             //- debug
             console.log(error.response);
-            debugger
             let errorStack = [];
             errorStack.push('Error when create menu. Please try again');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-            this.props.store.addNotification(notification);
+            that.props.store.addNotification(notification);
+            this.setState({
+                sentRequest: false
+            })
 
             //- token expired or something else
             if(statusCode === 403 && message === "Please login to continue")
@@ -223,7 +235,6 @@ export default class MenuStepPreview extends React.Component {
     }
 
     renderCard (indexx) {
-        console.log(indexx);
         return this.props.fieldValues.selectedDish.map((item, index)=>{
             return (
                 <div
@@ -456,7 +467,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Allergies */}
-                    <div className="allergies" onClick={ () => { this.props.store.globalStep = 6 } } >
+                    <div className="allergies" onClick={ () => this.props.goToStep(6) } >
                         <h4>Major food allergies</h4>
                         <div className="list">
                             {
@@ -473,7 +484,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
 
                     {/* Dietary */}
-                    <div className="dietary" onClick={ () => { this.props.store.globalStep = 7 } }>
+                    <div className="dietary" onClick={ () => this.props.goToStep(7) }>
                         <h4>Dietary preference</h4>
                         <div className="list">
                             {
@@ -490,7 +501,7 @@ export default class MenuStepPreview extends React.Component {
                     </div>
                     
                     {/* Tags */}
-                    <div className="tags">
+                    <div className="tags" onClick={ () => this.props.goToStep(8) }>
                         <h4>Tags</h4>
                         <ul>
                             {
@@ -506,15 +517,6 @@ export default class MenuStepPreview extends React.Component {
                                             position: 'relative'
                                         }}>
                                             {item}
-                                            <img
-                                                style={{
-                                                    position: 'absolute',
-                                                    right: '8px',
-                                                    top: '9px'
-                                                }}
-                                                src="../../static/icons/close.svg"
-                                                onClick={ () => { this.removeTag(index) } }
-                                            />
                                         </li>
                                     )
                                 })
@@ -525,7 +527,14 @@ export default class MenuStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                        {
+                            (this.state.sentRequest) ?
+                            <Loader/>
+                            :
+                            'Save'
+                        }
+                    </button>
                 </div>
 
             </div>

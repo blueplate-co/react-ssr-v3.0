@@ -223,8 +223,17 @@ const Layout = (props) => (
                     text-transform: uppercase;
                     border-radius: 20px;
                     outline: none;
+                    transition: 0.5s linear;
                     &.inline {
                         margin: 0px 5px;
+                    }
+                    &.skip {
+                        color: ${cnf.color.primarycolor};
+                        border: 1px solid ${cnf.color.primarycolor};
+                        background-color: #fff;
+                    }
+                    &:disabled {
+                        background: ${cnf.color.graycolor};
                     }
                 }
                 [contenteditable="true"] {
