@@ -236,7 +236,7 @@ export default class MenuStepSix extends React.Component {
                     @media (max-width: 480px) {
                         .bottom-confirmation {
                             display: grid;
-                            grid-template-columns: 100%;
+                            grid-template-columns: 50% 50%;
                             position: fixed;
                             width: 90%;
                             bottom: 15px;
@@ -266,7 +266,7 @@ export default class MenuStepSix extends React.Component {
                     <input style={{ marginBottom: '100px' }} onKeyDown={ this.addNew } ref="allergies" type="text" placeholder="Others"/>
                 </div>
                 <div className="container bottom-confirmation">
-                    {/* <button className="btn inline" onClick={ this.skip }>Skip</button> */}
+                    <button className="btn inline" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 
