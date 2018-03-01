@@ -4,6 +4,7 @@ import React from 'react';
 import validator from 'validator';
 import cx from 'classnames';
 import axios from 'axios';
+import Loader from '../../components/loader';
 import TouchCarousel, { clamp } from 'react-touch-carousel';
 import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
 import { inject, observer } from 'mobx-react';
@@ -23,7 +24,8 @@ export default class MenuStepPreview extends React.Component {
         super(props);
 
         this.state = {
-            data: []
+            data: [],
+            sentRequest: false
         }
     }
 
@@ -53,6 +55,9 @@ export default class MenuStepPreview extends React.Component {
     }
 
     sendRequest = (self) => {
+        this.setState({
+            sentRequest: true
+        })
         //- create form data
         const data = new FormData();
         let that = this;
@@ -117,6 +122,9 @@ export default class MenuStepPreview extends React.Component {
                 console.log(menu_id);
                 //- using axios all
                 self.addMore(menu_id);
+                this.setState({
+                    sentRequest: false
+                })
             }
         })
         // .catch(function(err){
@@ -131,6 +139,9 @@ export default class MenuStepPreview extends React.Component {
             errorStack.push('Error when create menu. Please try again');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             that.props.store.addNotification(notification);
+            this.setState({
+                sentRequest: false
+            })
 
             //- token expired or something else
             if(statusCode === 403 && message === "Please login to continue")
@@ -516,7 +527,14 @@ export default class MenuStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                        {
+                            (this.state.sentRequest) ?
+                            <Loader/>
+                            :
+                            'Save'
+                        }
+                    </button>
                 </div>
 
             </div>

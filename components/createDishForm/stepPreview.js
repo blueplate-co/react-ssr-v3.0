@@ -5,6 +5,7 @@ import Router from 'next/router';
 import validator from 'validator';
 import axios from 'axios';
 import { inject, observer } from 'mobx-react';
+import Loader from '../../components/loader';
 
 @inject('store') @observer
 export default class DishStepPreview extends React.Component {
@@ -15,7 +16,8 @@ export default class DishStepPreview extends React.Component {
 
         this.state = {
             imgSrc: null,
-            dishImages: null
+            dishImages: null,
+            sentRequest: false
         }
         console.log(this.props.fieldValues);
         this.insertMultipleIngredients(this);
@@ -134,6 +136,9 @@ export default class DishStepPreview extends React.Component {
     }
 
     sendRequest = (self) => {
+        this.setState({
+            sentRequest: true
+        });
         //- create form data
         let data = new FormData();
 
@@ -197,7 +202,10 @@ export default class DishStepPreview extends React.Component {
         if (errorStack.length > 0) {
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
-            return;
+            this.setState({
+                sentRequest: false
+            });
+            return true;
         } else {
             //- create data using for api
             //- local chef id: 5a7431f357076fd017913c9f
@@ -244,6 +252,9 @@ export default class DishStepPreview extends React.Component {
                     console.log(dish_id);
                     //- using axios all
                     self.addMore(dish_id);
+                    this.setState({
+                        sentRequest: false
+                    });
                 }
             })
             // .catch(function(err){
@@ -259,6 +270,9 @@ export default class DishStepPreview extends React.Component {
                 errorStack.push('Error when create profile. Please try again');
                 let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
+                this.setState({
+                    sentRequest: false
+                });
 
                 //- token expired or something else
                 if(statusCode === 403 && message === "Please login to continue")
@@ -640,7 +654,14 @@ export default class DishStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                        {
+                            (this.state.sentRequest) ?
+                            <Loader/>
+                            :
+                            'Save'
+                        }
+                    </button>
                 </div>
 
             </div>

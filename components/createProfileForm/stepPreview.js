@@ -7,6 +7,7 @@ import axios from 'axios';
 import { inject, observer } from 'mobx-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Loader from '../../components/loader';
 
 import cnf from '../../config';
 
@@ -40,7 +41,8 @@ export default class ProfileStepPreview extends React.Component {
             allergies: [],
             dietary: [],
             imgSrc: null,
-            selectedDate: null
+            selectedDate: null,
+            sentRequest: false
         }
         console.log(this.props.fieldValues);
     }
@@ -130,6 +132,12 @@ export default class ProfileStepPreview extends React.Component {
 
     // send profile to create profile
     save = () => {
+
+        // change state into sentRequest to change submit button
+        this.setState({
+            sentRequest: true
+        })
+
         var self = this;
         // create new form data
         let data = new FormData();
@@ -154,7 +162,7 @@ export default class ProfileStepPreview extends React.Component {
 
         // get dob
         let dob = this.state.dob.replace(/-/g, '/');
-        debugger
+
         // get gender
         let gender = this.state.gender;
 
@@ -193,6 +201,9 @@ export default class ProfileStepPreview extends React.Component {
         if (errorStack.length > 0) {
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
             this.props.store.addNotification(notification);
+            this.setState({
+                sentRequest: false
+            });
             return true;
         }
   
@@ -218,11 +229,17 @@ export default class ProfileStepPreview extends React.Component {
                 sessionStorage.setItem("welcomeStage", 1);
                 setTimeout(() => {
                     Router.push('/become');
+                    this.setState({
+                        sentRequest: false
+                    });
                 }, 1500);
             }else{
                 errorStack.push('Cannot create chef profile.');
                 let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
                 this.props.store.addNotification(notification);
+                this.setState({
+                    sentRequest: false
+                });
             }
             
         })
@@ -244,6 +261,10 @@ export default class ProfileStepPreview extends React.Component {
                     console.log('Token expired. Please login again !');
                     Router.push('/');
                 } 
+
+                this.setState({
+                    sentRequest: false
+                });
             }
             
         });
@@ -657,7 +678,14 @@ export default class ProfileStepPreview extends React.Component {
 
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.save }>Save</button>
+                    <button disabled={ (this.state.sentRequest) ? 'disabled' : '' } className="btn inline" onClick={ this.save }>
+                    {
+                        (this.state.sentRequest) ?
+                        <Loader/>
+                        :
+                        'Save'
+                    }
+                    </button>
                 </div>
 
             </div>
