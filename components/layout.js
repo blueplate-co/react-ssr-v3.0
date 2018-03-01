@@ -226,6 +226,11 @@ const Layout = (props) => (
                     &.inline {
                         margin: 0px 5px;
                     }
+                    &.skip {
+                        color: ${cnf.color.primarycolor};
+                        border: 1px solid ${cnf.color.primarycolor};
+                        background-color: #fff;
+                    }
                 }
                 [contenteditable="true"] {
                     outline: none;

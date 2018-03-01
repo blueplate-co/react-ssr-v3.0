@@ -217,7 +217,7 @@ export default class ProfileStepTen extends React.Component {
                     <input type="text" placeholder="Others" ref="allergies" onKeyDown={ this.addNew } style={{ marginBottom: '100px' }}/>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    <button className="btn inline skip" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

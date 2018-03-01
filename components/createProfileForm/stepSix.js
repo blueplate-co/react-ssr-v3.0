@@ -147,7 +147,7 @@ export default class ProfileStepSix extends React.Component {
                     <i className="fas fa-plus" onClick={this.addExp}></i>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    <button className="btn inline skip" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

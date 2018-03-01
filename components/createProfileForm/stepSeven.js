@@ -91,7 +91,7 @@ export default class ProfileStepSeven extends React.Component {
                     <textarea ref="content" rows="20" cols="50" defaultValue={this.props.fieldValues.yourself}></textarea>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    <button className="btn inline skip" onClick={ this.skip }>Skip</button>
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 

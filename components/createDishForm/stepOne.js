@@ -159,7 +159,7 @@ export default class DishStepOne extends React.Component {
                     </div>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn" onClick={ this.skip }>Skip</button>
+                    <button className="btn skip" onClick={ this.skip }>Skip</button>
                     <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                 </div>
 
