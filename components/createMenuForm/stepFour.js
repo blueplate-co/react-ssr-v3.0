@@ -97,15 +97,18 @@ export default class MenuStepFour extends React.Component {
             let cost           = this.refs.cost.value;
             let suggestedPrice = this.refs.suggestedPrice.value;
             let customPrice    = this.refs.customPrice.value;
-            if (validator.trim(cost).length > 0 && validator.trim(suggestedPrice).length > 0 && validator.trim(customPrice).length > 0) { // no store empty string value                   
+            if (validator.trim(cost).length > 0) { // no store empty string value                   
                 cost           = parseInt(cost);
                 suggestedPrice = parseInt(suggestedPrice);
                 customPrice    = parseInt(customPrice);
 
                 let data = {
                     cost: cost,
-                    suggestedPrice: suggestedPrice,
-                    customPrice: customPrice
+                    // suggestedPrice: suggestedPrice,
+                    // customPrice: customPrice
+                    // REMOVE 2 fields after, just set it become 0 for now
+                    suggestedPrice: 0,
+                    customPrice: 0
                 }
                 this.props.saveValues(data);
                 this.props.nextStep();

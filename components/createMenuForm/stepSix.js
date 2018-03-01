@@ -136,7 +136,6 @@ export default class MenuStepSix extends React.Component {
     generateListOther = () => {
         let that = this;
         return this.state.new_allergies.map((item, index) => {
-            debugger
             return (
                 <p key={index} style={{ margin: `7px 0px`, display: `inline-block`, width: `100%` }}>
                     <input checked={item.value} type="checkbox" name={item.name} id={item.name} onChange={this.handleInputChangeOther(event,this)}/>

@@ -127,7 +127,6 @@ export default class MenuStepPreview extends React.Component {
             var message = error.response.data.message;
             //- debug
             console.log(error.response);
-            debugger
             let errorStack = [];
             errorStack.push('Error when create menu. Please try again');
             let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
@@ -163,7 +162,6 @@ export default class MenuStepPreview extends React.Component {
             //- go back to /become with stage 2
             let errorStack = [];
             errorStack.push('Create menu successful!');
-            debugger
             let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
             that.props.store.addNotification(notification);
             // sessionStorage.setItem("welcomeStage", 2);
@@ -226,7 +224,6 @@ export default class MenuStepPreview extends React.Component {
     }
 
     renderCard (indexx) {
-        console.log(indexx);
         return this.props.fieldValues.selectedDish.map((item, index)=>{
             return (
                 <div
