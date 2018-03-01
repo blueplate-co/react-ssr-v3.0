@@ -31,7 +31,7 @@ export default class ProfileStepPreview extends React.Component {
             services: [],
             profileImages: null,
             cacheFile: null,
-            dob: null,
+            dob: '',
             gender: null,
             exp: [],
             yourself: null,
@@ -153,8 +153,8 @@ export default class ProfileStepPreview extends React.Component {
         let services = this.state.services;
 
         // get dob
-        let dob = this.state.dob.format('YYYY/MM/DD');
-
+        let dob = this.state.dob.replace(/-/g, '/');
+        debugger
         // get gender
         let gender = this.state.gender;
 
@@ -561,11 +561,8 @@ export default class ProfileStepPreview extends React.Component {
                     <div className="personal-information">
                         <div className="user-dob">
                             <span style={{ 'display': 'inline-flex'}} >
-                                <DatePicker
-                                    selected={this.state.dob}
-                                    onChange={this.handleChangeDateTime}
-                                    className="dob-changer"
-                                /></span>
+                                <input type="date" value={this.state.dob} onChange={(e) => this.handleChangeDateTime }/>
+                            </span>
                         </div>
                         <div className="user-gender">
                             <span onClick={ this.changeGender } >
