@@ -9,8 +9,6 @@ import TouchCarousel, { clamp } from 'react-touch-carousel';
 import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
 import { inject, observer } from 'mobx-react';
 
-import { inject, observer } from 'mobx-react';
-
 const cardSize = 100
 const cardPadCount = 0
 const carouselWidth = 100
