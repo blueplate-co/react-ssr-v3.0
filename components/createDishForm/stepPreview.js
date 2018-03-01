@@ -25,14 +25,35 @@ export default class DishStepPreview extends React.Component {
     onChange = () => {
         // Assuming only image
         let file = this.refs.file.files[0];
-        let reader = new FileReader();
-        let url = reader.readAsDataURL(file);
-        reader.onloadend = function (e) {
-            this.setState({
-                imgSrc: [reader.result],
-                cachefile: file
-            })
-        }.bind(this); 
+
+        let fileExstension = file.name.split('.')[file.name.split('.').length -1];
+        let fileSize = file.size;
+        let allowExstension = ['jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG'];
+        let allowSize = 3000000;
+        let errorStack = [];
+
+        if (fileSize > allowSize) {
+            errorStack.push('Image size must less than <b>3 MB</b>');
+        }
+
+        if (allowExstension.indexOf(fileExstension) == -1) {
+            errorStack.push('Invalid image exstension');
+        }
+
+        if (errorStack.length > 0) {
+            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+            this.props.store.addNotification(notification);
+            return true;
+        } else {
+            let reader = new FileReader();
+            let url = reader.readAsDataURL(file);
+            reader.onloadend = function (e) {
+                this.setState({
+                    imgSrc: [reader.result],
+                    cachefile: file
+                })
+            }.bind(this); 
+        }
     }
 
     // trigger action update avatar
