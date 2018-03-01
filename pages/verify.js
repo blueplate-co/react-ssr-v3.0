@@ -51,14 +51,18 @@ export default class Index extends React.Component {
                                     left: 15%;
                                 }
                                 .clock {
-                                    display: inline-block;
+                                    display: block;
                                     border: 2px solid ${cnf.color.graycolor};
                                     border-radius: 50%;
-                                    margin: 20px 0px;
+                                    margin: 0px auto;
+                                    margin-bottom: 20px;
+                                    margin-top: 20px;
                                     font-size: 25px;
                                     color: ${cnf.color.graycolor};
                                     padding: 90px;
                                     text-align: center;
+                                    width: 45px;
+                                    height: 45px;
                                 }
                             }
                         }

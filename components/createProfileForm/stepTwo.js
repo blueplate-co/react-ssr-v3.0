@@ -69,7 +69,7 @@ export default class ProfileStepTwo extends React.Component {
             data = {
                 lat: this.state.lat,
                 lng: this.state.lng,
-                location: validator.escape(this.refs.location.value),
+                location: this.refs.location.value,
                 phoneNo: this.state.phone
             }
 
