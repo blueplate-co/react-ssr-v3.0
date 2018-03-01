@@ -71,6 +71,7 @@ export default class ProfileStepSix extends React.Component {
             this.props.saveValues(data);
             this.props.nextStep();
         }
+        
     }
 
     // generate list input

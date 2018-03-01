@@ -102,21 +102,30 @@ export default class DishStepSix extends React.Component {
         }
 
 
-        if (result.length == 0) {
-            errorStack.push('Please provide at least one allergy');
-            // have error
-            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-            this.props.store.addNotification(notification);
-        } else {
-            let data = {
-                allergiesString: resultString.toString(),
-                allergies: result,
-                allergies2: result.map(a => a.id)
-            }
+        // if (result.length == 0) {
+        //     errorStack.push('Please provide at least one allergy');
+        //     // have error
+        //     let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+        //     this.props.store.addNotification(notification);
+        // } else {
+        //     let data = {
+        //         allergiesString: resultString.toString(),
+        //         allergies: result,
+        //         allergies2: result.map(a => a.id)
+        //     }
                 
-            this.props.saveValues(data);
-            this.props.nextStep();
+        //     this.props.saveValues(data);
+        //     this.props.nextStep();
+        // }
+
+        let data = {
+            allergiesString: resultString.toString(),
+            allergies: result,
+            allergies2: result.map(a => a.id)
         }
+            
+        this.props.saveValues(data);
+        this.props.nextStep();
     }
 
     // generate list input
@@ -225,9 +234,9 @@ export default class DishStepSix extends React.Component {
                     @media (max-width: 480px) {
                         .bottom-confirmation {
                             display: grid;
-                            grid-template-columns: 50% 50%;
+                            grid-template-columns: 100%;
                             position: fixed;
-                            width: 90%;
+                            width: 94%;
                             bottom: 15px;
                             z-index: 5;
                             grid-column-gap: 2%;
@@ -255,10 +264,9 @@ export default class DishStepSix extends React.Component {
                     <input style={{ marginBottom: '100px' }} onKeyDown={ this.addNew } ref="allergies" type="text" placeholder="Others"/>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
-                    <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
+                    {/* <button className="btn inline" onClick={ this.skip }>Skip</button> */}
+                    <button className="btn" onClick={ this.saveAndContinue }>Next</button>
                 </div>
-
             </div>
         )
     }

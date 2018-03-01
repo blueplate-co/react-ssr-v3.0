@@ -87,19 +87,28 @@ export default class ProfileStepTen extends React.Component {
             }
         }
 
-        if (result.length == 0) {
-            errorStack.push('Please choose at least 1 allergy.');
-            // have error
-            let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
-            this.props.store.addNotification(notification);
-        } else {
-            let data = {
-                allergies: result
-            }
+        // if (result.length == 0) {
+        //     errorStack.push('Please choose at least 1 allergy.');
+        //     // have error
+        //     let notification = { type: 'error', heading: 'Validation error!', content: errorStack, createdAt: Date.now() };
+        //     this.props.store.addNotification(notification);
+        // } else {
+        //     let data = {
+        //         allergies: result
+        //     }
                  
-            this.props.saveValues(data);
-            this.props.nextStep();
+        //     this.props.saveValues(data);
+        //     this.props.nextStep();
+        // }
+
+        let data = {
+            allergies: result
         }
+             
+        this.props.saveValues(data);
+        this.props.nextStep();
+
+
     }
 
     // generate list input
@@ -187,7 +196,7 @@ export default class ProfileStepTen extends React.Component {
                     @media (max-width: 480px) {
                         .bottom-confirmation {
                             display: grid;
-                            grid-template-columns: 50% 50%;
+                            grid-template-columns: 100%;
                             position: fixed;
                             width: 90%;
                             bottom: 15px;
@@ -217,10 +226,10 @@ export default class ProfileStepTen extends React.Component {
                     <input type="text" placeholder="Others" ref="allergies" onKeyDown={ this.addNew } style={{ marginBottom: '100px' }}/>
                 </div>
                 <div className="container bottom-confirmation">
-                    <button className="btn inline" onClick={ this.skip }>Skip</button>
+                    {/* <button className="btn inline" onClick={ this.skip }>Skip</button> */}
                     <button className="btn inline" onClick={ this.saveAndContinue }>Next</button>
                 </div>
-
+                
             </div>
         )
     }
