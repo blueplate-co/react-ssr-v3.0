@@ -225,14 +225,33 @@ export default class ProfileStepPreview extends React.Component {
                 var create_chef_id = response.data.data.create_chef_id;
                 localStorage.setItem('create_chef_id', create_chef_id);
 
-                //- redirect
-                sessionStorage.setItem("welcomeStage", 1);
-                setTimeout(() => {
-                    Router.push('/become');
-                    this.setState({
-                        sentRequest: false
-                    });
-                }, 1500);
+                //- change role of user
+                let roleForm = new FormData();
+                roleForm.append('email', localStorage.getItem('userEmail'));
+                const roleConfig = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+
+                axios.post('http://13.250.107.234/api/user/update/role', roleForm, roleConfig)
+                .then(function(response) {
+                    if (response.status === 200) {
+                        console.log(response);
+                        setTimeout(() => {
+                            Router.push('/become');
+                            this.setState({
+                                sentRequest: false
+                            });
+                        }, 1500);
+                    } else {
+                        errorStack.push('Cannot create chef profile.');
+                        let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
+                        this.props.store.addNotification(notification);
+                        this.setState({
+                            sentRequest: false
+                        });
+                    }
+                })
+
             }else{
                 errorStack.push('Cannot create chef profile.');
                 let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };

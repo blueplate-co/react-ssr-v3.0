@@ -98,6 +98,7 @@ export default class MenuStepOne extends React.Component {
                             bottom: 15px;
                             z-index: 5;
                             left: 15%;
+                            margin: 5px 0px!important;
                         }
                     }
                 `}</style>

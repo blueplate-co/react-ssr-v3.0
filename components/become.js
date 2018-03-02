@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 
 import validator from 'validator';
 
@@ -12,12 +13,9 @@ export default class BecomeComponent extends React.Component {
     super(props);
     this.goStage = this.goStage.bind(this);
     this.state = {
-      stage: [
-        { name: 'Profile.', description: 'Who you are and how this started…' },
-        { name: 'Create your 1st dishes.', description: 'Image, description, ingredient, price' },
-        { name: 'Create your 1st menu', description: 'Your collection and sets' }
-      ],
-      currentStage: 0
+      hasProfile: '',
+      hasDish: '',
+      loaded: false
     }
   }
 
@@ -37,20 +35,64 @@ export default class BecomeComponent extends React.Component {
   }
 
   componentDidMount = () => {
-    let stage = sessionStorage.getItem('welcomeStage');
-    // check stage of step
-    if (stage == null) {
-      this.setState({
-        currentStage: 0
-      })
-    } else {
-      this.setState({
-        currentStage: stage
-      })
-    }
     // reset all global step and back function
     this.props.store.globalStep = 1;
     this.props.store.backFunction = null;
+
+    // send request to check profile
+    let roleForm = new FormData();
+    roleForm.append('email', localStorage.getItem('userEmail'));
+    const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+    }
+    try {
+      var that = this;
+      axios.post('http://13.250.107.234/api/user/check/role', roleForm, config)
+      .then(function(response) {
+          if (response.status === 200) {
+            console.log(response);
+            if (response.data.message.length > 0) {
+              that.setState({
+                hasProfile: true
+              }, () => {
+
+
+                // send request to check dish list
+                let dishForm = new FormData();
+                dishForm.append('email', localStorage.getItem('userEmail'));
+                const roleConfig = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                try {
+                  axios.post('http://13.250.107.234/api/user/check/role', dishForm, config)
+                  .then(function(response) {
+                      if (response.status === 200) {
+                        console.log(response);
+                        if (response.data.message.length > 0) {
+                          that.setState({
+                            hasDish: true,
+                            loaded: true
+                          })
+                        }
+                      } else {
+                        console.log(response);
+                      }
+                  })
+                } catch (error) {
+                  console.log(error); 
+                }
+                // end check dish list
+
+              })
+            }
+          } else {
+            console.log(response);
+          }
+      })
+    } catch (error) {
+      console.log(error); 
+    }
+
   }
 
   render () {
@@ -120,24 +162,49 @@ export default class BecomeComponent extends React.Component {
           `}</style>
             <div className="container">
             <h3>Become a homecook</h3>
-            {
-                this.state.stage.map(function(item, index){
-                    return (
-                        <div key={index} className="stage-list">
-                            <h4 className="title">Stage {index + 1}</h4>
-                            <span className="stage-name">{item.name}</span>
-                            <span className="stage-description">{item.description}</span>
-                            {
-                                ( index == that.state.currentStage )
-                                ?
-                                <button className="btn" onClick={ () => that.goStage(index) }>Start</button>
-                                :
-                                <span></span>
-                            }
-                        </div>
-                    )
-                })
-            }
+
+              {/* Stage 1 */}
+              <div className="stage-list">
+                  <h4 className="title">Stage 1</h4>
+                  <span className="stage-name">Profile</span>
+                  <span className="stage-description">Who you are and how this started…</span>
+                  {
+                      ( this.state.loaded == true && this.state.hasProfile == false )
+                      ?
+                      <Link href="/create/profile">
+                        <button className="btn">Start</button>
+                      </Link>
+                      :
+                      <span></span>
+                  }
+              </div>
+              {/* Stage 2 */}
+              <div className="stage-list">
+                  <h4 className="title">Stage 2</h4>
+                  <span className="stage-name">Create your 1st dishes.</span>
+                  <span className="stage-description">Image, description, ingredient, price</span>
+                  {
+                      ( this.state.loaded == true && this.state.hasDish == false )
+                      ?
+                      <Link href="/create/dish">
+                        <button className="btn">Start</button>
+                      </Link>
+                      :
+                      <span></span>
+                  }
+              </div>
+              {/* Stage 3 */}
+              <div className="stage-list">
+                  <h4 className="title">Stage 3</h4>
+                  <span className="stage-name">Create your 1st menu</span>
+                  <span className="stage-description">Your collection and sets</span>
+                  {
+                      <Link href="/create/menu">
+                        <button className="btn">Start</button>
+                      </Link>
+                  }
+              </div>
+
             </div>
         </div>
     )
