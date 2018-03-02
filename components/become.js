@@ -30,7 +30,7 @@ export default class BecomeComponent extends React.Component {
       case 1:
         Router.push('/create/dish');
       case 2:
-        Router.push('/create/menu')
+        Router.push('/create/menu');
       default:
         break;
     }
@@ -60,38 +60,62 @@ export default class BecomeComponent extends React.Component {
           <style jsx>{`
               /* Landscape phones and down */
               @media (max-width: 480px) {
-                  .container {
-                    .stage-list {
-                      text-align: left;
-                      margin: 20px 0px;
-                      .title {
-                        margin: 10px 0px;
-                      }
-                      .stage-name {
-                        width: 100%;
-                        display: block;
-                        margin: 5px 0px;
-                        font-size: 18px;
-                      }
-                      .stage-description {
-                        font-size: 13px;
-                        width: 100%;
-                        display: block;
-                      }
-                      .btn {
-                        width: 40%;
-                        margin: 20px 0px;
-                        padding: 10px;
-                      }
+                .container {
+                  .stage-list {
+                    text-align: left;
+                    margin: 20px 0px;
+                    .title {
+                      margin: 10px 0px;
                     }
-                    .bottom-confirmation {
-                      position: fixed;
-                      width: 70%;
-                      bottom: 15px;
-                      z-index: 5;
-                      left: 15%;
+                    .stage-name {
+                      width: 100%;
+                      display: block;
+                      margin: 5px 0px;
+                      font-size: 18px;
+                    }
+                    .stage-description {
+                      font-size: 13px;
+                      width: 100%;
+                      display: block;
+                    }
+                    .btn {
+                      width: 40%;
+                      margin: 20px 0px;
+                      padding: 10px;
                     }
                   }
+                  .bottom-confirmation {
+                    position: fixed;
+                    width: 70%;
+                    bottom: 15px;
+                    z-index: 5;
+                    left: 15%;
+                  }
+                }
+              }
+              @media (min-width: 1024px) {
+                .container {
+                  .stage-list {
+                    text-align: left;
+                  }
+                  .stage-description {
+                    font-size: 13px;
+                    width: 100%;
+                    display: block;
+                  }
+                  .btn {
+                    width: 40%;
+                    margin: 20px 0px;
+                    padding: 10px;
+                  }
+                  .bottom-confirmation {
+                    position: fixed;
+                    width: 70%;
+                    bottom: 15px;
+                    z-index: 5;
+                    left: 15%;
+                  }
+                }
               }
           `}</style>
             <div className="container">

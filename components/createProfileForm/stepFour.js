@@ -121,8 +121,6 @@ export default class ProfileStepFour extends React.Component {
         return (
             <div className="create_profile_step">
                 <style jsx>{`
-                    /* Landscape phones and down */
-                    @media (max-width: 480px) {
                         .bottom-confirmation {
                             position: fixed;
                             width: 70%;
@@ -160,7 +158,15 @@ export default class ProfileStepFour extends React.Component {
                                 width: auto;
                             }
                         }
-                    }
+                        @media (min-width: 1024px) {
+                            .bottom-confirmation {
+                                position: relative;
+                                width: 30%;
+                                bottom: 15px;
+                                z-index: 5;
+                                left: 0%;
+                            }
+                        }
                 `}</style>
 
                 <div className="container" onKeyDown={this.handleEnter}>

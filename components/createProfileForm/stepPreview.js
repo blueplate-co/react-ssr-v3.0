@@ -320,215 +320,222 @@ export default class ProfileStepPreview extends React.Component {
                         width: 100px!important;
                     }
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
+                    .container {
+                        margin-top: 75px;
+                        &.bottom-confirmation {
+                            width: 70%;
+                            margin-bottom: 15px;
+                            z-index: 5;
+                        }
+                        .circle-file-browse {
+                            margin-top: 20px;
+                            border: 1px solid #ccc;
+                            border-radius: 50%;
+                            width: 150px;
+                            height: 150px;
+                            margin: 0px auto;
+                            text-align: center;
+                            position: relative;
+                            padding: 0;
+                            overflow: hidden;
+                            [type="file"] {
+                                width: 1px;
+                                height: 1px;
+                                background-color: #000;
+                                opacity: 0;
+                            }
+                            i.fas {
+                                width: 100%;
+                                margin: 45px 0px 5px 0px;
+                                color: #ccc;
+                            }
+                            span {
+                                color: #ccc;
+                            }
+                            img {
+                                height: 160px;
+                                width: auto;
+                            }
+                        }
+                        .user-name {
+                            font-weight: bold;
+                            font-size: 20px;
+                            vertical-align: bottom;
+                            display: inline-block;
+                            margin: 3px 0px;
+                            width: 100%;
+                            img {
+                                width: 15px;
+                                vertical-align: middle;
+                            }
+                        }
+                        .user-email {
+                            font-size: 13px;
+                            vertical-align: bottom;
+                            display: inline-block;
+                            width: 100%;
+                            font-weight: 300;
+                            margin: 3px 0px;
+                            img {
+                                width: 15px;
+                                vertical-align: middle;
+                            }
+                        }
+                        .user-location {
+                            font-size: 15px;
+                            vertical-align: bottom;
+                            display: inline-block;
+                            width: 100%;
+                            font-weight: 300;
+                            margin: 3px 0px;
+                            img {
+                                width: 10px;
+                                vertical-align: baseline;
+                            }
+                        }
+                        .option-list {
+                            width: 100%;
+                            display: grid;
+                            grid-template-columns: 33.33% 33.33% 33.33%;
+                            padding-bottom: 20px;
+                            padding-top: 20px;
+                            .option-item {
+                                text-align: center;
+                                margin: 10px 0px;
+                                width: 65px;
+                                height: 65px;
+                                background-color: #fff;
+                                margin: 0px auto;
+                                border-radius: 50%;
+                                border: 1px solid #ccc;
+                                &.active {
+                                    background-color: ${cnf.color.primarycolor};
+                                    color: #fff;
+                                }
+                                .option-icon {
+                                    color: #ccc;
+                                    font-size: 13px;
+                                    font-weight: 300;
+                                    margin-top: 23px;
+                                    &.active {
+                                        color: #fff;
+                                    }
+                                }
+                                .option-title {
+                                    display: block;
+                                    width: 100%;
+                                    margin: 3px 0px;
+                                    font-weight: bold;
+                                    &.active {
+                                        color: #EFAC1F;
+                                    }
+                                }
+                                .option-description {
+                                    display: block;
+                                    width: 100%;
+                                    margin: 5px 0px;
+                                    font-size: 10px;
+                                    color: #ccc;
+                                    &.active {
+                                        color: #EFAC1F;
+                                    }
+                                }
+                            }
+                        }
+                        .personal-information {
+                            display: grid;
+                            grid-template-columns: 50% 50%;
+                            .user-gender {
+                                text-align: right;
+                            }
+                            .user-dob {
+                                text-align: left;
+                            }
+                            .user-dob, .user-gender {
+                                display: inline-block;
+                                margin: 0px 3px;
+                                span {
+                                    font-size: 14px;
+                                    &:before {
+                                        content: '';
+                                        width: 15px;
+                                        height: 15px;
+                                        border-radius: 50%;
+                                        background-color: #ccc;
+                                        display: inline-flex;
+                                        margin-top: 3px;
+                                        margin-right: 5px;
+                                        vertical-align: sub;
+                                    }
+                                }
+                            }
+                        }
+                        .cooking-exp {
+                            text-align: left;
+                            h4 {
+                                margin: 20px 0px 10px 0px;
+                            }
+                            ul {
+                                padding-left: 30px;
+                                li {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                        .why-cook {
+                            text-align: justify;
+                            margin: 10px 0px;
+                            .title {
+                                font-weight: bold;
+                                font-size: 15px;
+                            }
+                            .content {
+                                font-weight: 300;
+                            }
+                        }
+
+                        .inspiration {
+                            text-align: justify;
+                            margin: 10px 0px;
+                            .title {
+                                font-weight: bold;
+                                font-size: 15px;
+                            }
+                            .content {
+                                font-weight: 300;
+                            }
+                        }
+                        .allergies {
+                            text-align: left;
+                            .title {
+                                margin: 15px 0px;
+                                font-weight: bold;
+                                display: block;
+                            }
+                            .list {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                .list-item {
+                                    margin: 5px;
+                                    span {
+                                        float: left;
+                                    }
+                                    img {
+                                        float: right;
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    @media (min-width: 1024px) {
                         .container {
                             margin-top: 75px;
                             &.bottom-confirmation {
-                                width: 70%;
+                                width: 50%;
                                 margin-bottom: 15px;
                                 z-index: 5;
-                                left: 15%;
-                            }
-                            .circle-file-browse {
-                                margin-top: 20px;
-                                border: 1px solid #ccc;
-                                border-radius: 50%;
-                                width: 150px;
-                                height: 150px;
-                                margin: 0px auto;
-                                text-align: center;
-                                position: relative;
-                                padding: 0;
-                                overflow: hidden;
-                                [type="file"] {
-                                    width: 1px;
-                                    height: 1px;
-                                    background-color: #000;
-                                    opacity: 0;
-                                }
-                                i.fas {
-                                    width: 100%;
-                                    margin: 45px 0px 5px 0px;
-                                    color: #ccc;
-                                }
-                                span {
-                                    color: #ccc;
-                                }
-                                img {
-                                    height: 160px;
-                                    width: auto;
-                                }
-                            }
-                            .user-name {
-                                font-weight: bold;
-                                font-size: 20px;
-                                vertical-align: bottom;
-                                display: inline-block;
-                                margin: 3px 0px;
-                                width: 100%;
-                                img {
-                                    width: 15px;
-                                    vertical-align: middle;
-                                }
-                            }
-                            .user-email {
-                                font-size: 13px;
-                                vertical-align: bottom;
-                                display: inline-block;
-                                width: 100%;
-                                font-weight: 300;
-                                margin: 3px 0px;
-                                img {
-                                    width: 15px;
-                                    vertical-align: middle;
-                                }
-                            }
-                            .user-location {
-                                font-size: 15px;
-                                vertical-align: bottom;
-                                display: inline-block;
-                                width: 100%;
-                                font-weight: 300;
-                                margin: 3px 0px;
-                                img {
-                                    width: 10px;
-                                    vertical-align: baseline;
-                                }
-                            }
-                            .option-list {
-                                width: 100%;
-                                display: grid;
-                                grid-template-columns: 33.33% 33.33% 33.33%;
-                                padding-bottom: 20px;
-                                padding-top: 20px;
-                                .option-item {
-                                    text-align: center;
-                                    margin: 10px 0px;
-                                    width: 65px;
-                                    height: 65px;
-                                    background-color: #fff;
-                                    margin: 0px auto;
-                                    border-radius: 50%;
-                                    border: 1px solid #ccc;
-                                    &.active {
-                                        background-color: ${cnf.color.primarycolor};
-                                        color: #fff;
-                                    }
-                                    .option-icon {
-                                        color: #ccc;
-                                        font-size: 13px;
-                                        font-weight: 300;
-                                        margin-top: 23px;
-                                        &.active {
-                                            color: #fff;
-                                        }
-                                    }
-                                    .option-title {
-                                        display: block;
-                                        width: 100%;
-                                        margin: 3px 0px;
-                                        font-weight: bold;
-                                        &.active {
-                                            color: #EFAC1F;
-                                        }
-                                    }
-                                    .option-description {
-                                        display: block;
-                                        width: 100%;
-                                        margin: 5px 0px;
-                                        font-size: 10px;
-                                        color: #ccc;
-                                        &.active {
-                                            color: #EFAC1F;
-                                        }
-                                    }
-                                }
-                            }
-                            .personal-information {
-                                display: grid;
-                                grid-template-columns: 50% 50%;
-                                .user-gender {
-                                    text-align: right;
-                                }
-                                .user-dob {
-                                    text-align: left;
-                                }
-                                .user-dob, .user-gender {
-                                    display: inline-block;
-                                    margin: 0px 3px;
-                                    span {
-                                        font-size: 14px;
-                                        &:before {
-                                            content: '';
-                                            width: 15px;
-                                            height: 15px;
-                                            border-radius: 50%;
-                                            background-color: #ccc;
-                                            display: inline-flex;
-                                            margin-top: 3px;
-                                            margin-right: 5px;
-                                            vertical-align: sub;
-                                        }
-                                    }
-                                }
-                            }
-                            .cooking-exp {
-                                text-align: left;
-                                h4 {
-                                    margin: 20px 0px 10px 0px;
-                                }
-                                ul {
-                                    padding-left: 30px;
-                                    li {
-                                        font-size: 14px;
-                                    }
-                                }
-                            }
-                            .why-cook {
-                                text-align: justify;
-                                margin: 10px 0px;
-                                .title {
-                                    font-weight: bold;
-                                    font-size: 15px;
-                                }
-                                .content {
-                                    font-weight: 300;
-                                }
-                            }
-
-                            .inspiration {
-                                text-align: justify;
-                                margin: 10px 0px;
-                                .title {
-                                    font-weight: bold;
-                                    font-size: 15px;
-                                }
-                                .content {
-                                    font-weight: 300;
-                                }
-                            }
-                            .allergies {
-                                text-align: left;
-                                .title {
-                                    margin: 15px 0px;
-                                    font-weight: bold;
-                                    display: block;
-                                }
-                                .list {
-                                    display: grid;
-                                    grid-template-columns: 50% 50%;
-                                    .list-item {
-                                        margin: 5px;
-                                        span {
-                                            float: left;
-                                        }
-                                        img {
-                                            float: right;
-                                            width: 20px;
-                                            height: 20px;
-                                        }
-                                    }
-                                }
                             }
                         }
                     }

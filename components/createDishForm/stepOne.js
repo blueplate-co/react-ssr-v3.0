@@ -118,46 +118,55 @@ export default class DishStepOne extends React.Component {
             <div className="create_profile_step">
                 <style jsx>{`
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
+                    .bottom-confirmation {
+                        display: grid;
+                        grid-template-columns: 50% 50%;
+                        position: fixed;
+                        width: 90%;
+                        bottom: 15px;
+                        z-index: 5;
+                        grid-column-gap: 2%;
+                        left: 3%;
+                    }
+                    .circle-file-browse {
+                        margin-top: 20px;
+                        border: 1px solid #ccc;
+                        border-radius: 50%;
+                        width: 150px;
+                        height: 150px;
+                        margin: 0px auto;
+                        text-align: center;
+                        position: relative;
+                        padding: 0;
+                        overflow: hidden;
+                        [type="file"] {
+                            width: 1px;
+                            height: 1px;
+                            background-color: #000;
+                            opacity: 0;
+                        }
+                        i.fas {
+                            width: 100%;
+                            margin: 25px 0px 5px 0px;
+                            color: #ccc;
+                        }
+                        span {
+                            color: #ccc;
+                        }
+                        img {
+                            height: 160px;
+                            width: auto;
+                        }
+                    }
+                    @media (min-width: 1024px) {
                         .bottom-confirmation {
-                            display: grid;
-                            grid-template-columns: 50% 50%;
-                            position: fixed;
-                            width: 90%;
+                            display: contents;
+                            position: relative;
+                            width: 40%;
                             bottom: 15px;
                             z-index: 5;
                             grid-column-gap: 2%;
-                            left: 3%;
-                        }
-                        .circle-file-browse {
-                            margin-top: 20px;
-                            border: 1px solid #ccc;
-                            border-radius: 50%;
-                            width: 150px;
-                            height: 150px;
-                            margin: 0px auto;
-                            text-align: center;
-                            position: relative;
-                            padding: 0;
-                            overflow: hidden;
-                            [type="file"] {
-                                width: 1px;
-                                height: 1px;
-                                background-color: #000;
-                                opacity: 0;
-                            }
-                            i.fas {
-                                width: 100%;
-                                margin: 25px 0px 5px 0px;
-                                color: #ccc;
-                            }
-                            span {
-                                color: #ccc;
-                            }
-                            img {
-                                height: 160px;
-                                width: auto;
-                            }
+                            left: 0px;
                         }
                     }
                 `}</style>

@@ -31,34 +31,33 @@ export default class Navigation extends React.Component {
             <header className="navigation">
                 <style jsx>{`
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
-                        .navigation {
-                            text-align: center;
-                            padding: 10px;
-                            border-bottom: 1px solid ${cnf.color.graycolor};
-                            position: fixed;
-                            width: 100%;
-                            background-color: #fff;
-                            z-index: 2;
+                    .navigation {
+                        text-align: center;
+                        padding: 10px;
+                        border-bottom: 1px solid ${cnf.color.graycolor};
+                        position: fixed;
+                        top: 0px;
+                        width: 100%;
+                        background-color: #fff;
+                        z-index: 2;
+                        h1 {
+                            font-size: 12px;
+                        }
+                        .goback {
+                            position: absolute;
+                            padding: 5px;
+                            font-size: 20px;
+                            left: 10px;
+                            top: 10px;
+                        }
+                        .title {
+                            display: inline-flex;
+                            img {
+                                margin: 5px;
+                            }
                             h1 {
-                                font-size: 12px;
-                            }
-                            .goback {
-                                position: absolute;
-                                padding: 5px;
                                 font-size: 20px;
-                                left: 10px;
-                                top: 10px;
-                            }
-                            .title {
-                                display: inline-flex;
-                                img {
-                                    margin: 5px;
-                                }
-                                h1 {
-                                    font-size: 20px;
-                                    margin: 5px 0px 0px 10px;
-                                }
+                                margin: 5px 0px 0px 10px;
                             }
                         }
                     }

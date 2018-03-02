@@ -338,179 +338,176 @@ export default class DishStepPreview extends React.Component {
         return (
             <div className="create_profile_step">
                 <style jsx>{`
-                    /* Landscape phones and down */
-                    @media (max-width: 480px) {
-                        .container {
+                    .container {
+                        margin-top: 20px;
+                        margin-bottom: 20px;
+                        .bottom-confirmation {
+                            position: fixed;
+                            width: 70%;
+                            bottom: 15px;
+                            z-index: 5;
+                            left: 15%;
+                        }
+                        .circle-file-browse {
                             margin-top: 20px;
-                            margin-bottom: 20px;
-                            .bottom-confirmation {
-                                position: fixed;
-                                width: 70%;
-                                bottom: 15px;
-                                z-index: 5;
-                                left: 15%;
+                            border: 1px solid #ccc;
+                            border-radius: 50%;
+                            width: 150px;
+                            height: 150px;
+                            margin: 0px auto;
+                            text-align: center;
+                            position: relative;
+                            padding: 0;
+                            overflow: hidden;
+                            [type="file"] {
+                                width: 1px;
+                                height: 1px;
+                                background-color: #000;
+                                opacity: 0;
                             }
-                            .circle-file-browse {
-                                margin-top: 20px;
-                                border: 1px solid #ccc;
-                                border-radius: 50%;
-                                width: 150px;
-                                height: 150px;
-                                margin: 0px auto;
-                                text-align: center;
-                                position: relative;
-                                padding: 0;
-                                overflow: hidden;
-                                [type="file"] {
-                                    width: 1px;
-                                    height: 1px;
-                                    background-color: #000;
-                                    opacity: 0;
-                                }
-                                i.fas {
-                                    width: 100%;
-                                    margin: 45px 0px 5px 0px;
-                                    color: #ccc;
-                                }
-                                span {
-                                    color: #ccc;
-                                }
-                                img {
-                                    height: 160px;
-                                    width: 160px;
-                                    position: absolute;
-                                }
-                            }
-                            .dish-name {
-                                font-weight: bold;
-                                font-size: 25px;
-                                vertical-align: bottom;
-                                display: inline-block;
-                                margin: 3px 0px;
+                            i.fas {
                                 width: 100%;
+                                margin: 45px 0px 5px 0px;
+                                color: #ccc;
                             }
-                            .dish-description {
-                                width: 100%;
-                                display: block;
-                                text-align: justify;
+                            span {
+                                color: #ccc;
+                            }
+                            img {
+                                height: 160px;
+                                width: 160px;
+                                position: absolute;
+                            }
+                        }
+                        .dish-name {
+                            font-weight: bold;
+                            font-size: 25px;
+                            vertical-align: bottom;
+                            display: inline-block;
+                            margin: 3px 0px;
+                            width: 100%;
+                        }
+                        .dish-description {
+                            width: 100%;
+                            display: block;
+                            text-align: justify;
+                            font-size: 14px;
+                            margin: 5px 0px 0px 0px;
+                        }
+                        .ingredient-wrapper {
+                            h4 {
+                                text-align: left;
+                            }
+                            .ingredient-item {
+                                display: grid;
+                                grid-template-columns: 75% 25%;
+                                text-align: left;
                                 font-size: 14px;
-                                margin: 5px 0px 0px 0px;
+                                grid-gap: 5%;
+                                margin: 15px 0px;
                             }
-                            .ingredient-wrapper {
-                                h4 {
-                                    text-align: left;
+                        }
+                        .pricing-wrapper {
+                            h4 {
+                                text-align: left;
+                            }
+                            .pricing-title {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
+                                font-size: 10px;
+                                span {
+                                    &:first-child {
+                                        text-align: center;
+                                    }
+                                    &:nth-child(2) {
+                                        text-align: center;
+                                    }
+                                    &:last-child {
+                                        text-align: right;
+                                    }
                                 }
-                                .ingredient-item {
+                            }
+                            .pricing-row {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
+                                text-align: center;
+                                font-size: 14px;
+                            }
+                        }
+                        .preparation-wrapper {
+                            h4 {
+                                text-align: left;
+                            }
+                            .preparation-row {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
+                            }
+                        }
+                        .allergies {
+                            h4 {
+                                text-align: left;
+                            }
+                            .list {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                .list-item {
                                     display: grid;
-                                    grid-template-columns: 75% 25%;
-                                    text-align: left;
+                                    grid-template-columns: 80% 20%;
                                     font-size: 14px;
-                                    grid-gap: 5%;
-                                    margin: 15px 0px;
-                                }
-                            }
-                            .pricing-wrapper {
-                                h4 {
                                     text-align: left;
-                                }
-                                .pricing-title {
-                                    display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                    font-size: 10px;
-                                    span {
-                                        &:first-child {
-                                            text-align: center;
-                                        }
-                                        &:nth-child(2) {
-                                            text-align: center;
-                                        }
-                                        &:last-child {
-                                            text-align: right;
-                                        }
+                                    margin: 5px 0px;
+                                    img {
+                                        width: 17px;
+                                        height: 17px;
                                     }
                                 }
-                                .pricing-row {
+                            }
+                        }
+                        .dietary {
+                            h4 {
+                                text-align: left;
+                            }
+                            .list {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                .list-item {
                                     display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                    text-align: center;
+                                    grid-template-columns: 80% 20%;
                                     font-size: 14px;
-                                }
-                            }
-                            .preparation-wrapper {
-                                h4 {
                                     text-align: left;
-                                }
-                                .preparation-row {
-                                    display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                }
-                            }
-                            .allergies {
-                                h4 {
-                                    text-align: left;
-                                }
-                                .list {
-                                    display: grid;
-                                    grid-template-columns: 50% 50%;
-                                    .list-item {
-                                        display: grid;
-                                        grid-template-columns: 80% 20%;
-                                        font-size: 14px;
-                                        text-align: left;
-                                        margin: 5px 0px;
-                                        img {
-                                            width: 17px;
-                                            height: 17px;
-                                        }
+                                    margin: 5px 0px;
+                                    img {
+                                        width: 17px;
+                                        height: 17px;
                                     }
                                 }
                             }
-                            .dietary {
-                                h4 {
-                                    text-align: left;
-                                }
-                                .list {
-                                    display: grid;
-                                    grid-template-columns: 50% 50%;
-                                    .list-item {
-                                        display: grid;
-                                        grid-template-columns: 80% 20%;
-                                        font-size: 14px;
+                        }
+                        .tags {
+                            h4 {
+                                text-align: left;
+                            }
+                            ul {
+                                list-style: none;
+                                margin: 0px;
+                                padding: 0px;
+                                margin-bottom: 15px;
+                                display: inline-block;
+                                width: 100%;
+                            }    
+                        }
+                        .minimum-order {
+                            .list {
+                                display: grid;
+                                grid-template-columns: 70% 30%;
+                                span {
+                                    &:first-child {
+                                        float: left;
                                         text-align: left;
-                                        margin: 5px 0px;
-                                        img {
-                                            width: 17px;
-                                            height: 17px;
-                                        }
                                     }
-                                }
-                            }
-                            .tags {
-                                h4 {
-                                    text-align: left;
-                                }
-                                ul {
-                                    list-style: none;
-                                    margin: 0px;
-                                    padding: 0px;
-                                    margin-bottom: 15px;
-                                    display: inline-block;
-                                    width: 100%;
-                                }    
-                            }
-                            .minimum-order {
-                                .list {
-                                    display: grid;
-                                    grid-template-columns: 70% 30%;
-                                    span {
-                                        &:first-child {
-                                            float: left;
-                                            text-align: left;
-                                        }
-                                        &:last-child {
-                                            float: right;
-                                            text-align: right;
-                                        }
+                                    &:last-child {
+                                        float: right;
+                                        text-align: right;
                                     }
                                 }
                             }
