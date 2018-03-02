@@ -28,6 +28,10 @@ const Layout = (props) => (
                     height: auto;
                     margin: 0px auto;
                     text-align: center;
+                    margin-top: 75px;
+                    h3 {
+                        font-size: 1.6em;
+                    }
                 }
                 .dirty {
                     color: #3aaacc!important;

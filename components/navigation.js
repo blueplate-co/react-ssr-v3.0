@@ -3,6 +3,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import NProgress from 'nprogress';
 import Router from 'next/router'
+import cnf from '../config';
 
 Router.onRouteChangeStart = (url) => {
   console.log(`Loading: ${url}`);
@@ -34,7 +35,11 @@ export default class Navigation extends React.Component {
                         .navigation {
                             text-align: center;
                             padding: 10px;
-                            border-bottom: 1px solid #ccc;
+                            border-bottom: 1px solid ${cnf.color.graycolor};
+                            position: fixed;
+                            width: 100%;
+                            background-color: #fff;
+                            z-index: 2;
                             h1 {
                                 font-size: 12px;
                             }

@@ -322,7 +322,7 @@ export default class ProfileStepPreview extends React.Component {
                     /* Landscape phones and down */
                     @media (max-width: 480px) {
                         .container {
-                            margin-top: 20px;
+                            margin-top: 75px;
                             &.bottom-confirmation {
                                 width: 70%;
                                 margin-bottom: 15px;
