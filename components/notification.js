@@ -19,7 +19,7 @@ export default class Notification extends React.Component {
     }
 
     componentDidUpdate = () => {
-        let maxLifespan = 1500; // alive in 1.5s
+        let maxLifespan = 2000; // alive in 1.5s
         let that = this;
         // check once per second
         setInterval(function checkItems(){
@@ -35,8 +35,43 @@ export default class Notification extends React.Component {
         return (
             <div className="notification-wrapper">
                 <style jsx>{`
-                    /* Landscape phones and dowsn */
-                    @media (max-width: 480px) {
+                    .notification-wrapper {
+                        width: 100vw;
+                        height: 100vh;
+                        .notification {
+                            animation-duration: 0.15s;
+                            position: fixed;
+                            margin-top: 20px;
+                            left: 5%;
+                            width: 90%;
+                            color: #fff;
+                            border-radius: 10px;
+                            padding: 20px;
+                            box-sizing: border-box;
+                            z-index: 100;
+                            &.error {
+                                background-color: ${cnf.color.redcolor};
+                            }
+                            &.success {
+                                background-color: ${cnf.color.greencolor};
+                            }
+                            h3 {
+                                margin: 5px 0px;
+                            }
+                            img {
+                                position: absolute;
+                                right: 15px;
+                                top: 15px;
+                            }
+                            .item-message {
+                                margin: 5px 0px;
+                                padding-left: 10px;
+                                width: 100%;
+                                display: block;
+                            }
+                        }
+                    }
+                    @media (min-width: 1024px) {
                         .notification-wrapper {
                             width: 100vw;
                             height: 100vh;
@@ -44,8 +79,9 @@ export default class Notification extends React.Component {
                                 animation-duration: 0.15s;
                                 position: fixed;
                                 margin-top: 20px;
-                                left: 5%;
-                                width: 90%;
+                                left: auto;
+                                right: 5%;
+                                width: 40%;
                                 color: #fff;
                                 border-radius: 10px;
                                 padding: 20px;

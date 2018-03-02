@@ -143,6 +143,47 @@ export default class ProfileStepThree extends React.Component {
                             }
                         }
                     }
+                    @media (min-width: 1024px) {
+                        .option-list {
+                            width: 100%;
+                            display: grid;
+                            grid-template-columns: 100%;
+                            padding-bottom: 80px;
+                            .option-item {
+                                text-align: center;
+                                margin: 10px 0px;
+                                .option-icon {
+                                    width: 65px;
+                                    height: 65px;
+                                    background-color: #ccc;
+                                    margin: 0px auto;
+                                    border-radius: 50%;
+                                    &.active {
+                                        background-color: ${cnf.color.primarycolor};
+                                    }
+                                }
+                                .option-title {
+                                    display: block;
+                                    width: 100%;
+                                    margin: 3px 0px;
+                                    font-weight: bold;
+                                    &.active {
+                                        color: ${cnf.color.primarycolor};
+                                    }
+                                }
+                                .option-description {
+                                    display: block;
+                                    width: 100%;
+                                    margin: 5px 0px;
+                                    font-size: 10px;
+                                    color: #ccc;
+                                    &.active {
+                                        color: ${cnf.color.primarycolor};
+                                    }
+                                }
+                            }
+                        }
+                    }
                 `}</style>
                 <div className="container">
                     <h3>Services</h3>

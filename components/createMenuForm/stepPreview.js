@@ -297,131 +297,129 @@ export default class MenuStepPreview extends React.Component {
             <div className="create_profile_step">
                 <style jsx>{`
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
-                        .container {
-                            margin-top: 20px;
-                            margin-bottom: 20px;
-                            [conteneditable="true"] {
-                                width: 100%
+                    .container {
+                        margin-top: 70px;
+                        margin-bottom: 20px;
+                        [conteneditable="true"] {
+                            width: 100%
+                        }
+                        .bottom-confirmation {
+                            position: fixed;
+                            width: 70%;
+                            bottom: 15px;
+                            z-index: 5;
+                            left: 15%;
+                        }
+                        .menu-name {
+                            font-weight: bold;
+                            font-size: 25px;
+                            vertical-align: bottom;
+                            display: inline-block;
+                            margin: 3px 0px;
+                            width: 100%;
+                        }
+                        .menu-description {
+                            width: 100%;
+                            display: block;
+                            text-align: justify;
+                            font-size: 14px;
+                            margin: 5px 0px 0px 0px;
+                        }
+                        .menu-numberOrder {
+                            width: 100%;
+                            display: block;
+                            text-align: center;
+                            font-size: 14px;
+                            margin: 5px 0px 0px 0px;
+                        }
+                        .pricing-wrapper {
+                            h4 {
+                                text-align: left;
                             }
-                            .bottom-confirmation {
-                                position: fixed;
-                                width: 70%;
-                                bottom: 15px;
-                                z-index: 5;
-                                left: 15%;
+                            .pricing-title {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
+                                font-size: 10px;
+                                span {
+                                    &:first-child {
+                                        text-align: center;
+                                    }
+                                    &:nth-child(2) {
+                                        text-align: center;
+                                    }
+                                    &:last-child {
+                                        text-align: right;
+                                    }
+                                }
                             }
-                            .menu-name {
-                                font-weight: bold;
-                                font-size: 25px;
-                                vertical-align: bottom;
-                                display: inline-block;
-                                margin: 3px 0px;
-                                width: 100%;
-                            }
-                            .menu-description {
-                                width: 100%;
-                                display: block;
-                                text-align: justify;
-                                font-size: 14px;
-                                margin: 5px 0px 0px 0px;
-                            }
-                            .menu-numberOrder {
-                                width: 100%;
-                                display: block;
+                            .pricing-row {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
                                 text-align: center;
                                 font-size: 14px;
-                                margin: 5px 0px 0px 0px;
                             }
-                            .pricing-wrapper {
-                                h4 {
-                                    text-align: left;
-                                }
-                                .pricing-title {
+                        }
+                        .preparation-wrapper {
+                            h4 {
+                                text-align: left;
+                            }
+                            .preparation-row {
+                                display: grid;
+                                grid-template-columns: 33.3% 33.3% 33.3%;
+                            }
+                        }
+                        .allergies {
+                            h4 {
+                                text-align: left;
+                            }
+                            .list {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                .list-item {
                                     display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                    font-size: 10px;
-                                    span {
-                                        &:first-child {
-                                            text-align: center;
-                                        }
-                                        &:nth-child(2) {
-                                            text-align: center;
-                                        }
-                                        &:last-child {
-                                            text-align: right;
-                                        }
-                                    }
-                                }
-                                .pricing-row {
-                                    display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                    text-align: center;
+                                    grid-template-columns: 80% 20%;
                                     font-size: 14px;
-                                }
-                            }
-                            .preparation-wrapper {
-                                h4 {
                                     text-align: left;
-                                }
-                                .preparation-row {
-                                    display: grid;
-                                    grid-template-columns: 33.3% 33.3% 33.3%;
-                                }
-                            }
-                            .allergies {
-                                h4 {
-                                    text-align: left;
-                                }
-                                .list {
-                                    display: grid;
-                                    grid-template-columns: 50% 50%;
-                                    .list-item {
-                                        display: grid;
-                                        grid-template-columns: 80% 20%;
-                                        font-size: 14px;
-                                        text-align: left;
-                                        margin: 5px 0px;
-                                        img {
-                                            width: 17px;
-                                            height: 17px;
-                                        }
+                                    margin: 5px 0px;
+                                    img {
+                                        width: 17px;
+                                        height: 17px;
                                     }
                                 }
                             }
-                            .dietary {
-                                h4 {
-                                    text-align: left;
-                                }
-                                .list {
+                        }
+                        .dietary {
+                            h4 {
+                                text-align: left;
+                            }
+                            .list {
+                                display: grid;
+                                grid-template-columns: 50% 50%;
+                                .list-item {
                                     display: grid;
-                                    grid-template-columns: 50% 50%;
-                                    .list-item {
-                                        display: grid;
-                                        grid-template-columns: 80% 20%;
-                                        font-size: 14px;
-                                        text-align: left;
-                                        margin: 5px 0px;
-                                        img {
-                                            width: 17px;
-                                            height: 17px;
-                                        }
+                                    grid-template-columns: 80% 20%;
+                                    font-size: 14px;
+                                    text-align: left;
+                                    margin: 5px 0px;
+                                    img {
+                                        width: 17px;
+                                        height: 17px;
                                     }
                                 }
                             }
-                            .tags {
-                                h4 {
-                                    text-align: left;
-                                }
-                                ul {
-                                    list-style: none;
-                                    margin: 0px;
-                                    padding: 0px;
-                                    margin-bottom: 15px;
-                                    display: inline-block;
-                                    width: 100%;
-                                }    
+                        }
+                        .tags {
+                            h4 {
+                                text-align: left;
                             }
+                            ul {
+                                list-style: none;
+                                margin: 0px;
+                                padding: 0px;
+                                margin-bottom: 15px;
+                                display: inline-block;
+                                width: 100%;
+                            }    
                         }
                     }
                 `}</style>

@@ -262,6 +262,19 @@ export default class DishStepSeven extends React.Component {
                             margin-bottom: 80px;
                         }
                     }
+                    @media (min-width: 1024px) {
+                        .bottom-confirmation {
+                            margin-top: 0px;
+                            display: contents;
+                            grid-template-columns: 50% 50%;
+                            position: relative;
+                            width: 40%;
+                            bottom: 15px;
+                            z-index: 5;
+                            grid-column-gap: 2%;
+                            left: 0%;
+                        }
+                    }
                 `}</style>
 
                 <div className="container">

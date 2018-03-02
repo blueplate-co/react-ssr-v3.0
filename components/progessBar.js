@@ -10,8 +10,14 @@ export default class ProgressBar extends React.Component {
 
     render() {
         return (
-            <header className="navigation">
+            <header className="progress-bar">
                 <style jsx>{`
+                    .progress-bar {
+                        position: fixed;
+                        z-index: 2;
+                        top: 55px;
+                        width: 100%
+                    }
                     #progressbar {
                         background-color: ${cnf.color.graycolor};
                     }

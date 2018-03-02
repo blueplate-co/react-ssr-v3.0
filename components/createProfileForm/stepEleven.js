@@ -194,28 +194,38 @@ export default class ProfileStepEleven extends React.Component {
             <div className="create_profile_step">
                 <style jsx>{`
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
+                    .bottom-confirmation {
+                        display: grid;
+                        grid-template-columns: 50% 50%;
+                        position: fixed;
+                        width: 90%;
+                        bottom: 15px;
+                        z-index: 5;
+                        grid-column-gap: 2%;
+                        left: 3%;
+                    }
+                    .title-description {
+                        font-size: 11px;
+                        color: #ccc;
+                        width: 75%;
+                        display: inline-block;
+                    }
+                    p {
+                        margin: 5px 0px;
+                    }
+                    input[type="text"] {
+                        margin-bottom: 80px;
+                    }
+                    @media (min-width: 1024px) {
                         .bottom-confirmation {
-                            display: grid;
-                            grid-template-columns: 50% 50%;
-                            position: fixed;
-                            width: 90%;
-                            bottom: 15px;
-                            z-index: 5;
-                            grid-column-gap: 2%;
-                            left: 3%;
-                        }
-                        .title-description {
-                            font-size: 11px;
-                            color: #ccc;
-                            width: 75%;
-                            display: inline-block;
-                        }
-                        p {
-                            margin: 5px 0px;
-                        }
-                        input[type="text"] {
-                            margin-bottom: 80px;
+                            width: 40%;
+                            height: auto;
+                            margin: 0px auto;
+                            text-align: center;
+                            margin-top: 20px;
+                            position: relative;
+                            display: block;
+                            left: 0%;
                         }
                     }
                 `}</style>

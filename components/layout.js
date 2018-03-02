@@ -28,6 +28,14 @@ const Layout = (props) => (
                     height: auto;
                     margin: 0px auto;
                     text-align: center;
+                    margin-top: 75px;
+                    position: relative;
+                    h3 {
+                        font-size: 1.6em;
+                    }
+                    .bottom-confirmation {
+                        margin: 30px 0px;
+                    }
                 }
                 .dirty {
                     color: #3aaacc!important;
@@ -255,6 +263,20 @@ const Layout = (props) => (
                     .layout-wrapper {
                         display: grid;
                         grid-template-columns: 100%;
+                    }
+                }
+                @media (min-width: 1024px) {
+                    .container {
+                        width: 40%;
+                        .btn {
+                            &.inline {
+                                width: inherit;
+                            }
+                        }
+                        .title-description {
+                            margin: 20px 0px;
+                            display: block;
+                        }
                     }
                 }
             }

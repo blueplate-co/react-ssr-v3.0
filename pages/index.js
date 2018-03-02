@@ -27,27 +27,36 @@ export default class Index extends React.Component {
       <Provider store={store}>
         <Layout>
           <style jsx>{`
+              .bottom-confirmation {
+                width: 100%;
+                bottom: 15px;
+                z-index: 5;
+                left: 15%;
+                .btn {
+                    margin: 10px 0px;
+                    border-radius: 0px;
+                    color: ${cnf.color.primarycolor};
+                    border: 1px solid ${cnf.color.primarycolor};
+                    background-color: #fff;
+                }
+              }
               /* Landscape phones and down */
               @media (max-width: 480px) {
-                  .container {
-                    .description {
-                      text-align: justify;
-                      font-size: 14px;
-                    }
-                    .bottom-confirmation {
-                      width: 100%;
-                      bottom: 15px;
-                      z-index: 5;
-                      left: 15%;
-                      .btn {
-                          margin: 10px 0px;
-                          border-radius: 0px;
-                          color: ${cnf.color.primarycolor};
-                          border: 1px solid ${cnf.color.primarycolor};
-                          background-color: #fff;
-                      }
-                    }
+                .container {
+                  .description {
+                    text-align: justify;
+                    font-size: 14px;
                   }
+                }
+              }
+              /* Portrait tablet to landscape and desktop */
+              @media (min-width: 1024px) {
+                .container {
+                  .description {
+                    text-align: justify;
+                    font-size: 14px;
+                  }
+                }
               }
           `}</style>
             <Head title="Blueplate" />

@@ -115,59 +115,66 @@ export default class MenuStepTwo extends React.Component {
             <div className="create_menu_step">
                 <style jsx>{`
                     /* Landscape phones and down */
-                    @media (max-width: 480px) {
+                    .bottom-confirmation {
+                        position: fixed;
+                        width: 70%;
+                        bottom: 15px;
+                        z-index: 5;
+                        left: 15%;
+                    }
+                    .title-row {
+                        display: grid;
+                        grid-template-columns: 20% 35% 20% 25%;
+                        font-size: 14px;
+                        font-weight: bold;
+                        padding-bottom: 10px;
+                        border-bottom: 1px solid ${cnf.color.graycolor};
+                        div {
+                            &:first-child {
+                                text-align: left;
+                            }
+                            &:nth-child(2) {
+                                text-align: center;
+                            }
+                            &:nth-child(3) {
+                                text-align: center;
+                            }
+                            &:last-child {
+                                text-align: right;
+                            }
+                        }
+                    }
+                    .data-row {
+                        display: grid;
+                        grid-template-columns: 20% 35% 20% 25%;
+                        font-size: 13px;
+                        padding: 10px 0px;
+                        border-bottom: 1px solid ${cnf.color.graycolor};
+                        span {
+                            &:first-child {
+                                text-align: left;
+                            }
+                            &:nth-child(2) {
+                                text-align: left;
+                                padding-top: 5px;
+                            }
+                            &:nth-child(3) {
+                                text-align: center;
+                                padding-top: 5px;
+                            }
+                            &:last-child {
+                                text-align: right;
+                                padding-top: 5px;
+                            }
+                        }
+                    }
+                    @media (min-width: 1024px) {
                         .bottom-confirmation {
-                            position: fixed;
+                            position: relative;
                             width: 70%;
                             bottom: 15px;
                             z-index: 5;
                             left: 15%;
-                        }
-                        .title-row {
-                            display: grid;
-                            grid-template-columns: 20% 35% 20% 25%;
-                            font-size: 14px;
-                            font-weight: bold;
-                            padding-bottom: 10px;
-                            border-bottom: 1px solid ${cnf.color.graycolor};
-                            div {
-                                &:first-child {
-                                    text-align: left;
-                                }
-                                &:nth-child(2) {
-                                    text-align: center;
-                                }
-                                &:nth-child(3) {
-                                    text-align: center;
-                                }
-                                &:last-child {
-                                    text-align: right;
-                                }
-                            }
-                        }
-                        .data-row {
-                            display: grid;
-                            grid-template-columns: 20% 35% 20% 25%;
-                            font-size: 13px;
-                            padding: 10px 0px;
-                            border-bottom: 1px solid ${cnf.color.graycolor};
-                            span {
-                                &:first-child {
-                                    text-align: left;
-                                }
-                                &:nth-child(2) {
-                                    text-align: left;
-                                    padding-top: 5px;
-                                }
-                                &:nth-child(3) {
-                                    text-align: center;
-                                    padding-top: 5px;
-                                }
-                                &:last-child {
-                                    text-align: right;
-                                    padding-top: 5px;
-                                }
-                            }
                         }
                     }
                 `}</style>
