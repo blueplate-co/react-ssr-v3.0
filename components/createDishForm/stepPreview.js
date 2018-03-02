@@ -268,7 +268,8 @@ export default class DishStepPreview extends React.Component {
                     this.setState({
                         sentRequest: false
                     });
-                    //- debug
+                    let statusCode = error.response.status;
+                    let message = error.response.data.message;
 
                     //- token expired or something else
                     if(statusCode === 403 && message === "Please login to continue")
