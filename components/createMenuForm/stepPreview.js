@@ -9,7 +9,6 @@ import TouchCarousel, { clamp } from 'react-touch-carousel';
 import touchWithMouseHOC from '../../static/lib/touchWithMouseHOC';
 import { inject, observer } from 'mobx-react';
 
-
 const cardSize = 100
 const cardPadCount = 0
 const carouselWidth = 100
@@ -43,14 +42,14 @@ export default class MenuStepPreview extends React.Component {
     addAllergy = (create_menu_id) => {
         return axios.post('http://13.250.107.234/api/menu/create/allergies', {
             create_menu_id: create_menu_id,
-            allergies: this.props.fieldValues.allergies2
+            allergies: (this.props.fieldValues.allergies2 == null)?[]:this.props.fieldValues.allergies2
         });
     }
 
     addDietary = (create_menu_id) => {
         return axios.post('http://13.250.107.234/api/menu/create/dietaries', {
             create_menu_id: create_menu_id,
-            dietaries: this.props.fieldValues.dietaries
+            dietaries: (this.props.fieldValues.dietaries == null)?[]:this.props.fieldValues.dietaries
         });
     }
 
@@ -158,8 +157,10 @@ export default class MenuStepPreview extends React.Component {
 
     //- insert allergy, dietary and ingredients
     addMore = (menu_id)=> {
+        let errorStack = [];
+        var self = this;
         console.log(this.props.fieldValues);
-        let that = this;
+
         axios.all([
             this.addDish(menu_id.create_menu_id),
             this.addAllergy(menu_id.create_menu_id), 
@@ -171,15 +172,12 @@ export default class MenuStepPreview extends React.Component {
             console.log(arr[2].data);
 
             //- go back to /become with stage 2
-            let errorStack = [];
-            errorStack.push('Create menu successful!');
-            let notification = { type: 'success', heading: 'Successful!', content: errorStack, createdAt: Date.now() };
-            that.props.store.addNotification(notification);
-            // sessionStorage.setItem("welcomeStage", 2);
-            // Router.push('/become');
+            errorStack.push('Create menu successful');
+            let notification = { type: 'success', heading: 'Success', content: errorStack, createdAt: Date.now() };
+            self.props.store.addNotification(notification);
         })
-        .catch(function(err){
-            console.log(err);
+        .catch(error => {
+            console.log(error.response);
         });
     }
     
