@@ -268,13 +268,7 @@ export default class DishStepPreview extends React.Component {
                     this.setState({
                         sentRequest: false
                     });
-                    let statusCode = error.response.status;
-                    let message = error.response.data.message;
                     //- debug
-                    console.log(error.response);
-                    errorStack.push('Error when create profile. Please try again');
-                    let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
-                    this.props.store.addNotification(notification);
 
                     //- token expired or something else
                     if(statusCode === 403 && message === "Please login to continue")
