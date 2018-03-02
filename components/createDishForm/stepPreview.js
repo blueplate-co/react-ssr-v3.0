@@ -272,7 +272,6 @@ export default class DishStepPreview extends React.Component {
                     let message = error.response.data.message;
                     //- debug
                     console.log(error.response);
-                    let errorStack = [];
                     errorStack.push('Error when create profile. Please try again');
                     let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
                     this.props.store.addNotification(notification);
