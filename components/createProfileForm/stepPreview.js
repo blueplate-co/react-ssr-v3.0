@@ -238,15 +238,15 @@ export default class ProfileStepPreview extends React.Component {
                         console.log(response);
                         setTimeout(() => {
                             Router.push('/become');
-                            this.setState({
+                            self.setState({
                                 sentRequest: false
                             });
                         }, 1500);
                     } else {
                         errorStack.push('Cannot create chef profile.');
                         let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
-                        this.props.store.addNotification(notification);
-                        this.setState({
+                        self.props.store.addNotification(notification);
+                        self.setState({
                             sentRequest: false
                         });
                     }
@@ -255,8 +255,8 @@ export default class ProfileStepPreview extends React.Component {
             }else{
                 errorStack.push('Cannot create chef profile.');
                 let notification = { type: 'error', heading: 'Critical error!', content: errorStack, createdAt: Date.now() };
-                this.props.store.addNotification(notification);
-                this.setState({
+                self.props.store.addNotification(notification);
+                self.setState({
                     sentRequest: false
                 });
             }

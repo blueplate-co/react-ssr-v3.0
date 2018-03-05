@@ -50,32 +50,32 @@ export default class BecomeComponent extends React.Component {
       axios.post('http://13.250.107.234/api/user/check/role', roleForm, config)
       .then(function(response) {
           if (response.status === 200) {
-            console.log(response);
-            if (response.data.message.length > 0) {
+            if (response.data.message !== 0) {
               that.setState({
                 hasProfile: true
               }, () => {
-
-
                 // send request to check dish list
                 let dishForm = new FormData();
-                dishForm.append('email', localStorage.getItem('userEmail'));
+                dishForm.append('create_chef_id', localStorage.getItem('create_chef_id'));
                 const roleConfig = {
                     headers: { 'content-type': 'multipart/form-data' }
                 }
                 try {
-                  axios.post('http://13.250.107.234/api/user/check/role', dishForm, config)
+                  axios.post('http://13.250.107.234/api/chef/view/dish', dishForm, config)
                   .then(function(response) {
                       if (response.status === 200) {
                         console.log(response);
-                        if (response.data.message.length > 0) {
+                        if (response.data.data.length > 0) {
                           that.setState({
                             hasDish: true,
                             loaded: true
                           })
+                        } else {
+                          that.setState({
+                            hasDish: false,
+                            loaded: true
+                          })
                         }
-                      } else {
-                        console.log(response);
                       }
                   })
                 } catch (error) {
@@ -84,6 +84,11 @@ export default class BecomeComponent extends React.Component {
                 // end check dish list
 
               })
+            } else {
+              that.setState({
+                hasProfile: false,
+                loaded: true
+              });
             }
           } else {
             console.log(response);
@@ -184,7 +189,7 @@ export default class BecomeComponent extends React.Component {
                   <span className="stage-name">Create your 1st dishes.</span>
                   <span className="stage-description">Image, description, ingredient, price</span>
                   {
-                      ( this.state.loaded == true && this.state.hasDish == false )
+                      ( this.state.loaded == true && this.state.hasDish == false && this.state.hasProfile == true )
                       ?
                       <Link href="/create/dish">
                         <button className="btn">Start</button>
@@ -199,9 +204,13 @@ export default class BecomeComponent extends React.Component {
                   <span className="stage-name">Create your 1st menu</span>
                   <span className="stage-description">Your collection and sets</span>
                   {
+                      ( this.state.loaded == true && this.state.hasDish == true )
+                      ?
                       <Link href="/create/menu">
                         <button className="btn">Start</button>
                       </Link>
+                      :
+                      <span></span>
                   }
               </div>
 
